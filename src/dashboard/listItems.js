@@ -38,12 +38,14 @@ export const mainListItems = (
       <ListItemText primary="All Games" />
     </ListItem>
     </Link>
+    <Link to='/Totals' style={{ textDecoration: 'none' }}>
     <ListItem button>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
-      <ListItemText primary="Top Picks" />
+      <ListItemText primary="Total" />
     </ListItem>
+    </Link>
     <ListItem button>
       <ListItemIcon>
         <LayersIcon />
