@@ -47,11 +47,11 @@ const columns = [
   }
 ];
 
-export default function Games() {
+export default function Historical() {
   const [rowData, setRowData] = React.useState([]);
   const [isLoaded, setIsLoaded] = React.useState(false);
   React.useEffect(() => {
-    var apiurl = "http://3.84.121.75:8080/schedule/GamesByDate/2021-02-26";
+    var apiurl = "http://3.84.121.75:8080/schedule/Games/";
     axios
       .get(apiurl)
       .then((response) => response.data)

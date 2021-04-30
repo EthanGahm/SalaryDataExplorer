@@ -30,12 +30,14 @@ export const mainListItems = (
       <ListItemText primary="Upcoming Games"/>
     </ListItem>
     </Link>
+    <Link to='/AllGames' style={{ textDecoration: 'none' }}>
     <ListItem button>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Team Data" />
+      <ListItemText primary="All Games" />
     </ListItem>
+    </Link>
     <ListItem button>
       <ListItemIcon>
         <BarChartIcon />

@@ -12,6 +12,7 @@
     "@material-ui/core": "latest",
     "@material-ui/data-grid": "*",
     "@material-ui/icons": "^4.11.2",
+    "axios": "^0.21.1",
     "clsx": "latest",
     "react": "latest",
     "react-chartjs-2": "^3.0.3",
