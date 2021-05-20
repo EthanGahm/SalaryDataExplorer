@@ -18,7 +18,8 @@
     "react-chartjs-2": "^3.0.3",
     "react-dom": "latest",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "latest"
+    "react-scripts": "latest",
+    "recharts": "^2.0.9"
   },
   "browserslist": {
     "production": [
