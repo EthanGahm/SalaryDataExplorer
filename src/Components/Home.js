@@ -10,16 +10,14 @@ import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import { mainListItems, secondaryListItems } from "./listItems";
-import Games from "./Games";
+import mainListItems from "./listItems";
+import Title from "./Title";
+import WebsiteTitle from "./WebsiteTitle";
 import Copyright from "./Copyright";
 
 const drawerWidth = 240;
@@ -103,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UpcomingGames() {
+export default function Home() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -134,20 +132,7 @@ export default function UpcomingGames() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}
-          >
-            Dashboard
-          </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <WebsiteTitle />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -164,17 +149,15 @@ export default function UpcomingGames() {
         </div>
         <Divider />
         <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
+            <Grid item xs={12} md={8} lg={9}>
               <Paper className={classes.paper}>
-                <Games />
+                <Title>About this Tool</Title>
+                text text text
               </Paper>
             </Grid>
           </Grid>

@@ -14,12 +14,11 @@ import Badge from "@material-ui/core/Badge";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import { mainListItems, secondaryListItems } from "./listItems";
-import TotalGames from "./TotalGames";
+import { mainListItems } from "./listItems";
+import Title from "./Title";
+import WebsiteTitle from "./WebsiteTitle";
 import Copyright from "./Copyright";
 
 const drawerWidth = 240;
@@ -103,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Totals() {
+export default function Filter() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -134,20 +133,7 @@ export default function Totals() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}
-          >
-            Dashboard
-          </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <WebsiteTitle />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -164,16 +150,16 @@ export default function Totals() {
         </div>
         <Divider />
         <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <TotalGames />
+            {/* Recent Orders */}
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Title>Filter</Title>
+                text text text
               </Paper>
             </Grid>
           </Grid>

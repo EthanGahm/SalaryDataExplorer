@@ -10,17 +10,43 @@ import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import { mainListItems, secondaryListItems } from "./listItems";
-import Historical from "./Historical";
+import mainListItems from "./listItems";
 import Copyright from "./Copyright";
+import Title from "./Title";
+import WebsiteTitle from "./WebsiteTitle";
+import { GoogleSpreadsheet } from "google-spreadsheet";
+
+import SheetsAPIInfo from "../SheetsAPIInfo.json";
+
+const testSheet = new GoogleSpreadsheet(
+  "1lGGq2KIfWu27Wr3sLWeDpNoEfCN8OR4FXTjI09k-uNY"
+);
+
+testSheet.useServiceAccountAuth({
+  client_email: SheetsAPIInfo.client_email,
+  private_key: SheetsAPIInfo.private_key,
+});
+
+testSheet.loadInfo();
+
+// (async function () {
+//   try {
+//     await testSheet.useServiceAccountAuth({
+//       client_email: SheetsAPIInfo.client_email,
+//       private_key: SheetsAPIInfo.private_key,
+//     });
+
+//     await testSheet.loadInfo();
+//   } catch (e) {
+//     console.error("Error: ", e);
+//   }
+
+// })();
 
 const drawerWidth = 240;
 
@@ -103,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AllGames() {
+export default function DataSummary() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -134,20 +160,7 @@ export default function AllGames() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}
-          >
-            Dashboard
-          </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <WebsiteTitle />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -164,17 +177,15 @@ export default function AllGames() {
         </div>
         <Divider />
         <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Historical />
+                <Title>Summary of Major Data Trends</Title>
+                text text text blah blah blah
               </Paper>
             </Grid>
           </Grid>

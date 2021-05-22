@@ -4,22 +4,20 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Link from "@material-ui/core/Link";
 import ProTip from "./ProTip";
-import Dashboard from "./dashboard/Dashboard";
-import UpcomingGames from "./dashboard/UpcomingGames";
-import AllGames from "./dashboard/AllGames";
-import Totals from "./dashboard/Totals";
-import About from "./dashboard/About";
+import Home from "./Components/Home";
+import Search from "./Components/Search";
+import Filter from "./Components/Filter";
+import DataSummary from "./Components/DataSummary";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={Dashboard} />
-        <Route path="/About" component={About} />
-        <Route path="/UpcomingGames" component={UpcomingGames} />
-        <Route path="/AllGames" component={AllGames} />
-        <Route path="/Totals" component={Totals} />
+        <Route exact path="/" component={Home} />
+        <Route path="/DataSummary" component={DataSummary} />
+        <Route path="/Search" component={Search} />
+        <Route path="/Filter" component={Filter} />
       </Switch>
     </BrowserRouter>
   );
