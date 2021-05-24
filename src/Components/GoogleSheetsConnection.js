@@ -1,21 +1,15 @@
 import SheetsAPIInfo from "../SheetsAPIInfo.json";
+import { GoogleSpreadsheet } from "google-spreadsheet";
 
-const testSheet = new GoogleSpreadsheet(
-  "1lGGq2KIfWu27Wr3sLWeDpNoEfCN8OR4FXTjI09k-uNY"
-);
-
-testSheet = (async function () {
+function connectSheet(sheet) {
   try {
-    await testSheet.useServiceAccountAuth({
+    await sheet.useServiceAccountAuth({
       client_email: SheetsAPIInfo.client_email,
       private_key: SheetsAPIInfo.private_key,
     });
 
-    await testSheet.loadInfo();
+    await sheet.loadInfo();
   } catch (e) {
     console.error("Error: ", e);
   }
-  return testSheet;
-})();
-
-console.log(testSheet.title);
+}
