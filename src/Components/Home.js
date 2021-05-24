@@ -21,6 +21,8 @@ import WebsiteTitle from "./WebsiteTitle";
 import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
 
+// Ethan added a random comment
+
 export default function Home() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
