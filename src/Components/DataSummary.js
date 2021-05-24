@@ -83,6 +83,7 @@ export default function DataSummary() {
               <Paper className={classes.paper}>
                 <Title>Summary of Major Data Trends</Title>
                 text text text blah blah blah
+                <TestTable />
               </Paper>
             </Grid>
           </Grid>
