@@ -1,15 +1,23 @@
+import React from "react";
 import SheetsAPIInfo from "../SheetsAPIInfo.json";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 
-function connectSheet(sheet) {
+const testSheet = new GoogleSpreadsheet(
+  "1lGGq2KIfWu27Wr3sLWeDpNoEfCN8OR4FXTjI09k-uNY"
+);
+
+const dataSheet = (async function () {
   try {
-    await sheet.useServiceAccountAuth({
+    await testSheet.useServiceAccountAuth({
       client_email: SheetsAPIInfo.client_email,
       private_key: SheetsAPIInfo.private_key,
     });
 
-    await sheet.loadInfo();
+    const dataSheet = await testSheet.loadInfo();
+    return dataSheet;
   } catch (e) {
     console.error("Error: ", e);
   }
-}
+})();
+
+export default dataSheet;
