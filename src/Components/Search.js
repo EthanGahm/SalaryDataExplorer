@@ -21,6 +21,19 @@ import Title from "./Title";
 import WebsiteTitle from "./WebsiteTitle";
 import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
+import Select from 'react-select';
+import { defaultTheme } from 'react-select'
+
+
+// Passing in a map array to the search bar function, may be useful when extracting jobs from spreadsheet
+var industryoptions = ['Doctor', 'Software Engineer', 'Teacher', 'Professor']
+var options = industryoptions.map(opt => ({label: opt, value: opt}));
+
+// Hardcoded labels for search bar
+const industryOptions = [
+  { label: 'Software Engineer', value: 'Software Engineer' },
+  { label: 'Doctor', value: 'Doctor'},
+];
 
 export default function Search() {
   const classes = useStyles();
@@ -34,6 +47,7 @@ export default function Search() {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
+    
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
@@ -79,11 +93,17 @@ export default function Search() {
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Title>Search by Industry</Title>
-                text text text
               </Paper>
             </Grid>
           </Grid>
-          <Box pt={4}>
+          <Box pt={5}>
+          Select Industry:
+          <Select
+                options ={options} />
+          </Box>
+          <Box pt={5}>
+          
+                 
             <Copyright />
           </Box>
         </Container>
