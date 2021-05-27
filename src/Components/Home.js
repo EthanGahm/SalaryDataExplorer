@@ -17,7 +17,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import mainListItems from "./listItems";
 import Title from "./Title";
-import WebsiteTitle from "./WebsiteTitle";
+import PageTitle from "./PageTitle";
 import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
 
@@ -54,7 +54,7 @@ export default function Home() {
           >
             <MenuIcon />
           </IconButton>
-          <WebsiteTitle />
+          <PageTitle text="Home" />
         </Toolbar>
       </AppBar>
       <Drawer
