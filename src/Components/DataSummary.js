@@ -22,6 +22,8 @@ import PageTitle from "./PageTitle";
 import dataSheet from "./GoogleSheetsConnection";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import TestTable from "./TestTable";
+import FirstDatasetTable from "./FirstDatasetTable";
+import SecondDatasetTable from "./SecondDatasetTable";
 import useStyles from "./UseStyles.js";
 
 console.log(dataSheet.title);
@@ -82,11 +84,19 @@ export default function DataSummary() {
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Title>Summary of Major Data Trends</Title>
-                text text text blah blah blah
-                <TestTable />
+                Raw Data for 2019 AskAManager.org Salary Survey
+                <FirstDatasetTable />
+             
               </Paper>
+              
+             
             </Grid>
           </Grid>
+          <Paper className={classes.paper}>
+                 Raw Data for 2021 AskAManager.org Salary Survey
+                <SecondDatasetTable />
+             
+              </Paper>
           <Box pt={4}>
             <Copyright />
           </Box>

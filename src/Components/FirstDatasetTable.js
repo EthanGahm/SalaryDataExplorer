@@ -5,14 +5,23 @@ import SheetsAPIInfo from "../SheetsAPIInfo.json";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 
 const columns = [
-  { field: "Col1", headerName: "Column 1", width: 130 },
-  { field: "Col2", headerName: "Column 2", width: 130 },
+  
+  { field: "Age", headerName: "Age", width: 130 },
+  { field: "Industry", headerName: "Industry", width: 130 },
+  { field: "Job Title", headerName: "Job Title", width: 130 },
+  { field: "Annual Salary", headerName: "Annual Salary", width: 130 },
+  { field: "Currency", headerName: "Currency", width: 130 },
+  { field: "Location", headerName: "Location", width: 130 },
+  { field: "Work Experience", headerName: "Work Experience", width: 130 },
+  { field: "Context for Job", headerName: "Context for Job", width: 130 },
+  { field: "Other", headerName: "Other", width: 130 },
+
 ];
 
 let rows = [];
 
 const spreadSheet = new GoogleSpreadsheet(
-  "1lGGq2KIfWu27Wr3sLWeDpNoEfCN8OR4FXTjI09k-uNY"
+  "13vhiAvwNpCaUAAutNwd-pEbYZNk1qIVMqgB4e4HGQtE"
 );
 
 let isLoaded = false;
@@ -35,12 +44,12 @@ let isLoaded = false;
 
 export default function TestTable() {
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ height: 600, width: "100%" }}>
       {isLoaded ? (
         <DataGrid
           rows={rows}
           columns={columns}
-          getRowId={(rows) => rows.Col1}
+          getRowId={(rows) => rows.rowNumber}
           autoHeight={true}
         />
       ) : (
