@@ -12,6 +12,7 @@
     "@material-ui/core": "latest",
     "@material-ui/data-grid": "*",
     "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.58",
     "axios": "^0.21.1",
     "clsx": "latest",
     "google-spreadsheet": "^3.1.15",
