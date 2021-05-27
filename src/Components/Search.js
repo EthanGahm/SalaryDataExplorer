@@ -22,20 +22,29 @@ import WebsiteTitle from "./WebsiteTitle";
 import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
 import Select from 'react-select';
-import { defaultTheme } from 'react-select'
+import Slider from '@material-ui/core/Slider';
+
 
 
 // Passing in a map array to the search bar function, may be useful when extracting jobs from spreadsheet
-var industryoptions = ['Doctor', 'Software Engineer', 'Teacher', 'Professor']
-var options = industryoptions.map(opt => ({label: opt, value: opt}));
+//var industryOptions = ['Doctor', 'Software Engineer', 'Teacher', 'Professor']
+//var options = industryOptions.map(opt => ({label: opt, value: opt}));
 
 // Hardcoded labels for search bar
-const industryOptions = [
-  { label: 'Software Engineer', value: 'Software Engineer' },
-  { label: 'Doctor', value: 'Doctor'},
-];
+// const industryOptions = [
+//   { label: 'Software Engineer', value: 'Software Engineer' },
+//   { label: 'Doctor', value: 'Doctor'},
+// ];
 
 export default function Search() {
+  const options = [
+    { label: 'Doctor', value: 'Doctor' },
+    { label: 'Teacher', value: 'Teacher' },
+    { label: 'Lawyer', value: 'Lawyer' },
+    { label: 'Software Engineer', value: 'Software Engineer' }
+  ]
+
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -44,10 +53,16 @@ export default function Search() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  function valuetext(value) {
+    return `${value}`;
+  }
+  const [value, setValue] = React.useState([30, 50]);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
-    
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
@@ -91,21 +106,93 @@ export default function Search() {
           <Grid container spacing={3}>
             {/* Recent Orders */}
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Title>Search by Industry</Title>
-              </Paper>
+              <Title>Search by Industry</Title>
+              {/* React-Select, taken from https://stackoverflow.com/questions/48930622/react-select-show-search-bar-in-dropdown  */}
+              <div style={{ width: '300px' }}>
+                <Box pt={1}>
+                  Industry:
+                  <Select
+                    options={options}
+                    isClearable={true}
+                    placeholder='Search...'
+                  />
+                </Box>
+              </div>
+              <div style={{ width: '300px' }}>
+                <Box pt={1}>
+                  Job Title:
+                  <Select
+                    options={options}
+                    isClearable={true}
+                    placeholder='Search...'
+                  />
+                </Box>
+              </div>
+              {/* Age Range is taken from @material-ui https://material-ui.com/components/slider/ */}
+              <Box pt={1}>
+                Age Range:
+          <div className={classes.root} style={{ width: '300px' }}>
+                  <Typography id="range-slider" gutterBottom>
+                  </Typography>
+                  <Slider
+                    min={18}
+                    max={70}
+                    value={value}
+                    onChange={handleChange}
+                    valueLabelDisplay="auto"
+                    aria-labelledby="range-slider"
+                    getAriaValueText={valuetext}
+                  />
+                </div>
+              </Box>
+
+              <div style={{ width: '300px' }}>
+                <Box pt={1}>
+                  Gender:
+                  <Select
+                    options={options}
+                    isClearable={true}
+                    placeholder='Search...'
+                  />
+                </Box>
+              </div>
+              <div style={{ width: '300px' }}>
+                <Box pt={1}>
+                  Country:
+                  <Select
+                    options={options}
+                    isClearable={true}
+                    placeholder='Search...'
+                  />
+                </Box>
+              </div>
+              <div style={{ width: '300px' }}>
+                <Box pt={1}>
+                  State/Province:
+                  <Select
+                    options={options}
+                    isClearable={true}
+                    placeholder='Search...'
+                  />
+                </Box>
+              </div>
+              <div style={{ width: '300px' }}>
+                <Box pt={1}>
+                  City:
+                  <Select
+                    options={options}
+                    isClearable={true}
+                    placeholder='Search...'
+                  />
+                </Box>
+              </div>
+
             </Grid>
           </Grid>
           <Box pt={5}>
-          Select Industry:
-          <Select
-                options ={options} />
-          </Box>
-          <Box pt={5}>
-          
-                 
             <Copyright />
           </Box>
+
         </Container>
       </main>
     </div>
