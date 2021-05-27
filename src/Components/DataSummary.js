@@ -18,7 +18,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import mainListItems from "./listItems";
 import Copyright from "./Copyright";
 import Title from "./Title";
-import WebsiteTitle from "./WebsiteTitle";
+import PageTitle from "./PageTitle";
 import dataSheet from "./GoogleSheetsConnection";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import TestTable from "./TestTable";
@@ -57,7 +57,7 @@ export default function DataSummary() {
           >
             <MenuIcon />
           </IconButton>
-          <WebsiteTitle />
+          <PageTitle text="Data Summary" />
         </Toolbar>
       </AppBar>
       <Drawer
