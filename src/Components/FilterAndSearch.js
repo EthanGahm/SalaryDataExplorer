@@ -18,15 +18,13 @@ import { mainListItems } from "./listItems";
 import Title from "./Title";
 import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
-import Slider from '@material-ui/core/Slider';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-
-
+import Slider from "@material-ui/core/Slider";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
 
 // Passing in a map array to the search bar function, may be useful when extracting jobs from spreadsheet
-var industryOptions = ['Doctor', 'Software Engineer', 'Teacher', 'Professor']
-var options = industryOptions.map(opt => ({label: opt, value: opt}));
+var industryOptions = ["Doctor", "Software Engineer", "Teacher", "Professor"];
+var options = industryOptions.map((opt) => ({ label: opt, value: opt }));
 
 // Hardcoded labels for search bar
 // const industryOptions = [
@@ -35,20 +33,19 @@ var options = industryOptions.map(opt => ({label: opt, value: opt}));
 // ];
 
 export default function Search() {
-
   const industryOptions = [
-    { label: 'Doctor', value: 'Doctor' },
-    { label: 'Teacher', value: 'Teacher' },
-    { label: 'Lawyer', value: 'Lawyer' },
-    { label: 'Software Engineer', value: 'Software Engineer' }
-  ]
+    { label: "Doctor", value: "Doctor" },
+    { label: "Teacher", value: "Teacher" },
+    { label: "Lawyer", value: "Lawyer" },
+    { label: "Software Engineer", value: "Software Engineer" },
+  ];
 
   const genderOptions = [
-    { label: 'Woman', value: 'Woman'},
-    { label: 'Man', value: 'Man'},
-    { label: 'Non-binary', value: 'Non-binary'},
-    { label: 'Other', value: 'Other/NA'}
-  ]
+    { label: "Woman", value: "Woman" },
+    { label: "Man", value: "Man" },
+    { label: "Non-binary", value: "Non-binary" },
+    { label: "Other", value: "Other/NA" },
+  ];
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -111,9 +108,9 @@ export default function Search() {
           <Grid container spacing={3}>
             {/* Recent Orders */}
             <Grid item xs={12}>
-              <Title>Search by Industry</Title>
+              <Title>Set Parameters and Search the Dataset</Title>
               {/* React-Select, taken from https://stackoverflow.com/questions/48930622/react-select-show-search-bar-in-dropdown  */}
-              <div style={{ width: '300px' }}>
+              <div style={{ width: "300px" }}>
                 <Box pt={3}>
                   Industry:
                   <Autocomplete
@@ -121,11 +118,13 @@ export default function Search() {
                     options={industryOptions}
                     getOptionLabel={(option) => option.label}
                     style={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} variant="outlined" />}
+                    renderInput={(params) => (
+                      <TextField {...params} variant="outlined" />
+                    )}
                   />
                 </Box>
               </div>
-              <div style={{ width: '300px' }}>
+              <div style={{ width: "300px" }}>
                 <Box pt={3}>
                   Job Title:
                   <Autocomplete
@@ -133,16 +132,17 @@ export default function Search() {
                     options={options}
                     getOptionLabel={(option) => option.label}
                     style={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} variant="outlined" />}
+                    renderInput={(params) => (
+                      <TextField {...params} variant="outlined" />
+                    )}
                   />
                 </Box>
               </div>
               {/* Age Range is taken from @material-ui https://material-ui.com/components/slider/ */}
               <Box pt={3}>
                 Age Range:
-          <div className={classes.root} style={{ width: '300px' }}>
-                  <Typography id="range-slider" gutterBottom>
-                  </Typography>
+                <div className={classes.root} style={{ width: "300px" }}>
+                  <Typography id="range-slider" gutterBottom></Typography>
                   <Slider
                     min={18}
                     max={80}
@@ -155,7 +155,7 @@ export default function Search() {
                 </div>
               </Box>
 
-              <div style={{ width: '300px' }}>
+              <div style={{ width: "300px" }}>
                 <Box pt={3}>
                   Gender:
                   <Autocomplete
@@ -163,11 +163,13 @@ export default function Search() {
                     options={genderOptions}
                     getOptionLabel={(option) => option.label}
                     style={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} variant="outlined" />}
+                    renderInput={(params) => (
+                      <TextField {...params} variant="outlined" />
+                    )}
                   />
                 </Box>
               </div>
-              <div style={{ width: '300px' }}>
+              <div style={{ width: "300px" }}>
                 <Box pt={3}>
                   Country:
                   <Autocomplete
@@ -175,11 +177,13 @@ export default function Search() {
                     options={options}
                     getOptionLabel={(option) => option.label}
                     style={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} variant="outlined" />}
+                    renderInput={(params) => (
+                      <TextField {...params} variant="outlined" />
+                    )}
                   />
                 </Box>
               </div>
-              <div style={{ width: '300px' }}>
+              <div style={{ width: "300px" }}>
                 <Box pt={3}>
                   State/Province:
                   <Autocomplete
@@ -187,11 +191,13 @@ export default function Search() {
                     options={options}
                     getOptionLabel={(option) => option.label}
                     style={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} variant="outlined" />}
+                    renderInput={(params) => (
+                      <TextField {...params} variant="outlined" />
+                    )}
                   />
                 </Box>
               </div>
-              <div style={{ width: '300px' }}>
+              <div style={{ width: "300px" }}>
                 <Box pt={3}>
                   City:
                   <Autocomplete
@@ -199,17 +205,17 @@ export default function Search() {
                     options={options}
                     getOptionLabel={(option) => option.label}
                     style={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} variant="outlined" />}
+                    renderInput={(params) => (
+                      <TextField {...params} variant="outlined" />
+                    )}
                   />
                 </Box>
               </div>
-
             </Grid>
           </Grid>
           <Box pt={5}>
             <Copyright />
           </Box>
-
         </Container>
       </main>
     </div>

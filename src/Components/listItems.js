@@ -30,20 +30,15 @@ export const mainListItems = (
         <ListItemText primary="Data Summary" />
       </ListItem>
     </Link>
-    <Link to="/Search" style={{ textDecoration: "none", color: "#558aac" }}>
+    <Link
+      to="/FilterAndSearch"
+      style={{ textDecoration: "none", color: "#558aac" }}
+    >
       <ListItem button>
         <ListItemIcon>
           <SearchIcon />
         </ListItemIcon>
-        <ListItemText primary="Search" />
-      </ListItem>
-    </Link>
-    <Link to="/Filter" style={{ textDecoration: "none", color: "#558aac" }}>
-      <ListItem button>
-        <ListItemIcon>
-          <FilterListIcon />
-        </ListItemIcon>
-        <ListItemText primary="Filter" />
+        <ListItemText primary="Filter and Search" />
       </ListItem>
     </Link>
   </div>
