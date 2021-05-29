@@ -21,6 +21,8 @@ import useStyles from "./UseStyles.js";
 import Slider from "@material-ui/core/Slider";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
+import GoogleMaps from "./GoogleMaps.js"
+import GoogleMap from "./GoogleMaps.js";
 
 // Passing in a map array to the search bar function, may be useful when extracting jobs from spreadsheet
 var industryOptions = ["Doctor", "Software Engineer", "Teacher", "Professor"];
@@ -211,6 +213,13 @@ export default function Search() {
                   />
                 </Box>
               </div>
+              <div style={{ width:"300px" }}>
+                <Box pt={3}>
+                Google Maps
+                <GoogleMap />
+                
+                </Box>
+                </div>
             </Grid>
           </Grid>
           <Box pt={5}>
