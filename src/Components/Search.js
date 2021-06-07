@@ -23,12 +23,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Tabletop from "tabletop";
 import { useEffect, useState } from "react";
-import { makeStyles } from '@material-ui/core/styles';
-import { VariableSizeList } from 'react-window';
-import PropTypes from 'prop-types';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import { useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 
 
 export default function Search() {
@@ -41,6 +36,15 @@ export default function Search() {
   let indarray = [...indset];
   const industriesOptions = indarray.map(item => ({ label: item, value: item }));
 
+  const options = industriesOptions.map((option) => {
+    const firstLetter = option.label[0].toUpperCase();
+    return {
+      firstLetter: firstLetter,
+      ...option,
+    }
+  })
+
+  // Gender Data
   const genderOptions = [
     { label: 'Woman', value: 'Woman' },
     { label: 'Man', value: 'Man' },
@@ -52,19 +56,19 @@ export default function Search() {
   const states = data.map(item => (item.State));
   const stateset = new Set(states);
   let statearray = [...stateset];
-  const stateOptions = statearray.map(item => ({label:item, value:item}));
+  const stateOptions = statearray.map(item => ({ label: item, value: item }));
 
   // Country data
   const countries = data.map(item => (item.Country));
   const countryset = new Set(countries);
   let countryarray = [...countryset];
-  const countryOptions = countryarray.map(item => ({label:item, value:item}));
+  const countryOptions = countryarray.map(item => ({ label: item, value: item }));
 
   // City data
   const cities = data.map(item => (item.City));
   const cityset = new Set(cities);
   let cityarray = [...cityset];
-  const cityOptions = cityarray.map(item => ({label:item, value:item}));
+  const cityOptions = cityarray.map(item => ({ label: item, value: item }));
 
   // Utilizes tabletop to get data from google spreadsheet
   useEffect(() => {
@@ -88,17 +92,17 @@ export default function Search() {
 
   // Marks for Age Slider
   const marks = [
-    {value: 18,label: '18'},
-    {value: 24,label: '24'},
-    {value: 34,label: '34'},
-    {value: 44,label: '44'},
-    {value: 54,label: '54'},
-    {value: 64,label: '64'},
-    {value: 70,label: '>65'}
+    { value: 0, label: '<18' },
+    { value: 15, label: '18-24' },
+    { value: 30, label: '25-34' },
+    { value: 45, label: '35-44' },
+    { value: 60, label: '45-54' },
+    { value: 75, label: '55-64' },
+    { value: 90, label: '>65' }
   ];
 
   // Age slider state
-  const [value, setValue] = React.useState([18, 24]);
+  const [value, setValue] = React.useState([15]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -155,22 +159,12 @@ export default function Search() {
                   Industry:
                   <Autocomplete
                     id="industry-dropdown"
-                    options={industriesOptions}
+                    options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
+                    groupBy={(option) => option.firstLetter}
                     getOptionLabel={(option) => option.label}
                     style={{ width: 300 }}
                     renderInput={(params) => <TextField {...params} variant="outlined" />}
-                  />
-                </Box>
-              </div>
-              <div style={{ width: '300px' }}>
-                <Box pt={3}>
-                  Job Title:
-                  <Autocomplete
-                    id="job-title-dropdown"
-                    options={genderOptions}
-                    getOptionLabel={(option) => option.label}
-                    style={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} variant="outlined" />}
+
                   />
                 </Box>
               </div>
@@ -184,9 +178,9 @@ export default function Search() {
                     onChange={handleChange}
                     step={null}
                     marks={marks}
-                    max={70}
-                    min={18}
-                    aria-labelledby="range-slider"
+                    min = {0}
+                    max = {90}
+                    aria-labelledby="discrete-slider"
                     getAriaValueText={valuetext}
                   />
                 </div>
@@ -241,13 +235,11 @@ export default function Search() {
                   />
                 </Box>
               </div>
-
             </Grid>
           </Grid>
           <Box pt={5}>
             <Copyright />
           </Box>
-
         </Container>
       </main>
     </div>
