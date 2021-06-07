@@ -15,6 +15,7 @@
     "@material-ui/lab": "^4.0.0-alpha.58",
     "axios": "^0.21.1",
     "clsx": "latest",
+    "google-maps-react": "^2.0.6",
     "google-spreadsheet": "^3.1.15",
     "react": "latest",
     "react-chartjs-2": "^3.0.3",
