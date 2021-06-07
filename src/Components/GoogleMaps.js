@@ -1,50 +1,48 @@
+/* global google */
+import React, {Component} from 'react'
+import GoogleMapReact from 'google-map-react'
+//import {formatRelative} from "date-fns";
+//import "@reach/combobox/styles.css";
+
+import { compose, withProps, withHandlers } from 'recompose';
+import { withScriptjs, withGoogleMap, InfoWindow } from 'react-google-maps';
+import { Icon } from '@iconify/react'
+import locationIcon from '@iconify/icons-mdi/map-marker'
+import '../map.css'
 
 
-
-import React, { Component } from 'react';
-import { Map, GoogleApiWrapper } from 'google-maps-react';
-
-const mapStyles = {
-  width: '100%',
-  height: '100%'
-};
-
-export class MapContainer extends Component {
-  render() {
-    return (
-      <Map
-        google={this.props.google}
-        zoom={14}
-        className="mapContainerWrapper"
-        style={mapStyles}
-        initialCenter={
-          {
-            lat: -1.2884,
-            lng: 36.8233
-          }
-        }
-        >
-      <style jsx>{`
-        .mapContainerWrapper{
-          position:relative !important;
-        }
-
-        .mapContainerWrapper div:first-child{
-          position:relative !important;
-        }
-     `}
-      </style>
-      </Map>
-    );
-  }
+const mapContainerStyle = {
+  width: "50vw",
+  height: "50vh",
 }
 
-const LoadingContainer = (props) => <div>Fancy loading container!</div>;
-const GoogleMap = GoogleApiWrapper({
-    apiKey: process.env.IzaSyAnZQwVoXesbnraomD4khtk79ftuZThgo,
-    LoadingContainer: LoadingContainer,
-  })(MapContainer);
-  
-  export default GoogleMap;
+const LocationPin = ({ text }) => (
+  <div className="pin">
+    <Icon icon={locationIcon} className="pin-icon" />
+    <p className="pin-text">{text}</p>
+  </div>
+)
 
+const GoogleMaps = ({ location, zoomLevel }) => {
+  return(
+  <div className="map">
 
+    <div className="google-map" style={mapContainerStyle}>
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLEMAPS_ID }}
+        defaultCenter={location}
+        defaultZoom={zoomLevel}
+        
+      >
+      <LocationPin
+            lat={location.lat}
+            lng={location.lng}
+            text={location.address}
+        />
+      </GoogleMapReact>
+    </div>
+  </div>
+  )
+}
+
+export default GoogleMaps
