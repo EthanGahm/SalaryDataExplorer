@@ -19,14 +19,11 @@ import mainListItems from "./listItems";
 import Copyright from "./Copyright";
 import Title from "./Title";
 import PageTitle from "./PageTitle";
-import dataSheet from "./GoogleSheetsConnection";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import TestTable from "./TestTable";
 import FirstDatasetTable from "./FirstDatasetTable";
 import SecondDatasetTable from "./SecondDatasetTable";
 import useStyles from "./UseStyles.js";
-
-console.log(dataSheet.title);
 
 export default function DataSummary() {
   const classes = useStyles();
@@ -86,17 +83,13 @@ export default function DataSummary() {
                 <Title>Summary of Major Data Trends</Title>
                 Raw Data for 2019 AskAManager.org Salary Survey
                 <FirstDatasetTable />
-             
               </Paper>
-              
-             
             </Grid>
           </Grid>
           <Paper className={classes.paper}>
-                 Raw Data for 2021 AskAManager.org Salary Survey
-                <SecondDatasetTable />
-             
-              </Paper>
+            Raw Data for 2021 AskAManager.org Salary Survey
+            <SecondDatasetTable />
+          </Paper>
           <Box pt={4}>
             <Copyright />
           </Box>
