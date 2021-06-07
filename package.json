@@ -9,17 +9,22 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@iconify/react": "^1.1.4",
     "@material-ui/core": "latest",
     "@material-ui/data-grid": "*",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
+    "@react-google-maps/api": "^2.2.0",
+    "@react-google-maps/marker-clusterer": "^2.2.0",
     "axios": "^0.21.1",
     "clsx": "latest",
+    "google-map-react": "^2.1.9",
     "google-maps-react": "^2.0.6",
     "google-spreadsheet": "^3.1.15",
     "react": "latest",
     "react-chartjs-2": "^3.0.3",
     "react-dom": "latest",
+    "react-google-maps": "^9.4.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "recharts": "^2.0.9"
@@ -35,5 +40,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@iconify/icons-mdi": "^1.1.15"
   }
 }
