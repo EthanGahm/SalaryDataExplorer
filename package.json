@@ -27,7 +27,9 @@
     "react-google-maps": "^9.4.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
-    "recharts": "^2.0.9"
+    "react-window": "^1.8.6",
+    "recharts": "^2.0.9",
+    "tabletop": "^1.6.3"
   },
   "browserslist": {
     "production": [

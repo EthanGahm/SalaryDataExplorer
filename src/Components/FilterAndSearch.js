@@ -18,22 +18,46 @@ import { mainListItems } from "./listItems";
 import Title from "./Title";
 import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
+<<<<<<< HEAD:src/Components/Search.js
+import Slider from '@material-ui/core/Slider';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+import Tabletop from "tabletop";
+import { useEffect, useState } from "react";
+
+=======
 import Slider from "@material-ui/core/Slider";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
+>>>>>>> main:src/Components/FilterAndSearch.js
 
 import GoogleMaps from "./GoogleMaps.js";
 
+<<<<<<< HEAD:src/Components/Search.js
+export default function Search() {
+=======
 // Passing in a map array to the search bar function, may be useful when extracting jobs from spreadsheet
 var industryOptions = ["Doctor", "Software Engineer", "Teacher", "Professor"];
 var options = industryOptions.map((opt) => ({ label: opt, value: opt }));
+>>>>>>> main:src/Components/FilterAndSearch.js
 
-// Hardcoded labels for search bar
-// const industryOptions = [
-//   { label: 'Software Engineer', value: 'Software Engineer' },
-//   { label: 'Doctor', value: 'Doctor'},
-// ];
+  const [data, setData] = useState([]);
 
+<<<<<<< HEAD:src/Components/Search.js
+  // Industry data
+  const industries = data.map(item => (item.Industry));
+  const indset = new Set(industries);
+  let indarray = [...indset];
+  const industriesOptions = indarray.map(item => ({ label: item, value: item }));
+
+  const options = industriesOptions.map((option) => {
+    const firstLetter = option.label[0].toUpperCase();
+    return {
+      firstLetter: firstLetter,
+      ...option,
+    }
+  })
+=======
 export default function Search() {
   const industryOptions = [
     { label: "Doctor", value: "Doctor" },
@@ -41,14 +65,53 @@ export default function Search() {
     { label: "Lawyer", value: "Lawyer" },
     { label: "Software Engineer", value: "Software Engineer" },
   ];
+>>>>>>> main:src/Components/FilterAndSearch.js
 
+  // Gender Data
   const genderOptions = [
+<<<<<<< HEAD:src/Components/Search.js
+    { label: 'Woman', value: 'Woman' },
+    { label: 'Man', value: 'Man' },
+    { label: 'Non-binary', value: 'Non-binary' },
+    { label: 'Other', value: 'Other/NA' }
+  ]
+=======
     { label: "Woman", value: "Woman" },
     { label: "Man", value: "Man" },
     { label: "Non-binary", value: "Non-binary" },
     { label: "Other", value: "Other/NA" },
   ];
+>>>>>>> main:src/Components/FilterAndSearch.js
 
+  // State/Province data
+  const states = data.map(item => (item.State));
+  const stateset = new Set(states);
+  let statearray = [...stateset];
+  const stateOptions = statearray.map(item => ({ label: item, value: item }));
+
+  // Country data
+  const countries = data.map(item => (item.Country));
+  const countryset = new Set(countries);
+  let countryarray = [...countryset];
+  const countryOptions = countryarray.map(item => ({ label: item, value: item }));
+
+  // City data
+  const cities = data.map(item => (item.City));
+  const cityset = new Set(cities);
+  let cityarray = [...cityset];
+  const cityOptions = cityarray.map(item => ({ label: item, value: item }));
+
+  // Utilizes tabletop to get data from google spreadsheet
+  useEffect(() => {
+    Tabletop.init({
+      key: "1bacAOGeeXSRUy5jzovspRcS-SPwWxaXjp8AqONnD290",
+      simpleSheet: true
+    })
+      .then((data) => setData(data))
+      .catch((err) => console.warn(err));
+  }, []);
+
+  // Page Styling
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -58,19 +121,35 @@ export default function Search() {
     setOpen(false);
   };
 
-  // age range bar values
-  function valuetext(value) {
-    return `${value}`;
-  }
-  const [value, setValue] = React.useState([30, 50]);
+  // Marks for Age Slider
+  const marks = [
+    { value: 0, label: '<18' },
+    { value: 15, label: '18-24' },
+    { value: 30, label: '25-34' },
+    { value: 45, label: '35-44' },
+    { value: 60, label: '45-54' },
+    { value: 75, label: '55-64' },
+    { value: 90, label: '>65' }
+  ];
+
+  // Age slider state
+  const [value, setValue] = React.useState([15]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+<<<<<<< HEAD:src/Components/Search.js
+  function valuetext(value) {
+    return `${value}`;
+  }
+
+
+=======
   const location = {
     address: '1600 Amphitheatre Parkway, Mountain View, california.',
     lat: 37.12,
     lng: -122.12,
   }
+>>>>>>> main:src/Components/FilterAndSearch.js
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -112,15 +191,27 @@ export default function Search() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Recent Orders */}
             <Grid item xs={12}>
+<<<<<<< HEAD:src/Components/Search.js
+              <Title>Search/Filter</Title>
+              <div style={{ width: '300px' }}>
+=======
               <Title>Set Parameters and Search the Dataset</Title>
               {/* React-Select, taken from https://stackoverflow.com/questions/48930622/react-select-show-search-bar-in-dropdown  */}
               <div style={{ width: "300px" }}>
+>>>>>>> main:src/Components/FilterAndSearch.js
                 <Box pt={3}>
                   Industry:
                   <Autocomplete
                     id="industry-dropdown"
+<<<<<<< HEAD:src/Components/Search.js
+                    options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
+                    groupBy={(option) => option.firstLetter}
+                    getOptionLabel={(option) => option.label}
+                    style={{ width: 300 }}
+                    renderInput={(params) => <TextField {...params} variant="outlined" />}
+
+=======
                     options={industryOptions}
                     getOptionLabel={(option) => option.label}
                     style={{ width: 300 }}
@@ -141,21 +232,28 @@ export default function Search() {
                     renderInput={(params) => (
                       <TextField {...params} variant="outlined" />
                     )}
+>>>>>>> main:src/Components/FilterAndSearch.js
                   />
                 </Box>
               </div>
               {/* Age Range is taken from @material-ui https://material-ui.com/components/slider/ */}
               <Box pt={3}>
                 Age Range:
+<<<<<<< HEAD:src/Components/Search.js
+                <div className={classes.root}>
+=======
                 <div className={classes.root} style={{ width: "300px" }}>
                   <Typography id="range-slider" gutterBottom></Typography>
+>>>>>>> main:src/Components/FilterAndSearch.js
                   <Slider
-                    min={18}
-                    max={80}
                     value={value}
+                    style={{ width: 300 }}
                     onChange={handleChange}
-                    valueLabelDisplay="auto"
-                    aria-labelledby="range-slider"
+                    step={null}
+                    marks={marks}
+                    min = {0}
+                    max = {90}
+                    aria-labelledby="discrete-slider"
                     getAriaValueText={valuetext}
                   />
                 </div>
@@ -165,8 +263,9 @@ export default function Search() {
                 <Box pt={3}>
                   Gender:
                   <Autocomplete
-                    id="industry-dropdown"
+                    id="gender-dropdown"
                     options={genderOptions}
+                    loading={(true)}
                     getOptionLabel={(option) => option.label}
                     style={{ width: 300 }}
                     renderInput={(params) => (
@@ -179,8 +278,8 @@ export default function Search() {
                 <Box pt={3}>
                   Country:
                   <Autocomplete
-                    id="industry-dropdown"
-                    options={options}
+                    id="country-dropdown"
+                    options={countryOptions}
                     getOptionLabel={(option) => option.label}
                     style={{ width: 300 }}
                     renderInput={(params) => (
@@ -193,8 +292,8 @@ export default function Search() {
                 <Box pt={3}>
                   State/Province:
                   <Autocomplete
-                    id="industry-dropdown"
-                    options={options}
+                    id="state-dropdown"
+                    options={stateOptions}
                     getOptionLabel={(option) => option.label}
                     style={{ width: 300 }}
                     renderInput={(params) => (
@@ -207,8 +306,8 @@ export default function Search() {
                 <Box pt={3}>
                   City:
                   <Autocomplete
-                    id="industry-dropdown"
-                    options={options}
+                    id="city-dropdown"
+                    options={cityOptions}
                     getOptionLabel={(option) => option.label}
                     style={{ width: 300 }}
                     renderInput={(params) => (
@@ -217,6 +316,8 @@ export default function Search() {
                   />
                 </Box>
               </div>
+<<<<<<< HEAD:src/Components/Search.js
+=======
               <div style={{ width:"300px" }}>
                 <Box pt={3}>
                 Google Maps
@@ -224,6 +325,7 @@ export default function Search() {
                 
                 </Box>
                 </div>
+>>>>>>> main:src/Components/FilterAndSearch.js
             </Grid>
           </Grid>
           <Box pt={5}>
