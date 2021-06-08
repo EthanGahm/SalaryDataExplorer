@@ -4,7 +4,6 @@ import GoogleMapReact from 'google-map-react'
 //import {formatRelative} from "date-fns";
 //import "@reach/combobox/styles.css";
 
-import { compose, withProps, withHandlers } from 'recompose';
 import { withScriptjs, withGoogleMap, InfoWindow } from 'react-google-maps';
 import { Icon } from '@iconify/react'
 import locationIcon from '@iconify/icons-mdi/map-marker'
