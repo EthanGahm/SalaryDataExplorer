@@ -21,6 +21,7 @@
     "google-map-react": "^2.1.9",
     "google-maps-react": "^2.0.6",
     "google-spreadsheet": "^3.1.15",
+    "jquery": "^3.6.0",
     "react": "latest",
     "react-chartjs-2": "^3.0.3",
     "react-dom": "latest",
