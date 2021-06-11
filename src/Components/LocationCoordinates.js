@@ -3,12 +3,12 @@ import $ from "jquery";
 import axios from "axios";
 
 
-export default function getData(list){   
+export default function getData(){   
     var coordsList = [];   
-  
+    var list= ["united states of america"]
     for (var i =0; i<list.length;i++){
-       
-        var result = getData(list[i]);
+       var x ="https://maps.googleapis.com/maps/api/place/textsearch/json?query="+list[i]+"&key="+ process.env.REACT_APP_GOOGLEMAPS_ID
+        var result = axios.get(x)
         result.then((result) =>{
           var lat = result.data.results[0].geometry.location.lat;
           lat = lat.toString();
@@ -27,7 +27,7 @@ export default function getData(list){
         })
         
        
-       // console.log(coordsList)
+        console.log(coordsList)
     }
    
     return coordsList;

@@ -4,7 +4,7 @@ import FilterAndSearch from "./Components/FilterAndSearch";
 import DataSummary from "./Components/DataSummary";
 import Graph from "./Components/Graph";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
-import GetCoords from "./Components/LocationCoordinates";
+import getData from "./Components/LocationCoordinates";
 export default function App() {
   
   return (
@@ -15,7 +15,7 @@ export default function App() {
         <Route path="/DataSummary" component={DataSummary} />
         <Route path="/FilterAndSearch" component={FilterAndSearch} />
         <Route path="/graph" component={Graph} />
-        <Route path="/coords" component={GetCoords} />
+        <Route path="/coords" component={getData} />
       </Switch>
     </BrowserRouter>
   );
