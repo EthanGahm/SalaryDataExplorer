@@ -5,10 +5,15 @@ import DataSummary from "./Components/DataSummary";
 import Graph from "./Components/Graph";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import getData from "./Components/LocationCoordinates";
+
 export default function App() {
-  
+  let data = getData()
+  data.then((data)=>{
+
+    console.log(data)
+  })
   return (
- 
+    
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={Home} />
