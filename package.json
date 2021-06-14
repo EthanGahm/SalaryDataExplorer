@@ -25,7 +25,6 @@
     "google-maps-react": "^2.0.6",
     "google-spreadsheet": "^3.1.15",
     "googleapis": "^76.0.0",
-    "jquery": "^3.6.0",
     "node-geocoder": "^3.27.0",
     "react": "latest",
     "react-chartjs-2": "^3.0.3",
