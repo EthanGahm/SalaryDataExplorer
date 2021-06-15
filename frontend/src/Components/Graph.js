@@ -650,7 +650,7 @@ export default function Graph() {
             </Grid>
 
 
-            <Grid item xs = {12} md = {8} lg = {12}>
+            <Grid item xs = {12} md = {8} lg = {4}>
               <Paper className={classes.paper}>
                 <center><h4>Distribution of Degrees</h4></center>
                 {!isLoaded ? (
@@ -680,7 +680,7 @@ export default function Graph() {
             </Grid>
 
 
-            <Grid item xs = {12} md = {8} lg = {12}>
+            <Grid item xs = {12} md = {8} lg = {8}>
               <Paper className = {classes.paper}>
                 <center><h4>Change in Average Annual Salary over Time</h4></center>
                 {!isLoaded ? (
@@ -689,7 +689,7 @@ export default function Graph() {
                   <center>
                     <LineChart 
                       width={700} 
-                      height={300} 
+                      height={350} 
                       data={data4}
                       margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
                     >
@@ -698,7 +698,7 @@ export default function Graph() {
                         <Label value = "Age" offset={-15} position="insideBottom" />
                       </XAxis>
                       <Tooltip />
-                      <YAxis label = {{value: "Salary", angle: -90, position: "insideLeft"}} 
+                      <YAxis label = {{value: "Salary $k", angle: -90, position: "insideLeft"}} 
                       domain = {[0, 120]}/>
                       <Line type="monotone" dataKey="val" fill = {colors[0]} />
                     </LineChart>
