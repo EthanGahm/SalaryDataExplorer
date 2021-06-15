@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import SheetsAPIInfo from "../SheetsAPIInfo.json";
-import { GoogleSpreadsheet } from "google-spreadsheet";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
