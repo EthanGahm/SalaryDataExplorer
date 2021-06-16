@@ -23,7 +23,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import Tabletop from "tabletop";
 import { useEffect, useState } from "react";
-
+import PageTitle from "./PageTitle";
 import GoogleMaps from "./GoogleMaps.js";
 
 export default function FilterAndSearch() {
@@ -140,6 +140,7 @@ export default function FilterAndSearch() {
           >
             <MenuIcon />
           </IconButton>
+          <PageTitle text="Filter and Search" />
         </Toolbar>
       </AppBar>
       <Drawer

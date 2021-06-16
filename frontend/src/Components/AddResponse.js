@@ -14,7 +14,7 @@ import { mainListItems } from "./listItems";
 import Title from "./Title";
 import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
-
+import PageTitle from "./PageTitle";
 let res;
 export default function AddResponse() {
   // Page Styling
@@ -47,6 +47,7 @@ export default function AddResponse() {
           >
             <MenuIcon />
           </IconButton>
+          <PageTitle text="Add a Response" />
         </Toolbar>
       </AppBar>
       <Drawer
