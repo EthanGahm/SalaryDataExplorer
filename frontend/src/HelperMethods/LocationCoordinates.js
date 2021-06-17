@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-async function getCoordinates(list) {
+export default async function getCoordinates(list) {
   var coordsList = [];
 
   for (var i = 0; i < list.length; i++) {
