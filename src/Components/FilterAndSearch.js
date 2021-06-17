@@ -24,11 +24,7 @@ import TextField from "@material-ui/core/TextField";
 import Tabletop from "tabletop";
 import { useEffect, useState } from "react";
 import PageTitle from "./PageTitle";
-<<<<<<< HEAD
 import MarkerMap from "./GoogleMaps.js";
-=======
-import GoogleMaps from "./GoogleMaps.js";
->>>>>>> 0f2f6e391fa74d5ddf4534c3d3f25ac144369656
 
 export default function FilterAndSearch() {
   const [data, setData] = useState([]);
@@ -264,13 +260,17 @@ export default function FilterAndSearch() {
               </div>
               <div style={{ width: "300px" }}>
                 <Box pt={3}>
-<<<<<<< HEAD
-                Google Maps
-                <MarkerMap location ={location} zoomLevel={8} pinLocations={[ "Charlottesville United States", "district of columbia United States of America","rio de janeiro brazil","paris france"]}/>
-=======
                   Google Maps
-                  <GoogleMaps location={location} zoomLevel={8} />
->>>>>>> 0f2f6e391fa74d5ddf4534c3d3f25ac144369656
+                  <MarkerMap
+                    location={location}
+                    zoomLevel={8}
+                    pinLocations={[
+                      "Charlottesville United States",
+                      "district of columbia United States of America",
+                      "rio de janeiro brazil",
+                      "paris france",
+                    ]}
+                  />
                 </Box>
               </div>
             </Grid>
