@@ -40,4 +40,35 @@ export default class DAO2021 {
       return { rowsList: [], totalNumRows: 0 };
     }
   }
+
+  static async getNumCT() {
+    // 
+    let numbers = [];
+    try {
+      numbers.push( { name: "Computing or Tech", 
+      val: await salaryData.countDocuments({"Industry": "Computing or Tech"})});
+      return numbers;
+    }
+    catch (e) {
+      console.error(`Unable to get industries, ${e}`);
+      return numbers;
+    }
+  }
+
+  static async getNumALL() {
+    let industries = [];
+    let numbers = [];
+    try {
+      industries = await salaryData.distinct("Industry");
+      for (let i = 0; i < industries.length; i++) {
+        numbers.push({ name: industries[i], 
+        val: await salaryData.countDocuments({"Industry": industries[i]})});
+      }
+      return numbers;
+    }
+    catch (e) {
+      console.error(`Unable to get industries, ${e}`);
+      return numbers;
+    }
+  }
 }

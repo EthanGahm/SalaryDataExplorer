@@ -6,6 +6,7 @@ import useStyles from "./UseStyles.js";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { csv } from 'd3';
 import dataCSV from './CleanedData2021.csv';
+import axios from 'axios';
 import {RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, BarChart, Bar, PieChart, Pie,
 LineChart, Line, CartesianGrid, XAxis, YAxis, Label, Tooltip, Legend, LabelList} from "recharts";
 
@@ -53,7 +54,7 @@ var numENG = 0; var avgENG = 0.0; var salENG = [];
 var numENV = 0; var avgENV = 0.0; var salENV = [];
 var numAR = 0; var avgAR = 0.0; var salAR = [];
 var numO = 0; var avgO = 0.0; var salO = [];
-
+var test1 = []; var test2 = [];
 var sal18 = []; var sal18t24 = []; var sal25t34 = []; var sal35t44 = []; 
 var sal45t54 = []; var sal55t64 = []; var sal65 = [];
 var avg18 = 0.0; var avg18t24 = 0.0;  var avg25t34 = 0.0; var avg35t44 = 0.0; var avg45t54 = 0.0;
@@ -62,8 +63,22 @@ var highSchool = 0; var someCollege = 0; var college = 0; var masters = 0; var P
 
 export default function Graph() {
   const [isLoaded, setIsLoaded] = React.useState(false);
+  
+  
   (async function google() {
     useEffect(() => {
+      axios.get('http://localhost:5000/api/salary_data/numCT')
+        .then(res => {
+          test1 = res.data;
+        })
+      axios.get('http://localhost:5000/api/salary_data/numALL')
+        .then(res => {
+          for (let i in res.data) {
+            test2.push(res.data[i]);
+          }
+          console.log(test2);
+          console.log(test2.length);
+        })
       csv(dataCSV).then(data => {
         data.pop(0);
         for (let i = 0; i < data.length; i++) {
@@ -245,7 +260,6 @@ export default function Graph() {
         for (let i = 0; i < numABF; i++) {
           sumABF += salABF[i];
         }
-        console.log(sumABF);
         avgABF = sumABF / numABF / 1000;
         avgABF = avgABF.toFixed(2);
         var sumENG = 0.0;
@@ -570,7 +584,11 @@ export default function Graph() {
       });
     }, []);
   })();
-
+  if (isLoaded) {
+    console.log(test1);
+    console.log(test2.length);
+    console.log(data1);
+  }
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -591,9 +609,9 @@ export default function Graph() {
                   <center>
                     <RadarChart
                       innerRadius={100}
-                      outerRadius={300}
+                      outerRadius={270}
                       width={1000}
-                      height={670}
+                      height={600}
                       data={data1}
                     >
                       <PolarGrid />
