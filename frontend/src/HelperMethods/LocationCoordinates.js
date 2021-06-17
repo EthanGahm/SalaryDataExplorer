@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default async function getCoordinates(list) {
   var coordsList = [];
-  
+
   for (var i = 0; i < list.length; i++) {
     try {
       var temp = await getRes(list[i]);
@@ -26,9 +26,7 @@ async function getRes(str) {
     "&key=" +
     process.env.REACT_APP_GOOGLEMAPS_ID;
 
-
   var res = await axios.get(url);
-
 
   var arr = [];
   arr.push(JSON.stringify(res.data.results[0].geometry.location.lat));
@@ -36,4 +34,3 @@ async function getRes(str) {
   arr.push(JSON.stringify(res.data.results[0].formatted_address));
   return arr;
 }
-
