@@ -5,6 +5,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import HomeIcon from "@material-ui/icons/Home";
 import TimelineIcon from "@material-ui/icons/Timeline";
 import SearchIcon from "@material-ui/icons/Search";
+import AddIcon from "@material-ui/icons/Add";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
@@ -39,6 +40,17 @@ export const mainListItems = (
           <SearchIcon />
         </ListItemIcon>
         <ListItemText primary="Filter and Search" />
+      </ListItem>
+    </Link>
+    <Link
+      to="/AddResponse"
+      style={{ textDecoration: "none", color: "#558aac" }}
+    >
+      <ListItem button>
+        <ListItemIcon>
+          <AddIcon />
+        </ListItemIcon>
+        <ListItemText primary="Add a Response" />
       </ListItem>
     </Link>
   </div>

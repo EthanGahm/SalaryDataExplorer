@@ -3,8 +3,9 @@ import Home from "./Components/Home";
 import FilterAndSearch from "./Components/FilterAndSearch";
 import DataSummary from "./Components/DataSummary";
 import Graph from "./Components/Graph";
+import AddResponse from "./Components/AddResponse";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
-
+import getLocationsFromJSON from "./HelperMethods/ExtractLocationFromJSON";
 export default function App() {
   return (
     <BrowserRouter>
@@ -13,6 +14,7 @@ export default function App() {
         <Route path="/DataSummary" component={DataSummary} />
         <Route path="/FilterAndSearch" component={FilterAndSearch} />
         <Route path="/graph" component={Graph} />
+        <Route path="/AddResponse" component={AddResponse} />
       </Switch>
     </BrowserRouter>
   );
