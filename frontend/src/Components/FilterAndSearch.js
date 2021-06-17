@@ -25,7 +25,7 @@ import Tabletop from "tabletop";
 import { useEffect, useState } from "react";
 
 
-import GoogleMaps from "./GoogleMaps.js";
+import MarkerMap from "./GoogleMaps.js";
 
 export default function FilterAndSearch() {
 
@@ -254,8 +254,7 @@ export default function FilterAndSearch() {
               <div style={{ width:"300px" }}>
                 <Box pt={3}>
                 Google Maps
-                <GoogleMaps location ={location} zoomLevel={8}/>
-                
+                <MarkerMap location ={location} zoomLevel={8} pinLocations={[ "Charlottesville United States", "district of columbia United States of America","rio de janeiro brazil","paris france"]}/>
                 </Box>
                 </div>
             </Grid>
