@@ -41,20 +41,6 @@ export default class DAO2021 {
     }
   }
 
-  static async getNumCT() {
-    // 
-    let numbers = [];
-    try {
-      numbers.push( { name: "Computing or Tech", 
-      val: await salaryData.countDocuments({"Industry": "Computing or Tech"})});
-      return numbers;
-    }
-    catch (e) {
-      console.error(`Unable to get industries, ${e}`);
-      return numbers;
-    }
-  }
-
   static async getNumALL() {
     let industries = [];
     let numbers = [];

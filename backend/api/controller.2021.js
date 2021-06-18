@@ -21,17 +21,6 @@ export default class Controller2021 {
     res.json(response);
   }
 
-  static async apiGetNumCT(req, res, next) {
-    try {
-      let industries = await DAO2021.getNumCT();
-      res.json(industries);
-    }
-    catch (e) {
-      console.log(`api, ${e}`);
-      res.status(500).json({ error: e});
-    }
-  }
-
   static async apiGetNumALL(req, res, next) {
     try {
       let industries = await DAO2021.getNumALL();

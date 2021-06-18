@@ -54,7 +54,7 @@ var numENG = 0; var avgENG = 0.0; var salENG = [];
 var numENV = 0; var avgENV = 0.0; var salENV = [];
 var numAR = 0; var avgAR = 0.0; var salAR = [];
 var numO = 0; var avgO = 0.0; var salO = [];
-var test1 = []; var test2 = [];
+var test1 = [];
 var sal18 = []; var sal18t24 = []; var sal25t34 = []; var sal35t44 = []; 
 var sal45t54 = []; var sal55t64 = []; var sal65 = [];
 var avg18 = 0.0; var avg18t24 = 0.0;  var avg25t34 = 0.0; var avg35t44 = 0.0; var avg45t54 = 0.0;
@@ -66,19 +66,7 @@ export default function Graph() {
   
   
   (async function google() {
-    useEffect(() => {
-      axios.get('http://localhost:5000/api/salary_data/numCT')
-        .then(res => {
-          test1 = res.data;
-        })
-      axios.get('http://localhost:5000/api/salary_data/numALL')
-        .then(res => {
-          for (let i in res.data) {
-            test2.push(res.data[i]);
-          }
-          console.log(test2);
-          console.log(test2.length);
-        })
+    useEffect(() => {  
       csv(dataCSV).then(data => {
         data.pop(0);
         for (let i = 0; i < data.length; i++) {
@@ -580,14 +568,18 @@ export default function Graph() {
         data4.push({ age: "45-54", val: avg45t54});
         data4.push({ age: "55-64", val: avg55t64});
         data4.push({ age: "65 or over", val: avg65});
-        setIsLoaded(true);
+        // setIsLoaded(true);
       });
     }, []);
+
+    var response = await axios.get('http://localhost:5000/api/salary_data/numALL')
+    test1 = response.data;
+    setIsLoaded(true);
   })();
   if (isLoaded) {
     console.log(test1);
-    console.log(test2.length);
-    console.log(data1);
+    // console.log(test2.length);
+    // console.log(data1);
   }
   const classes = useStyles();
   return (
@@ -612,11 +604,11 @@ export default function Graph() {
                       outerRadius={270}
                       width={1000}
                       height={600}
-                      data={data1}
+                      data={test1}
                     >
                       <PolarGrid />
-                      <PolarAngleAxis dataKey="name" />
-                      <PolarRadiusAxis angle={30} domain={[0, 150]} />
+                      <PolarAngleAxis dataKey="name" fontSize = {12} />
+                      <PolarRadiusAxis angle={30} domain={[0, 4500]} />
                       <Radar
                         name="People"
                         dataKey="val"
