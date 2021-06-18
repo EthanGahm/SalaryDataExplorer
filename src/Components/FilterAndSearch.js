@@ -18,64 +18,68 @@ import { mainListItems } from "./listItems";
 import Title from "./Title";
 import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
-import Slider from '@material-ui/core/Slider';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
+import Slider from "@material-ui/core/Slider";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
 import Tabletop from "tabletop";
 import { useEffect, useState } from "react";
-
-
-import GoogleMaps from "./GoogleMaps.js";
+import PageTitle from "./PageTitle";
+import MarkerMap from "./GoogleMaps.js";
 
 export default function FilterAndSearch() {
-
   const [data, setData] = useState([]);
 
   // Industry data
-  const industries = data.map(item => (item.Industry));
+  const industries = data.map((item) => item.Industry);
   const indset = new Set(industries);
   let indarray = [...indset];
-  const industriesOptions = indarray.map(item => ({ label: item, value: item }));
+  const industriesOptions = indarray.map((item) => ({
+    label: item,
+    value: item,
+  }));
 
   const options = industriesOptions.map((option) => {
     const firstLetter = option.label[0].toUpperCase();
     return {
       firstLetter: firstLetter,
       ...option,
-    }
-  })
+    };
+  });
 
   // Gender Data
   const genderOptions = [
-    { label: 'Woman', value: 'Woman' },
-    { label: 'Man', value: 'Man' },
-    { label: 'Non-binary', value: 'Non-binary' },
-    { label: 'Other', value: 'Other/NA' }
-  ]
+    { label: "Woman", value: "Woman" },
+    { label: "Man", value: "Man" },
+    { label: "Non-binary", value: "Non-binary" },
+    { label: "Other", value: "Other/NA" },
+  ];
 
   // State/Province data
-  const states = data.map(item => (item.State));
+  const states = data.map((item) => item.State);
   const stateset = new Set(states);
   let statearray = [...stateset];
-  const stateOptions = statearray.map(item => ({ label: item, value: item }));
+  const stateOptions = statearray.map((item) => ({ label: item, value: item }));
 
   // Country data
-  const countries = data.map(item => (item.Country));
+  const countries = data.map((item) => item.Country);
   const countryset = new Set(countries);
   let countryarray = [...countryset];
-  const countryOptions = countryarray.map(item => ({ label: item, value: item }));
+  const countryOptions = countryarray.map((item) => ({
+    label: item,
+    value: item,
+  }));
 
   // City data
-  const cities = data.map(item => (item.City));
+  const cities = data.map((item) => item.City);
   const cityset = new Set(cities);
   let cityarray = [...cityset];
-  const cityOptions = cityarray.map(item => ({ label: item, value: item }));
+  const cityOptions = cityarray.map((item) => ({ label: item, value: item }));
 
   // Utilizes tabletop to get data from google spreadsheet
   useEffect(() => {
     Tabletop.init({
       key: "1bacAOGeeXSRUy5jzovspRcS-SPwWxaXjp8AqONnD290",
-      simpleSheet: true
+      simpleSheet: true,
     })
       .then((data) => setData(data))
       .catch((err) => console.warn(err));
@@ -93,13 +97,13 @@ export default function FilterAndSearch() {
 
   // Marks for Age Slider
   const marks = [
-    { value: 0, label: '<18' },
-    { value: 15, label: '18-24' },
-    { value: 30, label: '25-34' },
-    { value: 45, label: '35-44' },
-    { value: 60, label: '45-54' },
-    { value: 75, label: '55-64' },
-    { value: 90, label: '>65' }
+    { value: 0, label: "<18" },
+    { value: 15, label: "18-24" },
+    { value: 30, label: "25-34" },
+    { value: 45, label: "35-44" },
+    { value: 60, label: "45-54" },
+    { value: 75, label: "55-64" },
+    { value: 90, label: ">65" },
   ];
 
   // Age slider state
@@ -111,12 +115,11 @@ export default function FilterAndSearch() {
     return `${value}`;
   }
 
-
   const location = {
-    address: '1600 Amphitheatre Parkway, Mountain View, california.',
+    address: "1600 Amphitheatre Parkway, Mountain View, california.",
     lat: 37.12,
     lng: -122.12,
-  }
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -137,6 +140,7 @@ export default function FilterAndSearch() {
           >
             <MenuIcon />
           </IconButton>
+          <PageTitle text="Filter and Search" />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -166,12 +170,15 @@ export default function FilterAndSearch() {
                   Industry:
                   <Autocomplete
                     id="industry-dropdown"
-                    options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
+                    options={options.sort(
+                      (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
+                    )}
                     groupBy={(option) => option.firstLetter}
                     getOptionLabel={(option) => option.label}
                     style={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} variant="outlined" />}
-
+                    renderInput={(params) => (
+                      <TextField {...params} variant="outlined" />
+                    )}
                   />
                 </Box>
               </div>
@@ -186,8 +193,8 @@ export default function FilterAndSearch() {
                     onChange={handleChange}
                     step={null}
                     marks={marks}
-                    min = {0}
-                    max = {90}
+                    min={0}
+                    max={90}
                     aria-labelledby="discrete-slider"
                     getAriaValueText={valuetext}
                   />
@@ -200,7 +207,7 @@ export default function FilterAndSearch() {
                   <Autocomplete
                     id="gender-dropdown"
                     options={genderOptions}
-                    loading={(true)}
+                    loading={true}
                     getOptionLabel={(option) => option.label}
                     style={{ width: 300 }}
                     renderInput={(params) => (
@@ -251,13 +258,21 @@ export default function FilterAndSearch() {
                   />
                 </Box>
               </div>
-              <div style={{ width:"300px" }}>
+              <div style={{ width: "300px" }}>
                 <Box pt={3}>
-                Google Maps
-                <GoogleMaps location ={location} zoomLevel={8}/>
-                
+                  Google Maps
+                  <MarkerMap
+                    location={location}
+                    zoomLevel={8}
+                    pinLocations={[
+                      "Charlottesville United States",
+                      "district of columbia United States of America",
+                      "rio de janeiro brazil",
+                      "paris france",
+                    ]}
+                  />
                 </Box>
-                </div>
+              </div>
             </Grid>
           </Grid>
           <Box pt={5}>
