@@ -9,13 +9,13 @@ to take a look at our backend/API repo!
 
 ## Tools/Languages We Are Using For This Project:
 
--JavaScript
--React.js
--Node.js
--MongoDB
--Jupyter Notebook
--Python (Pandas and Data Science Packages)
--HTML/CSS
+- JavaScript
+- React.js
+- Node.js
+- MongoDB
+- Jupyter Notebook
+- Python (Pandas and Data Science Packages)
+- HTML/CSS
 
 ## Links to Surveys We Are Using For Analysis:
 
