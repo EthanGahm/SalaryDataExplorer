@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
+/**
+ * This method will be used to gather JSON objects from API calls made to the database.
+ * It will then extract the city, state, and country (if provided) for each entry of
+ * the API JSON object result, and be used to place pins on a Google Map.
+ *
+ * @param {*} url - JSON object to parse and extract location information from
+ * @returns a list of locations extracted from a JSON object
+ */
+
 
 export default async function getLocationsFromJSON(url) {
+  var locationList = []
   try {
     var jsonInfo = await axios.get(url);
   } catch (error) {
@@ -21,11 +31,9 @@ export default async function getLocationsFromJSON(url) {
     if (tempCity == undefined) {
       tempCity = "";
     }
-    //console.log("Country:" + tempCountry);
-    //console.log("State:" + tempState);
-    //console.log("City:" + tempCity);
+
     var combinedLocation = tempCity + " " + tempState + " " + tempCountry;
-    console.log(i + ": " + combinedLocation);
+    locationList.push(combinedLocation)
   }
-  //console.log(jsonInfo.data.rows.length);
+  return locationList;
 }

@@ -1,6 +1,12 @@
 import React from "react";
 import axios from "axios";
 
+/**
+ * This method takes in a list of location strings, and then iterates through them to collect their coordinates
+ * (latitude,longitude) and a cleaned-up string of the location name.
+ * @param {*} list : list of Strings representing locations
+ * @returns a 2d array with each array element being structured [latitude,longitude,cleaned up name]
+ */
 export default async function getCoordinates(list) {
   var coordsList = [];
 
@@ -13,11 +19,16 @@ export default async function getCoordinates(list) {
     }
     coordsList.push(temp);
   }
-
-  console.log(coordsList);
   return coordsList;
 }
-
+/**
+ * This is a helper method to getCoordinates(). Given a String representing a location of an entry,
+ * the method will use an API call to Google's Geocoder and retrieve the coordinates and cleaned up
+ * location name. This is what will be returned in the getCoordinates method.
+ *
+ * @param {*} str : String representing a location
+ * @returns  the latitude, longitude, and cleaned up location name of the given String input
+ */
 async function getRes(str) {
   var loc = str.replace(/\s+/g, "+");
   const url =

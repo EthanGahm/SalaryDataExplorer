@@ -1,25 +1,24 @@
-# Create React App example
+# SalaryDataExplorer - Summer DevHub Project
 
-## How to use
+## Background:
 
-Download the example [or clone the repo](https://github.com/mui-org/material-ui):
+This application is a data analysis tool built from the AskAManager.org Salary surveys held in 2019 and 2021. With this tool, users can use explore some of the trends we found between the two datasets, filter and search for salaries from different categories such as location, age, income, gender, and industry, and can even add their own information to our database!
 
-```sh
-curl https://codeload.github.com/mui-org/material-ui/tar.gz/master | tar -xz --strip=2 material-ui-master/examples/create-react-app
-cd create-react-app
-```
+We are using the MERN Stack to build our project. The frontend portion of the project is located on this repo , click [here](https://github.com/EthanGahm/SalaryDataExplorerBackend)
+to take a look at our backend/API repo!
 
-Install it and run:
+## Tools/Languages We Are Using For This Project:
 
-```sh
-npm install
-npm start
-```
+- JavaScript
+- React.js
+- Node.js
+- MongoDB
+- Jupyter Notebook
+- Python (Pandas and Data Science Packages)
+- HTML/CSS
 
-or:
+## Links to Surveys We Are Using For Analysis:
 
-[![Edit on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/mui-org/material-ui/tree/master/examples/create-react-app)
+[Link to 2019 AskAManager.org Survey](https://www.askamanager.org/2019/04/how-much-money-do-you-make-3.html)
 
-## The idea behind the example
-
-This example demonstrates how you can use [Create React App](https://github.com/facebookincubator/create-react-app).
+[Link to 2021 AskAManager.org Survey](https://www.askamanager.org/2021/04/how-much-money-do-you-make-4.html)
