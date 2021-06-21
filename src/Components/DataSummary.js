@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
@@ -20,6 +20,17 @@ import PageTitle from "./PageTitle";
 import FirstDatasetTable from "./FirstDatasetTable";
 import SecondDatasetTable from "./SecondDatasetTable";
 import useStyles from "./UseStyles.js";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import axios from 'axios';
+import {RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, BarChart, Bar, PieChart, Pie,
+LineChart, Line, CartesianGrid, XAxis, YAxis, Label, Tooltip, Legend, LabelList} from "recharts";
+
+const colors = ["#0088FE", "#00C49F", "#FFBB28"];
+const colors1 = ['#ABCDEF', '#009900', '#CCCC00', '#FF0000', '#3333FF', '#00CCCC', '#FF00FF'];
+var data1 = [];
+var data2 = [];
+var data3 = [];
+var data4 = [];
 
 export default function DataSummary() {
   const classes = useStyles();
@@ -31,6 +42,28 @@ export default function DataSummary() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  useEffect(() => {
+    (async function getData() {
+      // var response1 = await axios.get('http://localhost:5000/salary_data/numALL');
+      // data1 = response1.data;
+      // console.log(data1);
+      // var response2 = await axios.get('http://localhost:5000/salary_data/salaries');
+      // data2 = response2.data;
+      // data2.sort((a, b) => (a._id > b._id) ? 1 : -1);
+      // var response3 = await axios.get('http://localhost:5000/salary_data/degrees');
+      // data3 = response3.data;
+      // for (let i = 0; i < data3.length; i++) {
+      //   data3[i].fill = colors1[i];
+      // }
+      var response4 = await axios.get('http://localhost:5000/salary_data/ages');
+      data4 = response4.data;
+      data4.sort((a, b) => (a._id > b._id) ? 1 : -1);
+      data4.unshift(data4.pop());
+      setIsLoaded(true);
+    })();
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -74,6 +107,41 @@ export default function DataSummary() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
+
+
+          <Grid item xs = {12} md = {8} lg = {9}>
+              <Paper className = {classes.paper}>
+                <center><h4>Change in Average Annual Salary over Time</h4></center>
+                {!isLoaded ? (
+                  <CircularProgress />
+                ) : (
+                  <center>
+                    <LineChart 
+                      width={700} 
+                      height={350} 
+                      data={data4}
+                      margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="_id" padding={{ left: 10, right: 10 }}>
+                        <Label value = "Age" offset={-15} position="insideBottom" />
+                      </XAxis>
+                      <Tooltip />
+                      <YAxis label = {{value: "Salary $k", angle: -90, position: "insideLeft"}} 
+                      domain = {[0, 120]}/>
+                      <Line type="monotone" dataKey="val" fill = {colors[0]} />
+                    </LineChart>
+                  </center>
+                )}
+              </Paper>
+            </Grid>
+            <Grid item xs = {12} md = {8} lg = {3}>
+              <Paper className = {classes.paper}>
+                <h2>Text Here.</h2>
+              </Paper>
+            </Grid>
+
+
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Title>Summary of Major Data Trends</Title>
