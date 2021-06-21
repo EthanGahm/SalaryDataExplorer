@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 /**
  * This method will be used to gather JSON objects from API calls made to the database.
@@ -8,7 +8,10 @@ import axios from "axios";
  * @param {*} url - JSON object to parse and extract location information from
  * @returns a list of locations extracted from a JSON object
  */
+
+
 export default async function getLocationsFromJSON(url) {
+  var locationList = []
   try {
     var jsonInfo = await axios.get(url);
   } catch (error) {
@@ -30,6 +33,7 @@ export default async function getLocationsFromJSON(url) {
     }
 
     var combinedLocation = tempCity + " " + tempState + " " + tempCountry;
-    console.log(i + ": " + combinedLocation);
+    locationList.push(combinedLocation)
   }
+  return locationList;
 }

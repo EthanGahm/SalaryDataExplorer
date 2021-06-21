@@ -4,8 +4,8 @@ import isEmpty from 'lodash.isempty';
 import getCoordinates from '../HelperMethods/LocationCoordinates'
 
 const mapContainerStyle = {
-  width: "50vw",
-  height: "50vh",
+  width: "40vw",
+  height: "40vh",
 }
 
 export default function MarkerMap({pinLocations}) {
@@ -18,9 +18,7 @@ export default function MarkerMap({pinLocations}) {
    const handleApiLoaded = (map, maps, coordinates) => {
     const markers = [];
     const infowindows = [];
-    
     coordinates.map((coordinate) => {
-      console.log(coordinate[0])
       markers.push(new maps.Marker({
         position: {
           lat: parseFloat(coordinate[0]),
@@ -47,8 +45,8 @@ export default function MarkerMap({pinLocations}) {
    <div className="google-map" style={mapContainerStyle}>
    <GoogleMapReact
       bootstrapURLKeys={{key: process.env.REACT_APP_GOOGLEMAPS_ID}}
-      defaultZoom={5}
-      defaultCenter={{lat: 39.5500507, lng: -105.7820}}
+      defaultZoom={3}
+      defaultCenter={{lat: 37.09024, lng: -95.712891}}
       yesIWantToUseGoogleMapApiInternals={true}
       onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps, coordinates)}
     >

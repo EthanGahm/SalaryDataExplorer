@@ -21,10 +21,13 @@ import useStyles from "./UseStyles.js";
 import Slider from "@material-ui/core/Slider";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
+import { positions } from '@material-ui/system';
 import Tabletop from "tabletop";
 import { useEffect, useState } from "react";
 import PageTitle from "./PageTitle";
 import MarkerMap from "./GoogleMaps.js";
+import { mergeClasses } from "@material-ui/styles";
+import getLocationsFromJSON from '../HelperMethods/ExtractLocationFromJSON'
 
 export default function FilterAndSearch() {
   const [data, setData] = useState([]);
@@ -115,11 +118,14 @@ export default function FilterAndSearch() {
     return `${value}`;
   }
 
-  const location = {
-    address: "1600 Amphitheatre Parkway, Mountain View, california.",
-    lat: 37.12,
-    lng: -122.12,
-  };
+  // Map marker state
+  const url = "https://salary-data-api.herokuapp.com/salary_data/all_2021";
+  const [pinLocations, setpinLocations] = React.useState([])
+  React.useEffect(() => {
+    let data = getLocationsFromJSON(url)
+    data.then((data) => setpinLocations(data))
+   },[])
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -161,11 +167,13 @@ export default function FilterAndSearch() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
+         <Grid container spacing={3}>
             <Grid item xs={12}>
               <Title>Set Parameters and Search the Dataset</Title>
               {/* React-Select, taken from https://stackoverflow.com/questions/48930622/react-select-show-search-bar-in-dropdown  */}
-              <div style={{ width: "300px" }}>
+              <Grid item xs={12} md={12} lg={12} container> 
+                <Grid item xs={5} md={5} lg={5}>
+                  <div style={{ width: "300px" }}>
                 <Box pt={3}>
                   Industry:
                   <Autocomplete
@@ -202,6 +210,7 @@ export default function FilterAndSearch() {
               </Box>
 
               <div style={{ width: "300px" }}>
+                
                 <Box pt={3}>
                   Gender:
                   <Autocomplete
@@ -215,6 +224,8 @@ export default function FilterAndSearch() {
                     )}
                   />
                 </Box>
+               
+                
               </div>
               <div style={{ width: "300px" }}>
                 <Box pt={3}>
@@ -258,21 +269,39 @@ export default function FilterAndSearch() {
                   />
                 </Box>
               </div>
-              <div style={{ width: "300px" }}>
+              </Grid>
+                <Grid item xs={7} md={7} lg={6}>
                 <Box pt={3}>
-                  Google Maps
-                  <MarkerMap
-                    location={location}
-                    zoomLevel={8}
-                    pinLocations={[
-                      "Charlottesville United States",
-                      "district of columbia United States of America",
-                      "rio de janeiro brazil",
-                      "paris france",
-                    ]}
-                  />
-                </Box>
-              </div>
+                    
+                    </Box>
+                    <Paper className={classes.paper}>
+                      <Typography variant="h6" gutterBottom>
+                        Data Summary
+                      </Typography>
+                      <Typography variant="subtitle1" gutterBottom>
+                        Mean Salary:
+                        </Typography>
+                        <Typography variant="subtitle1" gutterBottom>
+                        Median Salary:
+                        </Typography>
+                        <Typography variant="subtitle1" gutterBottom>
+                        Average Age:
+                        </Typography>
+                    </Paper>
+                  <Box pt={5}>
+                    
+                  </Box>
+                  <Paper className={classes.paper} elevation={0}>
+                    <MarkerMap
+                      location={location}
+                      zoomLevel={8}
+                      pinLocations={
+                        pinLocations
+                      }
+                    />
+                  </Paper>
+                </Grid>
+              </Grid> 
             </Grid>
           </Grid>
           <Box pt={5}>
