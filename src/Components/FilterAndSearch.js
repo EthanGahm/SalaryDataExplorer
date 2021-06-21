@@ -24,65 +24,190 @@ import TextField from "@material-ui/core/TextField";
 import { positions } from '@material-ui/system';
 import Tabletop from "tabletop";
 import { useEffect, useState } from "react";
+import GoogleMaps from "./GoogleMaps.js";
+import axios from "axios";
+import { DataGrid } from "@material-ui/data-grid";
 import PageTitle from "./PageTitle";
 import MarkerMap from "./GoogleMaps.js";
+import NativeSelect from '@material-ui/core/NativeSelect';
+
+
 import { mergeClasses } from "@material-ui/styles";
 import getLocationsFromJSON from '../HelperMethods/ExtractLocationFromJSON'
 
 export default function FilterAndSearch() {
-  const [data, setData] = useState([]);
 
-  // Industry data
-  const industries = data.map((item) => item.Industry);
-  const indset = new Set(industries);
-  let indarray = [...indset];
-  const industriesOptions = indarray.map((item) => ({
-    label: item,
-    value: item,
-  }));
-
-  const options = industriesOptions.map((option) => {
-    const firstLetter = option.label[0].toUpperCase();
-    return {
-      firstLetter: firstLetter,
-      ...option,
-    };
-  });
-
-  // Gender Data
-  const genderOptions = [
-    { label: "Woman", value: "Woman" },
-    { label: "Man", value: "Man" },
-    { label: "Non-binary", value: "Non-binary" },
-    { label: "Other", value: "Other/NA" },
+  // Columns for table
+  const columns = [
+    { field: 4, headerName: "Age", width: 120 },
+    { field: 5, headerName: "Industry", width: 250 },
+    { field: 6, headerName: "Job Title", width: 300 },
+    { field: 7, headerName: "Annual Salary", width: 170 },
+    { field: 8, headerName: "Currency", width: 140 },
+    { field: 14, headerName: "Country", width: 200 },
+    { field: 15, headerName: "State", width: 180 },
+    { field: 16, headerName: "City", width: 190 },
+    { field: 17, headerName: "Education", width: 190 },
+    { field: 18, headerName: "Gender", width: 160 },
+    { field: 19, headerName: "Race", width: 150 },
   ];
 
-  // State/Province data
-  const states = data.map((item) => item.State);
-  const stateset = new Set(states);
-  let statearray = [...stateset];
-  const stateOptions = statearray.map((item) => ({ label: item, value: item }));
+  useEffect(() => {
+    retrieveIndustries();
+    retrieveAllData();
+    retrieveCountries();
+    retrieveCities();
+  }, []);
+
+  // All data
+  const [allData, setAllData] = useState([]);
+
+  function getAll() {
+    var res = axios.get(`http://localhost:5000/salary_data/all_2021`);
+    return res
+  }
+
+  const retrieveAllData = () => {
+    getAll()
+      .then(response => {
+        setAllData(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const refreshData = () => {
+    retrieveAllData();
+  }
+
+  // Rows for table
+  let dataRows = allData.rows;
+  var tableRow = [];
+  for (var i in dataRows)
+    tableRow.push(Object.values(dataRows[i]));
+
+  // Table filter
+  function find(query, by) {
+    return axios.get(`http://localhost:5000/salary_data/all_2021?${by}=${query}`);
+  }
+
+  const finder = (query, by) => {
+    find(query, by)
+      .then(response => {
+        setAllData(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+
+  // Industry data
+  const [industriesData, setIndustries] = useState([]);
+  const [industrySearch, setIndustrySearch] = useState("");
+
+  function getIndustries() {
+    var res = axios.get('http://localhost:5000/salary_data/industries');
+    return res
+  }
+
+  const retrieveIndustries = () => {
+    getIndustries()
+      .then(response => {
+        setIndustries(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  // const findByIndustry = (event, value) => {
+  //   console.log(value)
+  //   setIndustrySearch(value)
+  //   finder(industrySearch, "Industry")
+  //   refreshData()
+  // }
+
+  // Age State Handler
+  const handleChange = (event) => {
+    finder(event.target.value, "Age")
+  };
+
+
+  const [data, setData] = useState([]);
+
+
+  // Gender Data
+  const [genderData, setGenderData] = useState('');
+
+  const genderOptions = [
+    'Woman', 'Man', 'Non-binary', 'Other or prefer not to answer'
+  ]
+
+  // const genderOnChange = (event, value) => {
+  //   console.log(value);
+  //   setGenderData(value);
+  //   finder(genderData, "Gender");
+  // }
+
 
   // Country data
-  const countries = data.map((item) => item.Country);
-  const countryset = new Set(countries);
-  let countryarray = [...countryset];
-  const countryOptions = countryarray.map((item) => ({
-    label: item,
-    value: item,
-  }));
+
+  const [countryData, setCountryData] = useState([]);
+
+  function getCountries() {
+    var res = axios.get('http://localhost:5000/salary_data/countries');
+    return res
+  }
+
+  const retrieveCountries = () => {
+    getCountries()
+      .then(response => {
+        setCountryData(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+
+
+
+  // State/Province data
+  const states = data.map(item => (item.State));
+  const stateset = new Set(states);
+  let statearray = [...stateset];
+  const stateOptions = statearray.map(item => ({ label: item, value: item }));
+
+
 
   // City data
-  const cities = data.map((item) => item.City);
-  const cityset = new Set(cities);
-  let cityarray = [...cityset];
-  const cityOptions = cityarray.map((item) => ({ label: item, value: item }));
+
+  const [cityData, setCityData] = useState([]);
+
+  function getCities() {
+    var res = axios.get('http://localhost:5000/salary_data/cities');
+    return res
+  }
+
+  const retrieveCities = () => {
+    getCities()
+      .then(response => {
+        setCityData(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+
 
   // Utilizes tabletop to get data from google spreadsheet
   useEffect(() => {
     Tabletop.init({
       key: "1bacAOGeeXSRUy5jzovspRcS-SPwWxaXjp8AqONnD290",
-      simpleSheet: true,
+      simpleSheet: true
     })
       .then((data) => setData(data))
       .catch((err) => console.warn(err));
@@ -98,25 +223,9 @@ export default function FilterAndSearch() {
     setOpen(false);
   };
 
-  // Marks for Age Slider
-  const marks = [
-    { value: 0, label: "<18" },
-    { value: 15, label: "18-24" },
-    { value: 30, label: "25-34" },
-    { value: 45, label: "35-44" },
-    { value: 60, label: "45-54" },
-    { value: 75, label: "55-64" },
-    { value: 90, label: ">65" },
-  ];
 
-  // Age slider state
-  const [value, setValue] = React.useState([15]);
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-  function valuetext(value) {
-    return `${value}`;
-  }
+
+
 
   // Map marker state
   const url = "https://salary-data-api.herokuapp.com/salary_data/all_2021";
@@ -124,7 +233,7 @@ export default function FilterAndSearch() {
   React.useEffect(() => {
     let data = getLocationsFromJSON(url)
     data.then((data) => setpinLocations(data))
-   },[])
+  }, [])
 
   return (
     <div className={classes.root}>
@@ -146,7 +255,6 @@ export default function FilterAndSearch() {
           >
             <MenuIcon />
           </IconButton>
-          <PageTitle text="Filter and Search" />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -167,129 +275,135 @@ export default function FilterAndSearch() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-         <Grid container spacing={3}>
+          <Grid container spacing={3}>
             <Grid item xs={12}>
               <Title>Set Parameters and Search the Dataset</Title>
-              {/* React-Select, taken from https://stackoverflow.com/questions/48930622/react-select-show-search-bar-in-dropdown  */}
-              <Grid item xs={12} md={12} lg={12} container> 
+              <Grid item xs={12} md={12} lg={5} container>
                 <Grid item xs={5} md={5} lg={5}>
-                  <div style={{ width: "300px" }}>
-                <Box pt={3}>
-                  Industry:
-                  <Autocomplete
-                    id="industry-dropdown"
-                    options={options.sort(
-                      (a, b) => -b.firstLetter.localeCompare(a.firstLetter)
-                    )}
-                    groupBy={(option) => option.firstLetter}
-                    getOptionLabel={(option) => option.label}
-                    style={{ width: 300 }}
-                    renderInput={(params) => (
-                      <TextField {...params} variant="outlined" />
-                    )}
-                  />
-                </Box>
-              </div>
-              {/* Age Range is taken from @material-ui https://material-ui.com/components/slider/ */}
-              <Box pt={3}>
-                Age Range:
-                <div className={classes.root} style={{ width: "300px" }}>
-                  <Typography id="range-slider" gutterBottom></Typography>
-                  <Slider
-                    value={value}
-                    style={{ width: 300 }}
-                    onChange={handleChange}
-                    step={null}
-                    marks={marks}
-                    min={0}
-                    max={90}
-                    aria-labelledby="discrete-slider"
-                    getAriaValueText={valuetext}
-                  />
-                </div>
-              </Box>
 
-              <div style={{ width: "300px" }}>
-                
-                <Box pt={3}>
-                  Gender:
-                  <Autocomplete
-                    id="gender-dropdown"
-                    options={genderOptions}
-                    loading={true}
-                    getOptionLabel={(option) => option.label}
-                    style={{ width: 300 }}
-                    renderInput={(params) => (
-                      <TextField {...params} variant="outlined" />
-                    )}
-                  />
-                </Box>
-               
-                
-              </div>
-              <div style={{ width: "300px" }}>
-                <Box pt={3}>
-                  Country:
-                  <Autocomplete
-                    id="country-dropdown"
-                    options={countryOptions}
-                    getOptionLabel={(option) => option.label}
-                    style={{ width: 300 }}
-                    renderInput={(params) => (
-                      <TextField {...params} variant="outlined" />
-                    )}
-                  />
-                </Box>
-              </div>
-              <div style={{ width: "300px" }}>
-                <Box pt={3}>
-                  State/Province:
-                  <Autocomplete
-                    id="state-dropdown"
-                    options={stateOptions}
-                    getOptionLabel={(option) => option.label}
-                    style={{ width: 300 }}
-                    renderInput={(params) => (
-                      <TextField {...params} variant="outlined" />
-                    )}
-                  />
-                </Box>
-              </div>
-              <div style={{ width: "300px" }}>
-                <Box pt={3}>
-                  City:
-                  <Autocomplete
-                    id="city-dropdown"
-                    options={cityOptions}
-                    getOptionLabel={(option) => option.label}
-                    style={{ width: 300 }}
-                    renderInput={(params) => (
-                      <TextField {...params} variant="outlined" />
-                    )}
-                  />
-                </Box>
-              </div>
-              </Grid>
-                <Grid item xs={7} md={7} lg={6}>
-                <Box pt={3}>
-                    
+                  <div style={{ width: '100%' }}>
+                    <DataGrid
+                      rows={tableRow}
+                      columns={columns}
+                      getRowId={(row) => row[0]}
+                      pageSize={5}
+                      autoHeight={true}
+                    />
+                  </div>
+                  <div style={{ width: "300px" }}>
+                    <Box pt={3}>
+                      Industry:
+                      <Autocomplete
+                        id="industry-dropdown"
+                        options={industriesData}
+                        getOptionLabel={(option) => option}
+                        style={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} variant="outlined" />}
+                        onChange={(event, value) => finder(value, "Industry")}
+                      />
                     </Box>
-                    <Paper className={classes.paper}>
-                      <Typography variant="h6" gutterBottom>
-                        Data Summary
-                      </Typography>
-                      <Typography variant="subtitle1" gutterBottom>
-                        Mean Salary:
-                        </Typography>
-                        <Typography variant="subtitle1" gutterBottom>
-                        Median Salary:
-                        </Typography>
-                        <Typography variant="subtitle1" gutterBottom>
-                        Average Age:
-                        </Typography>
-                    </Paper>
+                  </div>
+                  <Box pt={3}>
+                    Age Range:
+                    <div className={classes.root} >
+                      <NativeSelect
+                        id="demo-customized-select-native"
+                        onChange={handleChange}
+                      >
+                        <option value="">None</option>
+                        <option value={'under 18'}>Under 18</option>
+                        <option value={'18-24'}>18-24</option>
+                        <option value={'25-34'}>25-34</option>
+                        <option value={'35-44'}>35-44</option>
+                        <option value={'45-54'}>45-54</option>
+                        <option value={'55-64'}>55-64</option>
+                        <option value={'65 or over'}>65 or Over</option>
+                      </NativeSelect>
+                    </div>
+                  </Box>
+
+                  <div style={{ width: "300px" }}>
+
+                    <Box pt={3}>
+                      Gender:
+                      <Autocomplete
+                        id="gender-dropdown"
+                        options={genderOptions}
+                        onChange={(event, value) => finder(value, "Gender")}
+                        getOptionLabel={(option) => option}
+                        style={{ width: 300 }}
+                        renderInput={(params) => (
+                          <TextField {...params} variant="outlined" />
+                        )}
+                      />
+                    </Box>
+
+
+                  </div>
+                  <div style={{ width: "300px" }}>
+                    <Box pt={3}>
+                      Country:
+                      <Autocomplete
+                        id="country-dropdown"
+                        options={countryData}
+                        getOptionLabel={(option) => option}
+                        onChange={(event, value) => finder(value, "Country")}
+                        style={{ width: 300 }}
+                        renderInput={(params) => (
+                          <TextField {...params} variant="outlined" />
+                        )}
+                      />
+                    </Box>
+                  </div>
+                  <div style={{ width: "300px" }}>
+                    <Box pt={3}>
+                      State/Province:
+                      <Autocomplete
+                        id="state-dropdown"
+                        options={stateOptions}
+                        getOptionLabel={(option) => option.label}
+                        style={{ width: 300 }}
+                        renderInput={(params) => (
+                          <TextField {...params} variant="outlined" />
+                        )}
+                      />
+                    </Box>
+                  </div>
+                  <div style={{ width: "300px" }}>
+                    <Box pt={3}>
+                      City:
+                      <Autocomplete
+                        id="city-dropdown"
+                        options={cityData}
+                        getOptionLabel={(option) => option}
+                        style={{ width: 300 }}
+                        renderInput={(params) => (
+                          <TextField {...params} variant="outlined" />
+                        )}
+                      />
+                    </Box>
+                  </div>
+                </Grid>
+                <Grid item xs={7} md={7} lg={6}>
+                  <Box pt={3}>
+
+                  </Box>
+                  <Paper className={classes.paper}>
+                    <Typography variant="h6" gutterBottom>
+                      Data Summary
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Mean Salary:
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Median Salary:
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Average Age:
+                    </Typography>
+                  </Paper>
                   <Box pt={5}>
-                    
+
                   </Box>
                   <Paper className={classes.paper} elevation={0}>
                     <MarkerMap
@@ -301,7 +415,7 @@ export default function FilterAndSearch() {
                     />
                   </Paper>
                 </Grid>
-              </Grid> 
+              </Grid>
             </Grid>
           </Grid>
           <Box pt={5}>
