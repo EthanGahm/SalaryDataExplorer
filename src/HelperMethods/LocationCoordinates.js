@@ -19,8 +19,6 @@ export default async function getCoordinates(list) {
     }
     coordsList.push(temp);
   }
-
-  console.log(coordsList);
   return coordsList;
 }
 /**
