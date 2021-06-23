@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -20,6 +20,10 @@ import Title from "./Title";
 import PageTitle from "./PageTitle";
 import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import axios from 'axios';
+
+
 import {
   RadarChart,
   Radar,
@@ -38,25 +42,13 @@ import {
   Label,
   Tooltip,
   Legend,
+  LabelList,
 } from "recharts";
-
-const colors = ["#0088FE", "#00C49F", "#FFBB28"];
-
-const data1 = [
-  { age: "under 18", salary: 40 },
-  { age: "18-24", salary: 70 },
-  { age: "25-34", salary: 130 },
-  { age: "35-44", salary: 170 },
-  { age: "45-54", salary: 220 },
-  { age: "55-64", salary: 250 },
-  { age: "65 or over", salary: 300 },
-];
-const data = [
-  { name: "Computing or Tech", val: 100, fill: colors[0] },
-  { name: "Accounting, Banking & Finance", val: 50, fill: colors[1] },
-  { name: "Education (Higher Education)", val: 170, fill: colors[2] },
-];
-
+var data1 = [];
+var data2 = [];
+var data3 = [];
+var data4 = [];
+var data5 = [];
 export default function DataComparisons() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -67,8 +59,39 @@ export default function DataComparisons() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  const colors = ["#0088FE", "#00C49F", "#FFBB28"];
+  const colors1 = ['#ABCDEF', '#009900', '#CCCC00', '#FF0000', '#3333FF', '#00CCCC', '#FF00FF'];
 
-  return (
+  useEffect(() => {
+    (async function getData() {
+  
+      var response1 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/numALL');
+      data1 = response1.data;
+      console.log(data1);
+      var response2 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/salaries');
+      data2 = response2.data;
+      data2.sort((a, b) => (b.val - a.val) );
+      data2 = data2.slice(0,3)
+      var response5 = await axios.get('http://localhost:8080/salary_data/2019_salaries');
+      data5 = response5.data;
+      data5.sort((a, b) => (b.val - a.val) );
+      data5 = data5.slice(0,3)
+       
+      var response3 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/degrees');
+      data3 = response3.data;
+      for (let i = 0; i < data3.length; i++) {
+        data3[i].fill = colors1[i];
+      }
+      var response4 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/ages');
+      data4 = response4.data;
+      data4.sort((a, b) => (a._id > b._id) ? 1 : -1);
+      data4.unshift(data4.pop());
+      setIsLoaded(true);
+  
+    })();
+  }, [data2]);
+   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
@@ -126,124 +149,66 @@ export default function DataComparisons() {
                 datasets.
               </Paper>
             </Grid>
-
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={classes.paper}>
-                <center>
-                  <h4>Salary Over Time for Computer Scientists</h4>
-                </center>
-                <center>
-                  <LineChart
-                    width={700}
-                    height={300}
-                    data={data1}
-                    margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="age" padding={{ left: 10, right: 10 }}>
-                      <Label value="Age" offset={-15} position="insideBottom" />
-                    </XAxis>
-                    <YAxis
-                      label={{
-                        value: "Salary",
-                        angle: -90,
-                        position: "insideLeft",
-                      }}
+            <Grid item xs = {12} md = {8} lg = {12}>
+              <Paper className = {classes.paper}>
+                <center><h4>Average Annual Salary Across Industries</h4></center>
+                {!isLoaded ? (
+                  <center>
+                  <CircularProgress />
+                  </center>
+                ) : (
+                  <center>
+                    <BarChart 
+                      width = {1000} 
+                      height = {500} 
+                      data = {data2} 
+                      margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
+                    >
+                    <CartesianGrid strokeDasharray = "3 3" />
+                    <XAxis dataKey = "_id"/>
+                    <YAxis 
+                      label = {{value: "Salary ($k)", angle: -90, position: "insideLeft"}}
+                      domain = {[0, 160]}
                     />
+                    <Bar 
+                      dataKey = "val" 
+                      fill = {colors[1]}  
+                    >
+                      <LabelList dataKey = "_id" angle = {90} position = "center" fontSize = {12}/>
+                    </Bar>
                     <Tooltip />
-                    <Line type="monotone" dataKey="salary" fill={colors[0]} />
-                  </LineChart>
-                </center>
+                    </BarChart>
+                    <BarChart 
+                      width = {1000} 
+                      height = {500} 
+                      data = {data5} 
+                      margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
+                    >
+                    <CartesianGrid strokeDasharray = "3 3" />
+                    <XAxis dataKey = "_id"/>
+                    <YAxis 
+                      label = {{value: "Salary ($k)", angle: -90, position: "insideLeft"}}
+                      domain = {[0, 160]}
+                    />
+                    <Bar 
+                      dataKey = "val" 
+                      fill = {colors[2]}  
+                    >
+                      <LabelList dataKey = "_id" angle = {90} position = "center" fontSize = {12}/>
+                    </Bar>
+                    <Tooltip />
+                    </BarChart>
+                  </center>
+                )
+                }
               </Paper>
             </Grid>
-          </Grid>
 
-          <Grid item xs={12} md={8} lg={9}>
-            <Paper className={classes.paper}>
-              <h4>
-                <center>Number of People for Each Degree</center>
-              </h4>
-              <center>
-                <PieChart
-                  width={300}
-                  height={350}
-                  margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
-                >
-                  <Pie
-                    data={data}
-                    dataKey="val"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={100}
-                    label
-                  />
-                  <Legend />
-                </PieChart>
-              </center>
-            </Paper>
-          </Grid>
-
-          <Grid item xs={12} md={8} lg={9}>
-            <Paper className={classes.paper}>
-              <center>
-                <h4>Salaries for Different Jobs</h4>
-              </center>
-              <center>
-                <BarChart
-                  width={700}
-                  height={300}
-                  data={data}
-                  margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" padding={{ left: 10, right: 10 }} />
-                  <YAxis
-                    label={{
-                      value: "Salary",
-                      angle: -90,
-                      position: "insideLeft",
-                    }}
-                  />
-                  <Bar dataKey="val" fill={colors[2]} />
-                  <Tooltip />
-                </BarChart>
-              </center>
-            </Paper>
-          </Grid>
-
-          <Grid item xs={12} md={8} lg={9}>
-            <Paper className={classes.paper}>
-              <center>
-                <h4>Distribution of People in the Job Market</h4>
-              </center>
-              <center>
-                <RadarChart
-                  outerRadius={100}
-                  width={600}
-                  height={250}
-                  data={data}
-                >
-                  <PolarGrid />
-                  <PolarAngleAxis dataKey="name" />
-                  <PolarRadiusAxis angle={30} domain={[0, 150]} />
-                  <Radar
-                    name="Men"
-                    dataKey="val"
-                    fill={colors[1]}
-                    fillOpacity={0.5}
-                    animationBegin
-                    animationDuration={3000}
-                  />
-                  <Legend />
-                </RadarChart>
-              </center>
-            </Paper>
-          </Grid>
 
           <Box pt={4}>
             <Copyright />
           </Box>
+          </Grid>
         </Container>
       </main>
     </div>
