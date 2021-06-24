@@ -91,6 +91,9 @@ export default function DataComparisons() {
   
     })();
   }, [data2]);
+
+ 
+
    return (
     <div className={classes.root}>
       <CssBaseline />
@@ -136,7 +139,9 @@ export default function DataComparisons() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={8} lg={9}>
+            <center>
               <Paper className={classes.paper}>
+                <center>
                 <Title>Comparing the 2021 Dataset to Other Datasets</Title>
                 As our team analyzed and cleaned the 2021 survey responses on
                 the AskAManager.org site, we wanted to see how they compared to
@@ -147,17 +152,20 @@ export default function DataComparisons() {
                 States of America. Below are some of the most interesting trends
                 and analyses we were able to make when looking at all of these
                 datasets.
+                </center>
               </Paper>
+              </center>
             </Grid>
             <Grid item xs = {12} md = {8} lg = {12}>
               <Paper className = {classes.paper}>
-                <center><h4>Average Annual Salary Across Industries</h4></center>
+                <center><h4>Top 3 Highest Earning Industries : 2019 vs 2021</h4></center>
                 {!isLoaded ? (
                   <center>
                   <CircularProgress />
                   </center>
                 ) : (
                   <center>
+                    
                     <BarChart 
                       width = {1000} 
                       height = {500} 
@@ -170,6 +178,7 @@ export default function DataComparisons() {
                       label = {{value: "Salary ($k)", angle: -90, position: "insideLeft"}}
                       domain = {[0, 160]}
                     />
+                
                     <Bar 
                       dataKey = "val" 
                       fill = {colors[1]}  
@@ -177,6 +186,9 @@ export default function DataComparisons() {
                       <LabelList dataKey = "_id" angle = {90} position = "center" fontSize = {12}/>
                     </Bar>
                     <Tooltip />
+                    
+                     
+                     
                     </BarChart>
                     <BarChart 
                       width = {1000} 
@@ -190,13 +202,14 @@ export default function DataComparisons() {
                       label = {{value: "Salary ($k)", angle: -90, position: "insideLeft"}}
                       domain = {[0, 160]}
                     />
+                   
                     <Bar 
                       dataKey = "val" 
                       fill = {colors[2]}  
                     >
                       <LabelList dataKey = "_id" angle = {90} position = "center" fontSize = {12}/>
                     </Bar>
-                    <Tooltip />
+                    <Tooltip/>
                     </BarChart>
                   </center>
                 )
