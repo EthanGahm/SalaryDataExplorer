@@ -25,18 +25,18 @@ export default function Graph() {
   useEffect(() => {
     (async function getData() {
 
-      var response1 = await axios.get('http://localhost:5000/salary_data/numALL');
+      var response1 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/numALL');
       data1 = response1.data;
       console.log(data1);
-      var response2 = await axios.get('http://localhost:5000/salary_data/salaries');
+      var response2 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/salaries');
       data2 = response2.data;
       data2.sort((a, b) => (a._id > b._id) ? 1 : -1);
-      var response3 = await axios.get('http://localhost:5000/salary_data/degrees');
+      var response3 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/degrees');
       data3 = response3.data;
       for (let i = 0; i < data3.length; i++) {
         data3[i].fill = colors1[i];
       }
-      var response4 = await axios.get('http://localhost:5000/salary_data/ages');
+      var response4 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/ages');
       data4 = response4.data;
       data4.sort((a, b) => (a._id > b._id) ? 1 : -1);
       data4.unshift(data4.pop());
