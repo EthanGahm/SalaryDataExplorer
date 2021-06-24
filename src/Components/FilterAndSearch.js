@@ -278,10 +278,10 @@ export default function FilterAndSearch() {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Title>Set Parameters and Search the Dataset</Title>
-              <Grid item xs={12} md={12} lg={5} container>
-                <Grid item xs={5} md={5} lg={5}>
+              <Grid item xs={12} md={12} lg={12} container>
+                <Grid item xs={6} md={6} lg={6}>
 
-                  <div style={{ width: '100%' }}>
+                  <div style={{ width: '95%' }}>
                     <DataGrid
                       rows={tableRow}
                       columns={columns}
@@ -384,7 +384,7 @@ export default function FilterAndSearch() {
                     </Box>
                   </div>
                 </Grid>
-                <Grid item xs={7} md={7} lg={6}>
+                <Grid item xs={6} md={6} lg={6}>
                   <Box pt={3}>
 
                   </Box>
