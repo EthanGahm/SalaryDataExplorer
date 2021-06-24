@@ -31,8 +31,7 @@ import MarkerMap from "./GoogleMaps.js";
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { mergeClasses } from "@material-ui/styles";
 import getLocationsFromJSON from '../HelperMethods/ExtractLocationFromJSON'
-import Button from '@material-ui/core/Button';
-
+import getSalaryFromJSON from '../HelperMethods/ExtractSalaryFromJSON'
 
 export default function FilterAndSearch() {
 
@@ -206,6 +205,34 @@ export default function FilterAndSearch() {
     data.then((data) => setpinLocations(data))
   }, [])
 
+  // Salary state
+  const [salary, setSalary] = React.useState([])
+  React.useEffect(() => {
+    let data = getSalaryFromJSON(url)
+    data.then((data) => setSalary(data))
+  }, [])
+
+  // Calculates the mean salary
+  const calculateMeanSalary = () => {
+    var add = 0;
+    for (var i = 0; i < salary.length; i++) {
+      add = add + salary[i];
+    }
+    const mean = add/salary.length;
+    return parseInt(mean);
+    
+  }
+  const meanSalary = calculateMeanSalary()
+  
+  //Calculates the median salary
+  const calculateMedianSalary = () => {
+    const salarySort = salary.sort();
+    const mid = Math.ceil(salary.length/2);
+    const median = salary.length % 2 == 0 ? (salarySort[mid] + salarySort[mid - 1]) / 2 : salarySort[mid - 1];
+    return parseInt(median)
+  }
+  const medianSalary = calculateMedianSalary();
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -249,7 +276,7 @@ export default function FilterAndSearch() {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Title>Set Parameters and Search the Dataset</Title>
-              <Grid item xs={12} md={12} lg={12} container>
+              <Grid item xs={12} md={12} lg={12} container maxwidth={'lg'}>
                 <Grid item xs={6} md={6} lg={6}>
                   <div style={{ width: '95%' }}>
                     <DataGrid
@@ -373,10 +400,10 @@ export default function FilterAndSearch() {
                       Data Summary
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
-                      Mean Salary:
+                      Mean Salary: {meanSalary}
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
-                      Median Salary:
+                      Median Salary: {medianSalary}
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
                       Average Age:
