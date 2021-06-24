@@ -22,7 +22,6 @@ import Slider from "@material-ui/core/Slider";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import { positions } from '@material-ui/system';
-import Tabletop from "tabletop";
 import { useEffect, useState } from "react";
 import GoogleMaps from "./GoogleMaps.js";
 import axios from "axios";
@@ -30,11 +29,10 @@ import { DataGrid } from "@material-ui/data-grid";
 import PageTitle from "./PageTitle";
 import MarkerMap from "./GoogleMaps.js";
 import NativeSelect from '@material-ui/core/NativeSelect';
-
-
 import { mergeClasses } from "@material-ui/styles";
 import getLocationsFromJSON from '../HelperMethods/ExtractLocationFromJSON'
 import getSalaryFromJSON from '../HelperMethods/ExtractSalaryFromJSON'
+
 export default function FilterAndSearch() {
 
   // Columns for table
@@ -54,32 +52,21 @@ export default function FilterAndSearch() {
 
   useEffect(() => {
     retrieveIndustries();
-    retrieveAllData();
     retrieveCountries();
     retrieveCities();
+    retrieveStates();
   }, []);
 
+
+
+
   // All data
+  const [filters, setFilters] = useState([]);
   const [allData, setAllData] = useState([]);
 
-  function getAll() {
-    var res = axios.get(`http://localhost:5000/salary_data/all_2021`);
-    return res
-  }
-
-  const retrieveAllData = () => {
-    getAll()
-      .then(response => {
-        setAllData(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
-
-  const refreshData = () => {
-    retrieveAllData();
-  }
+  useEffect(() =>{
+    finder();
+  }, [filters])
 
   // Rows for table
   let dataRows = allData.rows;
@@ -87,13 +74,26 @@ export default function FilterAndSearch() {
   for (var i in dataRows)
     tableRow.push(Object.values(dataRows[i]));
 
+
   // Table filter
-  function find(query, by) {
-    return axios.get(`http://localhost:5000/salary_data/all_2021?${by}=${query}`);
+  function find(filters) {
+    if (filters == null) {
+      return
+    }
+    const dataURL = new URL("http://localhost:5000/salary_data/all_2021?")
+    for (const [key, value] of Object.entries(filters)) {
+      if(value == null){
+        filters[key] = ""
+      }
+      dataURL.searchParams.append(key, value);
+    }
+    console.log(dataURL.href)
+    return axios.get(dataURL);
   }
 
-  const finder = (query, by) => {
-    find(query, by)
+  
+  const finder = () => {
+    find(filters)
       .then(response => {
         setAllData(response.data);
       })
@@ -103,9 +103,9 @@ export default function FilterAndSearch() {
   };
 
 
+
   // Industry data
   const [industriesData, setIndustries] = useState([]);
-  const [industrySearch, setIndustrySearch] = useState("");
 
   function getIndustries() {
     var res = axios.get('http://localhost:5000/salary_data/industries');
@@ -122,38 +122,14 @@ export default function FilterAndSearch() {
       });
   };
 
-  // const findByIndustry = (event, value) => {
-  //   console.log(value)
-  //   setIndustrySearch(value)
-  //   finder(industrySearch, "Industry")
-  //   refreshData()
-  // }
-
-  // Age State Handler
-  const handleChange = (event) => {
-    finder(event.target.value, "Age")
-  };
-
-
-  const [data, setData] = useState([]);
 
 
   // Gender Data
-  const [genderData, setGenderData] = useState('');
-
   const genderOptions = [
     'Woman', 'Man', 'Non-binary', 'Other or prefer not to answer'
   ]
 
-  // const genderOnChange = (event, value) => {
-  //   console.log(value);
-  //   setGenderData(value);
-  //   finder(genderData, "Gender");
-  // }
-
-
   // Country data
-
   const [countryData, setCountryData] = useState([]);
 
   function getCountries() {
@@ -172,19 +148,29 @@ export default function FilterAndSearch() {
   };
 
 
-
-
   // State/Province data
-  const states = data.map(item => (item.State));
-  const stateset = new Set(states);
-  let statearray = [...stateset];
-  const stateOptions = statearray.map(item => ({ label: item, value: item }));
 
+  const [stateData, setStateData] = useState([]);
+
+  function getStates() {
+    var res = axios.get('http://localhost:5000/salary_data/states')
+    return res
+  }
+
+  const retrieveStates = () => {
+    getStates()
+      .then(response => {
+        setStateData(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
 
 
   // City data
-
   const [cityData, setCityData] = useState([]);
+  var filteredCityData = cityData.filter(function (val) { return val !== null })
 
   function getCities() {
     var res = axios.get('http://localhost:5000/salary_data/cities');
@@ -201,18 +187,6 @@ export default function FilterAndSearch() {
       });
   };
 
-
-
-  // Utilizes tabletop to get data from google spreadsheet
-  useEffect(() => {
-    Tabletop.init({
-      key: "1bacAOGeeXSRUy5jzovspRcS-SPwWxaXjp8AqONnD290",
-      simpleSheet: true
-    })
-      .then((data) => setData(data))
-      .catch((err) => console.warn(err));
-  }, []);
-
   // Page Styling
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -222,10 +196,6 @@ export default function FilterAndSearch() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-
-
-
 
   // Map marker state
   const url = "https://salary-data-api.herokuapp.com/salary_data/all_2021";
@@ -308,7 +278,6 @@ export default function FilterAndSearch() {
               <Title>Set Parameters and Search the Dataset</Title>
               <Grid item xs={12} md={12} lg={12} container maxwidth={'lg'}>
                 <Grid item xs={6} md={6} lg={6}>
-
                   <div style={{ width: '95%' }}>
                     <DataGrid
                       rows={tableRow}
@@ -327,7 +296,8 @@ export default function FilterAndSearch() {
                         getOptionLabel={(option) => option}
                         style={{ width: 300 }}
                         renderInput={(params) => <TextField {...params} variant="outlined" />}
-                        onChange={(event, value) => finder(value, "Industry")}
+                        onChange={(event, value) => setFilters(filters => ({ ...filters, "Industry": value }))}
+                      //onChange={(event, value) => finder(value, "Industry")}
                       />
                     </Box>
                   </div>
@@ -336,7 +306,7 @@ export default function FilterAndSearch() {
                     <div className={classes.root} >
                       <NativeSelect
                         id="demo-customized-select-native"
-                        onChange={handleChange}
+                        onChange={(event) => setFilters(filters => ({ ...filters, "Age": event.target.value }))}
                       >
                         <option value="">None</option>
                         <option value={'under 18'}>Under 18</option>
@@ -357,9 +327,9 @@ export default function FilterAndSearch() {
                       <Autocomplete
                         id="gender-dropdown"
                         options={genderOptions}
-                        onChange={(event, value) => finder(value, "Gender")}
                         getOptionLabel={(option) => option}
                         style={{ width: 300 }}
+                        onChange={(event, value) => setFilters(filters => ({ ...filters, "Gender": value }))}
                         renderInput={(params) => (
                           <TextField {...params} variant="outlined" />
                         )}
@@ -375,7 +345,7 @@ export default function FilterAndSearch() {
                         id="country-dropdown"
                         options={countryData}
                         getOptionLabel={(option) => option}
-                        onChange={(event, value) => finder(value, "Country")}
+                        onChange={(event, value) => setFilters(filters => ({ ...filters, "Country": value }))}
                         style={{ width: 300 }}
                         renderInput={(params) => (
                           <TextField {...params} variant="outlined" />
@@ -388,8 +358,9 @@ export default function FilterAndSearch() {
                       State/Province:
                       <Autocomplete
                         id="state-dropdown"
-                        options={stateOptions}
-                        getOptionLabel={(option) => option.label}
+                        options={stateData}
+                        getOptionLabel={(option) => option}
+                        onChange={(event, value) => setFilters(filters => ({ ...filters, "State": value }))}
                         style={{ width: 300 }}
                         renderInput={(params) => (
                           <TextField {...params} variant="outlined" />
@@ -402,13 +373,21 @@ export default function FilterAndSearch() {
                       City:
                       <Autocomplete
                         id="city-dropdown"
-                        options={cityData}
+                        options={filteredCityData}
                         getOptionLabel={(option) => option}
+                        onChange={(event, value) => setFilters(filters => ({ ...filters, "City": value }))}
                         style={{ width: 300 }}
                         renderInput={(params) => (
                           <TextField {...params} variant="outlined" />
                         )}
                       />
+                    </Box>
+                  </div>
+                  <div>
+                    <Box pt={5}>
+                      {/* <Button variant="contained" color="primary" onClick={finder()}>
+                        Search
+                      </Button> */}
                     </Box>
                   </div>
                 </Grid>
