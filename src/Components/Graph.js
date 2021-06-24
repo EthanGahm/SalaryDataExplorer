@@ -31,7 +31,7 @@ export default function Graph() {
       var response2 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/salaries');
       data2 = response2.data;
       data2.sort((a, b) => (a._id > b._id) ? 1 : -1);
-      var response3 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/degrees');
+      var response3 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/disDegrees');
       data3 = response3.data;
       for (let i = 0; i < data3.length; i++) {
         data3[i].fill = colors1[i];
@@ -64,23 +64,64 @@ export default function Graph() {
                 ) : (
                   <center>
                     <RadarChart
-                      innerRadius={100}
+                      innerRadius={90}
                       outerRadius={270}
                       width={1000}
                       height={600}
                       data={data1}
+                      fill={'#000000'}
                     >
                       <PolarGrid />
                       <PolarAngleAxis dataKey="name" fontSize = {12} />
                       <PolarRadiusAxis angle={30} domain={[0, 4500]} />
                       <Radar
                         name="People"
-                        dataKey="val"
-                        fill={colors[2]}
-                        fillOpacity={0.5}
+                        dataKey="all"
+                        fill={'#0000FF'}
+                        fillOpacity={0.3}
+                      >
+                        <LabelList dataKey = "all" position = "insideStart" angle = {0} />
+                      </Radar>
+                      <Radar
+                        name="Men"
+                        dataKey="man"
+                        fill={'#0000FF'}
+                        fillOpacity={0.1}
                       >
                         <LabelList dataKey = "val" position = "insideStart" angle = {0} />
                       </Radar>
+                      <Radar
+                        name="Women"
+                        dataKey="woman"
+                        fill={'#FF0000'}
+                        fillOpacity={0.1}
+                      >
+                        <LabelList dataKey = "val" position = "insideStart" angle = {0} />
+                      </Radar>
+                      <Radar
+                        name="Non-Binary"
+                        dataKey="non_binary"
+                        fill={'#00cc00'}
+                        fillOpacity={0.1}
+                      >
+                        <LabelList dataKey = "val" position = "insideStart" angle = {0} />
+                      </Radar>
+                      <Radar
+                        name="Other"
+                        dataKey="other"
+                        fill={'#cccc00'}
+                        fillOpacity={0.1}
+                      >
+                        <LabelList dataKey = "val" position = "insideStart" angle = {0} />
+                      </Radar>
+                      {/* <Radar
+                        name="No Answer"
+                        dataKey="no_answer"
+                        fill={'#0000FF'}
+                        fillOpacity={0.3}
+                      >
+                        <LabelList dataKey = "val" position = "insideStart" angle = {0} />
+                      </Radar> */}
                       <Legend />
                       <Tooltip />
                     </RadarChart>
