@@ -57,7 +57,7 @@ export default function DataSummary() {
       // for (let i = 0; i < data3.length; i++) {
       //   data3[i].fill = colors1[i];
       // }
-      var response4 = await axios.get('http://localhost:5000/salary_data/ages');
+      var response4 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/ages');
       data4 = response4.data;
       data4.sort((a, b) => (a._id > b._id) ? 1 : -1);
       data4.unshift(data4.pop());
