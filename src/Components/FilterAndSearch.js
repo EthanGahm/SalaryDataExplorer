@@ -63,39 +63,39 @@ export default function FilterAndSearch() {
   // All data
   const [filters, setFilters] = useState([]);
   const [allData, setAllData] = useState([]);
+  const [tableRow, setTableRow] = useState([]);
 
-  useEffect(() =>{
+  useEffect(() => {
     finder();
   }, [filters])
 
   // Rows for table
-  let dataRows = allData.rows;
-  var tableRow = [];
-  for (var i in dataRows)
-    tableRow.push(Object.values(dataRows[i]));
+  useEffect(() => {
+    if(allData !== []){
+      setTableRow(Object.values(allData.rows))
+    }
+  }, [allData])
 
 
   // Table filter
-  function find(filters) {
-    if (filters == null) {
-      return
-    }
+  function find() {
     const dataURL = new URL("http://localhost:5000/salary_data/all_2021?")
     for (const [key, value] of Object.entries(filters)) {
-      if(value == null){
+      if (value == null) {
         filters[key] = ""
       }
       dataURL.searchParams.append(key, value);
     }
     console.log(dataURL.href)
-    return axios.get(dataURL);
+    return axios.get(dataURL.href);
   }
 
-  
+
   const finder = () => {
-    find(filters)
+    find()
       .then(response => {
         setAllData(response.data);
+        console.log(allData)
       })
       .catch(e => {
         console.log(e);
@@ -282,7 +282,7 @@ export default function FilterAndSearch() {
                     <DataGrid
                       rows={tableRow}
                       columns={columns}
-                      getRowId={(row) => row[0]}
+                      getRowId={(row) => row._id}
                       pageSize={5}
                       autoHeight={true}
                     />
