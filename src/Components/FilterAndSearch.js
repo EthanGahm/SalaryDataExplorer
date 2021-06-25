@@ -62,47 +62,33 @@ export default function FilterAndSearch() {
 
   // All data
   const [filters, setFilters] = useState([]);
-  const [allData, setAllData] = useState([]);
-  const [tableRow, setTableRow] = useState([]);
+  const [tableRows, setTableRows] = useState([]);
 
   useEffect(() => {
-    finder();
+    const response = find(filters);
+    const tempRows = [];
+    response.then((res) => {
+      for (const row of Object.values(res.data.rows)) {
+        tempRows.push(Object.values(row));
+      }
+      setTableRows(tempRows)
+    }).catch((e) => {
+      console.error(e);
+    });
   }, [filters])
 
-  // Rows for table
-  useEffect(() => {
-    if(allData !== []){
-      setTableRow(Object.values(allData.rows))
-    }
-  }, [allData])
-
-
   // Table filter
-  function find() {
+  function find(filters) {
     const dataURL = new URL("http://localhost:5000/salary_data/all_2021?")
     for (const [key, value] of Object.entries(filters)) {
-      if (value == null) {
+      if (value === null) {
         filters[key] = ""
       }
       dataURL.searchParams.append(key, value);
     }
     console.log(dataURL.href)
-    return axios.get(dataURL.href);
+    return axios.get(dataURL);
   }
-
-
-  const finder = () => {
-    find()
-      .then(response => {
-        setAllData(response.data);
-        console.log(allData)
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
-
-
 
   // Industry data
   const [industriesData, setIndustries] = useState([]);
@@ -198,6 +184,7 @@ export default function FilterAndSearch() {
   };
 
   // Map marker state
+  /*
   const url = "https://salary-data-api.herokuapp.com/salary_data/all_2021";
   const [pinLocations, setpinLocations] = React.useState([])
   React.useEffect(() => {
@@ -211,6 +198,7 @@ export default function FilterAndSearch() {
     let data = getSalaryFromJSON(url)
     data.then((data) => setSalary(data))
   }, [])
+  
 
   // Calculates the mean salary
   const calculateMeanSalary = () => {
@@ -218,20 +206,21 @@ export default function FilterAndSearch() {
     for (var i = 0; i < salary.length; i++) {
       add = add + salary[i];
     }
-    const mean = add/salary.length;
+    const mean = add / salary.length;
     return parseInt(mean);
-    
+
   }
   const meanSalary = calculateMeanSalary()
-  
+
   //Calculates the median salary
   const calculateMedianSalary = () => {
     const salarySort = salary.sort();
-    const mid = Math.ceil(salary.length/2);
+    const mid = Math.ceil(salary.length / 2);
     const median = salary.length % 2 == 0 ? (salarySort[mid] + salarySort[mid - 1]) / 2 : salarySort[mid - 1];
     return parseInt(median)
   }
   const medianSalary = calculateMedianSalary();
+  */
 
   return (
     <div className={classes.root}>
@@ -280,9 +269,9 @@ export default function FilterAndSearch() {
                 <Grid item xs={6} md={6} lg={6}>
                   <div style={{ width: '95%' }}>
                     <DataGrid
-                      rows={tableRow}
+                      rows={tableRows}
                       columns={columns}
-                      getRowId={(row) => row._id}
+                      getRowId={(row) => row[0]}
                       pageSize={5}
                       autoHeight={true}
                     />
@@ -296,7 +285,11 @@ export default function FilterAndSearch() {
                         getOptionLabel={(option) => option}
                         style={{ width: 300 }}
                         renderInput={(params) => <TextField {...params} variant="outlined" />}
-                        onChange={(event, value) => setFilters(filters => ({ ...filters, "Industry": value }))}
+                        onChange={(event, value) => {
+                          (value === null)
+                            ? setFilters(filters => ({ ...filters, "Industry": "" }))
+                            : setFilters(filters => ({ ...filters, "Industry": value }))
+                        }}
                       //onChange={(event, value) => finder(value, "Industry")}
                       />
                     </Box>
@@ -395,7 +388,7 @@ export default function FilterAndSearch() {
                   <Box pt={3}>
 
                   </Box>
-                  <Paper className={classes.paper}>
+                  {/* <Paper className={classes.paper}>
                     <Typography variant="h6" gutterBottom>
                       Data Summary
                     </Typography>
@@ -408,18 +401,18 @@ export default function FilterAndSearch() {
                     <Typography variant="subtitle1" gutterBottom>
                       Average Age:
                     </Typography>
-                  </Paper>
+                  </Paper> */}
                   <Box pt={5}>
 
                   </Box>
                   <Paper className={classes.paper} elevation={0}>
-                    <MarkerMap
+                    {/* <MarkerMap
                       location={location}
                       zoomLevel={8}
                       pinLocations={
                         pinLocations
                       }
-                    />
+                    /> */}
                   </Paper>
                 </Grid>
               </Grid>
