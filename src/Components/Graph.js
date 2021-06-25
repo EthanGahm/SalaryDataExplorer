@@ -74,14 +74,14 @@ export default function Graph() {
                       <PolarGrid />
                       <PolarAngleAxis dataKey="name" fontSize = {12} />
                       <PolarRadiusAxis angle={30} domain={[0, 4500]} />
-                      <Radar
+                      {/* <Radar
                         name="People"
                         dataKey="all"
                         fill={'#0000FF'}
                         fillOpacity={0.3}
                       >
                         <LabelList dataKey = "all" position = "insideStart" angle = {0} />
-                      </Radar>
+                      </Radar> */}
                       <Radar
                         name="Men"
                         dataKey="man"
@@ -101,7 +101,7 @@ export default function Graph() {
                       <Radar
                         name="Non-Binary"
                         dataKey="non_binary"
-                        fill={'#00cc00'}
+                        fill={'#00FF00'}
                         fillOpacity={0.1}
                       >
                         <LabelList dataKey = "val" position = "insideStart" angle = {0} />
@@ -151,7 +151,7 @@ export default function Graph() {
                       domain = {[0, 160]}
                     />
                     <Bar 
-                      dataKey = "val" 
+                      dataKey = "salary" 
                       fill = {colors[1]}  
                     >
                       <LabelList dataKey = "_id" angle = {90} position = "center" fontSize = {12}/>
@@ -215,7 +215,7 @@ export default function Graph() {
                       <Tooltip />
                       <YAxis label = {{value: "Salary $k", angle: -90, position: "insideLeft"}} 
                       domain = {[0, 120]}/>
-                      <Line type="monotone" dataKey="val" fill = {colors[0]} />
+                      <Line type="monotone" dataKey="salary" fill = {colors[0]} />
                     </LineChart>
                   </center>
                 )}

@@ -189,8 +189,8 @@ export default function DataSummary() {
                     <Tooltip />
                     <YAxis label = {{value: "Salary $k", angle: -90, position: "insideLeft"}} 
                     domain = {[0, 120]}/>
-                    <Line type="monotone" dataKey="val" fill = {colors[0]} 
-                    label = {{value: 'val', position: "top"}}/>
+                    <Line type="monotone" dataKey="salary" fill = {colors[0]} activeDot = {{r: 8}}
+                    label = {{value: 'salary', position: "top"}}/>
                   </LineChart></center>
                 )}
               </Paper>
@@ -211,7 +211,7 @@ export default function DataSummary() {
                       <Pie 
                         data = {data2} 
                         dataKey = "val" 
-                        nameKey = "_id" 
+                        nameKey = "_id"
                         cx = "50%" 
                         cy = "50%" 
                         outerRadius = {90} 
@@ -290,7 +290,7 @@ export default function DataSummary() {
                   <YAxis 
                     label = {{value: "Salary ($k)", angle: -90, position: "insideLeft"}} 
                     domain = {[30, 150]} />
-                  <Bar dataKey = "val">
+                  <Bar dataKey = "salary">
                     <LabelList 
                       dataKey = "_id" 
                       angle = {270} 
@@ -347,7 +347,7 @@ export default function DataSummary() {
                         domain = {[30, 150]}
                       />
                       <Bar 
-                        dataKey = "val" 
+                        dataKey = "salary" 
                         fill = {colors[1]}  
                       >
                         <LabelList 
