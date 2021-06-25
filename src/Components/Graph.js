@@ -69,6 +69,7 @@ export default function Graph() {
                       width={1000}
                       height={600}
                       data={data1}
+                      fill={'#000000'}
                     >
                       <PolarGrid />
                       <PolarAngleAxis dataKey="name" fontSize = {12} />
