@@ -8,6 +8,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import Typography from "@material-ui/core/Typography";
+import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
 import { Link } from "react-router-dom";
 
 export const mainListItems = (
@@ -29,6 +30,17 @@ export const mainListItems = (
           <TimelineIcon />
         </ListItemIcon>
         <ListItemText primary="Data Summary" />
+      </ListItem>
+    </Link>
+    <Link
+      to="/DataComparisons"
+      style={{ textDecoration: "none", color: "#558aac" }}
+    >
+      <ListItem button>
+        <ListItemIcon>
+          <CompareArrowsIcon />
+        </ListItemIcon>
+        <ListItemText primary="Comparing Datasets" />
       </ListItem>
     </Link>
     <Link
