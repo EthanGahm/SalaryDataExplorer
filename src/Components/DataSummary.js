@@ -15,10 +15,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import mainListItems from "./listItems";
 import Copyright from "./Copyright";
-import Title from "./Title";
+// import Title from "./Title";
 import PageTitle from "./PageTitle";
-import FirstDatasetTable from "./FirstDatasetTable";
-import SecondDatasetTable from "./SecondDatasetTable";
 import useStyles from "./UseStyles.js";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
@@ -44,15 +42,7 @@ import {
 } from "recharts";
 
 const colors = ["#0088FE", "#82ca9d", "#FFBB28"];
-const colors1 = [
-  "#ABCDEF",
-  "#009900",
-  "#CCCC00",
-  "#FF0000",
-  "#3333FF",
-  "#00CCCC",
-  "#FF00FF",
-];
+const colors1 = ['#ABCDEF', '#00cc14', '#CCCC00', '#FF4D4D', '#9999ff', '#00CCCC', '#FF00FF'];
 var data1 = [];
 var data2 = [];
 var data3 = [];
@@ -104,6 +94,30 @@ export default function DataSummary() {
       );
       data3 = response3.data;
       for (let i = 0; i < data3.length; i++) {
+        if (data3[i]._id === 'High School') {
+          data3[i].compare = 0;
+        }
+        if (data3[i]._id === 'Some college') {
+          data3[i].compare = 1;
+        }
+        if (data3[i]._id === 'College degree') {
+          data3[i].compare = 2;
+        }
+        if (data3[i]._id === 'Master\'s degree') {
+          data3[i].compare = 3;
+        }
+        if (data3[i]._id === 'PhD') {
+          data3[i].compare = 4;
+        }
+        if (data3[i]._id === 'Professional degree (MD, JD, etc.)') {
+          data3[i].compare = 5;
+        }
+        if (data3[i]._id === 'Other') {
+          data3[i].compare = 6;
+        }
+      }
+      data3.sort((a, b) => (a.compare > b.compare) ? 1 : -1);
+      for (let i = 0; i < data3.length; i++) {
         data3[i].fill = colors1[i];
       }
 
@@ -138,22 +152,21 @@ export default function DataSummary() {
       for (let i = 0; i < data4.length; i++) {
         data4[i].fill = colors1[i];
       }
-
-      var response5 = await axios.get(
-        "https://salary-data-api.herokuapp.com/salary_data/salaries"
-      );
+    
+      var response5 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/gender');
       data5 = response5.data;
-      data5.sort((a, b) => (a._id > b._id ? 1 : -1));
+      data5.sort((a, b) => (a._id > b._id) ? 1 : -1);
+      data5[0]._id = 'Didn\'t Answer';
+      for (let i = 0; i < data5.length; i++) {
+        data5[i].fill = colors1[i];
+      }
 
-      // var response1 = await axios.get('http://localhost:5000/salary_data/numALL');
-      // data1 = response1.data;
-      // console.log(data1);
+      var response6 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/salaries');
+      data6 = response6.data;
+      data6.sort((a, b) => (a._id > b._id) ? 1 : -1);
 
-      // var response3 = await axios.get('http://localhost:5000/salary_data/degrees');
-      // data3 = response3.data;
-      // for (let i = 0; i < data3.length; i++) {
-      //   data3[i].fill = colors1[i];
-      // }
+      var response7 = await axios.get('http://localhost:5000/salary_data/race');
+      data7 = response7.data;
 
       setIsLoaded(true);
     })();
@@ -210,39 +223,21 @@ export default function DataSummary() {
                 {!isLoaded ? (
                   <CircularProgress />
                 ) : (
-                  <center>
-                    <LineChart
-                      width={620}
-                      height={300}
-                      data={data1}
-                      margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="_id" padding={{ left: 10, right: 10 }}>
-                        <Label
-                          value="Age"
-                          offset={-15}
-                          position="insideBottom"
-                        />
-                      </XAxis>
-                      <Tooltip />
-                      <YAxis
-                        label={{
-                          value: "Salary $k",
-                          angle: -90,
-                          position: "insideLeft",
-                        }}
-                        domain={[0, 120]}
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="salary"
-                        fill={colors[0]}
-                        activeDot={{ r: 8 }}
-                        label={{ value: "salary", position: "top" }}
-                      />
-                    </LineChart>
-                  </center>
+                  <center><LineChart 
+                    width={620} 
+                    height={280} 
+                    data={data1}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="_id" padding={{ left: 20, right: 20 }}>
+                      <Label value = "Age" offset={-2} position="insideBottom" />
+                    </XAxis>
+                    <Tooltip />
+                    <YAxis label = {{value: "Salary $k", angle: -90, position: "insideLeft"}} 
+                    domain = {[0, 120]}/>
+                    <Line type="monotone" dataKey="salary" fill = {colors[0]} activeDot = {{r: 8}}
+                    label = {{value: 'salary', position: "top"}}/>
+                  </LineChart></center>
                 )}
               </Paper>
             </Grid>
@@ -256,21 +251,20 @@ export default function DataSummary() {
                   <CircularProgress />
                 ) : (
                   <center>
-                    <PieChart
-                      width={290}
-                      height={300}
-                      margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
+                    <PieChart 
+                      width={290} 
+                      height={280} 
+                      margin = {{ top: 5, right: 0, left: 0, bottom: 5}}
                     >
-                      <Pie
-                        data={data2}
-                        dataKey="val"
-                        nameKey="_id"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={90}
-                        label
-                      />
-                      <Legend />
+                      <Pie 
+                        data = {data2} 
+                        dataKey = "val" 
+                        nameKey = "_id"
+                        cx = "50%" 
+                        cy = "50%" 
+                        outerRadius = {90} 
+                        label />
+                      <Legend iconSize = {10} />
                       <Tooltip />
                     </PieChart>
                   </center>
@@ -322,16 +316,15 @@ export default function DataSummary() {
                       height={320}
                       margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
                     >
-                      <Pie
-                        data={data3}
-                        dataKey="val"
-                        nameKey="name"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={90}
-                        label
-                      />
-                      <Legend />
+                      <Pie 
+                        data = {data3} 
+                        dataKey = "val" 
+                        nameKey = '_id' 
+                        cx = "50%" 
+                        cy = "50%" 
+                        outerRadius = {90} 
+                        label />
+                      <Legend iconSize = {10}/>
                       <Tooltip />
                     </PieChart>
                   </center>
@@ -347,35 +340,23 @@ export default function DataSummary() {
                 {!isLoaded ? (
                   <CircularProgress />
                 ) : (
-                  <BarChart width={600} height={320} data={data4}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis
-                      dataKey="_id"
-                      label={{
-                        value: "Highest Level of Education",
-                        position: "insideBottom",
-                        offset: -2,
-                      }}
-                    />
-                    <YAxis
-                      label={{
-                        value: "Salary ($k)",
-                        angle: -90,
-                        position: "insideLeft",
-                      }}
-                      domain={[30, 150]}
-                    />
-                    <Bar dataKey="salary">
-                      <LabelList
-                        dataKey="_id"
-                        angle={270}
-                        position="center"
-                        fontSize={14}
-                        fill="#000000"
-                      />
-                    </Bar>
-                    <Tooltip cursor={false} />
-                  </BarChart>
+                <center><BarChart width = {600} height = {320} data = {data4}>
+                  <CartesianGrid strokeDasharray = "3 3"/>
+                  <XAxis dataKey = "_id" 
+                    label = {{value: "Highest Level of Education", position: "insideBottom", offset: -2}}/>
+                  <YAxis 
+                    label = {{value: "Salary ($k)", angle: -90, position: "insideLeft"}} 
+                    domain = {[30, 150]} />
+                  <Bar dataKey = "salary">
+                    <LabelList 
+                      dataKey = "_id" 
+                      angle = {270} 
+                      position = "center" 
+                      fontSize = {14} 
+                      fill = '#000000' />
+                  </Bar>
+                  <Tooltip cursor = {false}/>
+                </BarChart></center>
                 )}
               </Paper>
             </Grid>
@@ -409,19 +390,87 @@ export default function DataSummary() {
               </Paper>
             </Grid>
 
-            <Grid item xs={12} md={8} lg={12}>
-              <Paper className={classes.paper}>
-                <center>
-                  <h2>Average Annual Salary Across Industries</h2>
-                </center>
+            <Grid item xs = {12} md = {8} lg = {6}>
+              <Paper className = {classes.textbox}>
+                <center><h2>Salary Difference by Gender</h2></center>
+                {!isLoaded ? (
+                  <CircularProgress />
+                ) : (
+                  <center><BarChart width = {440} height = {300} data = {data5}>
+                    <CartesianGrid strokeDasharray = "3 3"/>
+                    <XAxis 
+                      dataKey = "_id" 
+                      label = {{value: "Gender", position: "insideBottom", offset: -2}}/>
+                    <YAxis 
+                      label = {{value: "Salary ($k)", angle: -90, position: "insideLeft"}} 
+                      domain = {[40, 140]} />
+                    <Bar dataKey = "salary">
+                      <LabelList 
+                        dataKey = "_id" 
+                        angle = {270} 
+                        position = "center" 
+                        fontSize = {14} 
+                        fill = {'#000000'}
+                      />
+                    </Bar>
+                    <Tooltip cursor = {false}/>
+                  </BarChart></center>
+                )}
+              </Paper>
+            </Grid>
+
+            <Grid item xs = {12} md = {8} lg = {6}>
+              <Paper className = {classes.textbox}>
+                <h3>Text</h3>
+              </Paper>
+            </Grid>
+
+            <Grid item xs = {12} md = {8} lg = {6}>
+              <Paper className = {classes.textbox}>
+                <h3>Text</h3>
+              </Paper>
+            </Grid>
+
+            <Grid item xs = {12} md = {8} lg = {6}>
+              <Paper className = {classes.textbox}>
+                <center><h2>Salary Difference by Race</h2></center>
+                {!isLoaded ? (
+                  <CircularProgress />
+                ) : (
+                  <center><BarChart width = {900} height = {300} data = {data7}>
+                    <CartesianGrid strokeDasharray = "3 3"/>
+                    <XAxis 
+                      dataKey = "_id" 
+                      label = {{value: "Race", position: "insideBottom", offset: -2}}/>
+                    <YAxis 
+                      label = {{value: "Salary ($k)", angle: -90, position: "insideLeft"}} 
+                      domain = {[40, 140]} />
+                    <Bar dataKey = "salary" fill = {'#00ff00'}>
+                      {/* <LabelList 
+                        dataKey = "_id" 
+                        angle = {270} 
+                        position = "center" 
+                        fontSize = {14} 
+                        fill = {'#000000'}
+                      /> */}
+                    </Bar>
+                    <Tooltip cursor = {false}/>
+                  </BarChart></center>
+                )}
+              </Paper>
+            </Grid>
+
+            <Grid item xs = {12} md = {8} lg = {12}>
+              <Paper className = {classes.paper}>
+                <center><h2>Average Annual Salary Across Industries</h2></center>
                 {!isLoaded ? (
                   <CircularProgress />
                 ) : (
                   <center>
-                    <BarChart
-                      width={1500}
-                      height={370}
-                      data={data5}
+                    <BarChart 
+                      width = {1500} 
+                      height = {370} 
+                      data = {data6} 
                       margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
                     >
                       <CartesianGrid strokeDasharray="3 3" />
