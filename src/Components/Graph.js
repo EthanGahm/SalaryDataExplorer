@@ -17,6 +17,7 @@ var data1 = [];
 var data2 = [];
 var data3 = [];
 var data4 = [];
+var data5 = [];
 
 export default function Graph() {
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -40,11 +41,17 @@ export default function Graph() {
       data4 = response4.data;
       data4.sort((a, b) => (a._id > b._id) ? 1 : -1);
       data4.unshift(data4.pop());
+
+      var response5 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/gender');
+      data5 = response5.data;
+      for (let i = 0; i < data5.length; i++) {
+        data5[i].fill = colors1[i];
+      }
       setIsLoaded(true);
 
     })();
   }, []);
-
+  console.log(data5);
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -130,6 +137,33 @@ export default function Graph() {
               </Paper>
             </Grid>
 
+            <Grid item xs = {12} md = {8} lg = {12}>
+              <Paper className = {classes.paper}>
+                <center><h2>Salary Difference by Gender</h2></center>
+                {!isLoaded ? (
+                  <CircularProgress />
+                ) : (
+                  <BarChart width = {800} height = {300} data = {data5}>
+                    <CartesianGrid strokeDasharray = "3 3"/>
+                    <XAxis 
+                      dataKey = "_id" 
+                      label = {{value: "Gender", position: "insideBottom", offset: -2}}/>
+                    <YAxis 
+                      label = {{value: "Salary ($k)", angle: -90, position: "insideLeft"}} 
+                      domain = {[30, 150]} />
+                    <Bar dataKey = "salary">
+                      <LabelList 
+                        dataKey = "_id" 
+                        angle = {270} 
+                        position = "center" 
+                        fontSize = {14} 
+                      />
+                    </Bar>
+                    <Tooltip cursor = {false}/>
+                  </BarChart>
+                )}
+              </Paper>
+            </Grid>
 
             <Grid item xs = {12} md = {8} lg = {12}>
               <Paper className = {classes.paper}>
