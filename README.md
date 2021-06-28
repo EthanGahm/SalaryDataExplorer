@@ -22,3 +22,7 @@ to take a look at our backend/API repo!
 [Link to 2019 AskAManager.org Survey](https://www.askamanager.org/2019/04/how-much-money-do-you-make-3.html)
 
 [Link to 2021 AskAManager.org Survey](https://www.askamanager.org/2021/04/how-much-money-do-you-make-4.html)
+
+[Link to Don't Quit Your Day Job US Median Income Information](https://dqydj.com/average-median-top-individual-income-percentiles/)
+
+[Link to Don't Quit Your Day Job US Income By Age Information](https://dqydj.com/average-median-top-income-by-age-percentiles/)
