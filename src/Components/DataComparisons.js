@@ -106,23 +106,23 @@ export default function DataComparisons() {
 
       /// TOP 3 SALARIES DATA
       var t19 = await axios.get(
-        "http://localhost:8080/salary_data/2019_top_salaries"
+        "http://localhost:5000/salary_data/2019_top_salaries"
       );
 
       topThree2019 = t19.data;
       // console.log("2019: " + topThree2019);
       var t21 = await axios.get(
-        "http://localhost:8080/salary_data/top_salaries"
+        "http://localhost:5000/salary_data/top_salaries"
       );
 
       topThree2021 = t21.data;
       // console.log("2021: " + topThree2021);
       /// MEDIAN OVERALL SALARIES 2019/2021
       var m19 = await axios.get(
-        "http://localhost:8080/salary_data/2019_median_salary"
+        "http://localhost:5000/salary_data/2019_median_salary"
       );
       var m21 = await axios.get(
-        "http://localhost:8080/salary_data/median_salary"
+        "http://localhost:5000/salary_data/median_salary"
       );
 
       medians.push(["2019", m19.data[0].median]);
@@ -131,11 +131,11 @@ export default function DataComparisons() {
       // console.log(medians);
       /// MEDIANS SALARIES FOR AGE GROUPS 2019 2021
       var ma19 = await axios.get(
-        "http://localhost:8080/salary_data/2019_median_ages"
+        "http://localhost:5000/salary_data/2019_median_ages"
       );
       // console.log(ma19.data);
       var ma21 = await axios.get(
-        "http://localhost:8080/salary_data/median_ages"
+        "http://localhost:5000/salary_data/median_ages"
       );
       // console.log(ma21.data);
       age_med_2019 = ma19.data;
@@ -360,7 +360,7 @@ export default function DataComparisons() {
                 </p>
               </Paper>
               <center>
-                <h2>Comparing Median Salaries : 2019 vs 2021 vs DGYDJ</h2>
+                <h2>Comparing Median Salaries : 2019 vs 2021 vs DQYDJ</h2>
               </center>
             </Grid>
             <Grid item xs={12} md={8} lg={12}>
@@ -411,7 +411,7 @@ export default function DataComparisons() {
               </Paper>
               <center>
                 <h2>
-                  Comparing Median Salaries By Age : 2019 vs 2021 vs DGYDJ
+                  Comparing Median Salaries By Age : 2019 vs 2021 vs DQYDJ
                 </h2>
               </center>
             </Grid>
@@ -565,7 +565,7 @@ export default function DataComparisons() {
                   When looking at the three different median salary
                   distributions by age in the datasets, there are some trends
                   and variations that appear. Something that is interesting is
-                  that the 2019 AskAManager results and the DGYDJ values seems
+                  that the 2019 AskAManager results and the DQYDJ values seems
                   to trend similarily, with a mostly increasing median salary as
                   age increases. However, upon observing the 2021 AskAManager
                   results, there are more dips in the data, with a heavy
