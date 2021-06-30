@@ -125,7 +125,6 @@ export default function FilterAndSearch() {
   };
 
 
-
   // Gender Data
   const genderOptions = [
     'Woman', 'Man', 'Non-binary', 'Other or prefer not to answer'
@@ -308,6 +307,7 @@ export default function FilterAndSearch() {
                       <TableBody>
                         {filterRows.map((row) => (
                           <TableRow key={row[0]}>
+                            <TableCell align="right">{row[3]}</TableCell>
                             <TableCell align="right">{row[4]}</TableCell>
                             <TableCell align="right">{row[5]}</TableCell>
                             <TableCell align="right">{row[6]}</TableCell>
@@ -319,7 +319,6 @@ export default function FilterAndSearch() {
                             <TableCell align="right">{row[16]}</TableCell>
                             <TableCell align="right">{row[17]}</TableCell>
                             <TableCell align="right">{row[18]}</TableCell>
-                            <TableCell align="right">{row[19]}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
