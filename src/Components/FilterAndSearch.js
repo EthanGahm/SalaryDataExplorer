@@ -313,7 +313,7 @@ export default function FilterAndSearch() {
                             <TableCell align="right">{row[6]}</TableCell>
                             <TableCell align="right">{row[7]}</TableCell>
                             <TableCell align="right">{row[8]}</TableCell>
-                            <TableCell align="right">{row[9]}</TableCell>
+                            <TableCell align="right">{row[13]}</TableCell>
                             <TableCell align="right">{row[14]}</TableCell>
                             <TableCell align="right">{row[15]}</TableCell>
                             <TableCell align="right">{row[16]}</TableCell>
