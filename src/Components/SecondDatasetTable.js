@@ -3,7 +3,9 @@ import { DataGrid } from "@material-ui/data-grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SheetsAPIInfo from "../SheetsAPIInfo.json";
 import { GoogleSpreadsheet } from "google-spreadsheet";
+// This file extracts the raw dataset for the 2019 survey responses
 
+//creating columns to format the headers for the component
 const columns = [
   { field: "Age", headerName: "Age", width: 130 },
   { field: "Industry", headerName: "Industry", width: 130 },
@@ -26,7 +28,7 @@ const columns = [
   { field: "Gender", headerName: "Gender", width: 130 },
   { field: "Race", headerName: "Race", width: 130 },
 ];
-
+// linking the Google Spreadsheet using the an identifier
 const spreadSheet = new GoogleSpreadsheet(
   "1xL-FWa7vdAH32MtPPVX688IMmG2y2rE34A_VW7SoZnI"
 );
@@ -34,7 +36,7 @@ const spreadSheet = new GoogleSpreadsheet(
 export default function TestTable() {
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [rows, setRows] = React.useState([]);
-
+  // useEffect to load and render the google spreadsheet
   React.useEffect(() => {
     (async function () {
       try {
@@ -57,6 +59,7 @@ export default function TestTable() {
   return (
     <div style={{ height: 600, width: "100%" }}>
       {isLoaded ? (
+        // this is the data grid where the spreadsheet data will be located
         <DataGrid
           rows={rows}
           columns={columns}

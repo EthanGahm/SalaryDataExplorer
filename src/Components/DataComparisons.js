@@ -22,18 +22,10 @@ import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
-
+// importing element from recharts package to use for data visualization and analysis
 import {
-  ResponsiveContainer,
-  RadarChart,
-  Radar,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
   BarChart,
   Bar,
-  PieChart,
-  Pie,
   LineChart,
   Line,
   CartesianGrid,
@@ -41,16 +33,12 @@ import {
   YAxis,
   Label,
   Tooltip,
-  Legend,
   LabelList,
   Cell,
 } from "recharts";
-import { median } from "d3";
-var data1 = [];
-var data2 = [];
-var data3 = [];
-var data4 = [];
-var data5 = [];
+
+// various variables and lists that are initialized. They will be used later on when retrieving data from our API endpoints
+var salaries21 = [];
 var topThree2019;
 var topThree2021;
 var medians = [];
@@ -65,9 +53,7 @@ var dqydj = [
   ["55-64", 52350],
   ["65 or over", 54270],
 ];
-let renderLabel = function (entry) {
-  return entry[1];
-};
+
 export default function DataComparisons() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -77,34 +63,14 @@ export default function DataComparisons() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [isLoaded, setIsLoaded] = React.useState(false);
+  // colors for the graphs
   const colors = ["#0088FE", "#00C49F", "#FFBB28"];
-  const colors1 = [
-    "#ABCDEF",
-    "#009900",
-    "#CCCC00",
-    "#FF0000",
-    "#3333FF",
-    "#00CCCC",
-    "#FF00FF",
-  ];
 
+  //this useEffect makes API calls to our backend/database and retrieve data needed to build the graphs/analyze
   useEffect(() => {
     (async function getData() {
-      var response1 = await axios.get(
-        "https://salary-data-api.herokuapp.com/salary_data/numALL"
-      );
-      data1 = response1.data;
-      // console.log(data1);
-      var response2 = await axios.get(
-        "https://salary-data-api.herokuapp.com/salary_data/salaries"
-      );
-      data2 = response2.data;
-      data2.sort((a, b) => b.val - a.val);
-      data2 = data2.slice(0, 3);
-
-      /// TOP 3 SALARIES DATA
+      /// TOP 3 SALARIES DATA FOR 2019 AND 2021
       var t19 = await axios.get(
         "http://localhost:5000/salary_data/2019_top_salaries"
       );
@@ -151,16 +117,7 @@ export default function DataComparisons() {
       var response3 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/degrees"
       );
-      data3 = response3.data;
-      for (let i = 0; i < data3.length; i++) {
-        data3[i].fill = colors1[i];
-      }
-      var response4 = await axios.get(
-        "https://salary-data-api.herokuapp.com/salary_data/ages"
-      );
-      data4 = response4.data;
-      data4.sort((a, b) => (a._id > b._id ? 1 : -1));
-      data4.unshift(data4.pop());
+
       setIsLoaded(true);
     })();
   }, []);
@@ -230,7 +187,7 @@ export default function DataComparisons() {
                 <h2>Top 3 Highest Earning Industries : 2019 vs 2021</h2>
               </center>
             </Grid>
-
+            {/* first graphs comparing the 2019 and 2021 highest earning industries*/}
             <Grid item xs={12} md={8} lg={6}>
               <Paper className={classes.paper}>
                 <center></center>
@@ -241,6 +198,7 @@ export default function DataComparisons() {
                 ) : (
                   <center>
                     <h3>2019</h3>
+                    {/* First barchart- 2019 top three industries */}
                     <BarChart
                       width={500}
                       height={320}
@@ -282,6 +240,7 @@ export default function DataComparisons() {
                 ) : (
                   <center>
                     <h3>2021</h3>
+                    {/* Other bar chart - this one is the 2021 top industries */}
                     <BarChart
                       width={500}
                       height={320}
@@ -309,6 +268,7 @@ export default function DataComparisons() {
               </Paper>
             </Grid>
             <Grid item xs={12} md={8} lg={12}>
+              {/* Summarizing results from 2019 and 2021 comparison */}
               <Paper className={classes.paper}>
                 <center>
                   <h3>
@@ -332,6 +292,7 @@ export default function DataComparisons() {
             <Grid item xs={12} md={8} lg={12}>
               <Paper className={classes.paper}>
                 <center>
+                  {/* Introducing new dataset/context for further comparison */}
                   <h3>
                     Why Does the Average American Citizen Earn Less Than
                     AskAManager Respondants?
@@ -371,6 +332,7 @@ export default function DataComparisons() {
                   </center>
                 ) : (
                   <center>
+                    {/* barchart comparing the  overall median salary between 2019,2021, and Don't Quit Your Day Job  */}
                     <BarChart
                       width={600}
                       height={320}
@@ -421,6 +383,7 @@ export default function DataComparisons() {
                   <CircularProgress />
                 ) : (
                   <center>
+                    {/* First of three line chart to compare the median salary by age - this is for 2019 */}
                     <LineChart
                       width={350}
                       height={300}
@@ -468,6 +431,7 @@ export default function DataComparisons() {
                   <CircularProgress />
                 ) : (
                   <center>
+                    {/* Second of three line chart to compare the median salary by age - this is for 2021 */}
                     <LineChart
                       width={350}
                       height={300}
@@ -515,6 +479,7 @@ export default function DataComparisons() {
                   <CircularProgress />
                 ) : (
                   <center>
+                    {/* Last of three line chart to compare the median salary by age - this is for DQYDJ */}
                     <LineChart
                       width={350}
                       height={300}
@@ -561,6 +526,7 @@ export default function DataComparisons() {
                 <center>
                   <h3>Examining the Trends in Median Salary By Age</h3>
                 </center>
+                {/* Summarizing the results and trends occuring from the 3 dataset comparison */}
                 <p>
                   When looking at the three different median salary
                   distributions by age in the datasets, there are some trends
@@ -582,6 +548,7 @@ export default function DataComparisons() {
             </Grid>
           </Grid>
         </Container>
+        {/* Copyright box */}
         <Box pt={4}>
           <Copyright />
         </Box>

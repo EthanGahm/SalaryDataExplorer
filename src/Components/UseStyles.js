@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-
+// this create a styling to use in the visuals and aesthetics of the application
 const drawerWidth = 240;
 
 export const useStyles = makeStyles((theme) => ({
@@ -81,7 +81,7 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     overflow: "auto",
     flexDirection: "column",
-    height: 400
+    height: 400,
   },
   fixedHeight: {
     height: 240,
