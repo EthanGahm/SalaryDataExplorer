@@ -16,6 +16,10 @@ import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
 import PageTitle from "./PageTitle";
 let res;
+/**
+ * This component is to add responses to our database by embedding a Google Form with questions matching the original survey's
+ * @returns a rendered google form and extra components to format the web-page
+ */
 export default function AddResponse() {
   // Page Styling
   const classes = useStyles();
@@ -27,7 +31,7 @@ export default function AddResponse() {
     setOpen(false);
   };
 
-  //getAll2021Data();
+  // returning components and web page design elements
   return (
     <div className={classes.root}>
       <AppBar
@@ -65,6 +69,7 @@ export default function AddResponse() {
         <Divider />
         <List>{mainListItems}</List>
       </Drawer>
+      {/* This is the main part of the page, where the google form can be taken */}
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
@@ -82,6 +87,7 @@ export default function AddResponse() {
             </iframe>
           </Box>
         </Container>
+        {/* Copyright for the app */}
         <Box pt={5}>
           <Copyright />
         </Box>
@@ -89,5 +95,3 @@ export default function AddResponse() {
     </div>
   );
 }
-res = document.getElementById("surveyContainer");
-console.log(res);
