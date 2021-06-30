@@ -32,23 +32,17 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import { mergeClasses } from "@material-ui/styles";
 import getLocationsFromJSON from '../HelperMethods/ExtractLocationFromJSON'
 import getSalaryFromJSON from '../HelperMethods/ExtractSalaryFromJSON'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
+
+
 
 export default function FilterAndSearch() {
-
-  // Columns for table
-  const columns = [
-    { field: 4, headerName: "Age", width: 120 },
-    { field: 5, headerName: "Industry", width: 250 },
-    { field: 6, headerName: "Job Title", width: 300 },
-    { field: 7, headerName: "Annual Salary", width: 170 },
-    { field: 8, headerName: "Currency", width: 140 },
-    { field: 14, headerName: "Country", width: 200 },
-    { field: 15, headerName: "State", width: 180 },
-    { field: 16, headerName: "City", width: 190 },
-    { field: 17, headerName: "Education", width: 190 },
-    { field: 18, headerName: "Gender", width: 160 },
-    { field: 19, headerName: "Race", width: 150 },
-  ];
 
   useEffect(() => {
     retrieveIndustries();
@@ -58,27 +52,47 @@ export default function FilterAndSearch() {
   }, []);
 
 
-
-
-  // All data
+  // State variables
   const [filters, setFilters] = useState([]);
-  const [tableRows, setTableRows] = useState([]);
+  const [page, setPage] = useState(0);
+  const [filterRows, setFilterRows] = useState([]);
 
+
+  // Previous button
+  const handlePreviousPageChange = () => {
+    if (page <= 0) {
+      return
+    } else {
+      setPage(page - 1);
+    }
+  };
+
+  // Next button
+  const handleNextPageChange = () => {
+    if (filterRows.length < 5) {
+      return
+    } else {
+      setPage(page + 1);
+    }
+  }
+
+
+  // setting table rows
   useEffect(() => {
-    const response = find(filters);
+    const response = find(filters, page);
     const tempRows = [];
     response.then((res) => {
       for (const row of Object.values(res.data.rows)) {
         tempRows.push(Object.values(row));
       }
-      setTableRows(tempRows)
+      setFilterRows(tempRows)
     }).catch((e) => {
       console.error(e);
     });
-  }, [filters])
+  }, [filters, page])
 
-  // Table filter
-  function find(filters) {
+  // database query
+  function find(filters, page) {
     const dataURL = new URL("http://localhost:5000/salary_data/all_2021?")
     for (const [key, value] of Object.entries(filters)) {
       if (value === null) {
@@ -86,11 +100,13 @@ export default function FilterAndSearch() {
       }
       dataURL.searchParams.append(key, value);
     }
+    dataURL.searchParams.append("page", page);
     console.log(dataURL.href)
     return axios.get(dataURL);
   }
 
-  // Industry data
+
+  // Industry dropdown option
   const [industriesData, setIndustries] = useState([]);
 
   function getIndustries() {
@@ -142,6 +158,7 @@ export default function FilterAndSearch() {
     var res = axios.get('http://localhost:5000/salary_data/states')
     return res
   }
+
 
   const retrieveStates = () => {
     getStates()
@@ -229,6 +246,7 @@ export default function FilterAndSearch() {
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
+
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -242,6 +260,8 @@ export default function FilterAndSearch() {
           >
             <MenuIcon />
           </IconButton>
+          <PageTitle text="Data Summary" />
+
         </Toolbar>
       </AppBar>
       <Drawer
@@ -266,15 +286,66 @@ export default function FilterAndSearch() {
             <Grid item xs={12}>
               <Title>Set Parameters and Search the Dataset</Title>
               <Grid item xs={12} md={12} lg={12} container maxwidth={'lg'}>
-                <Grid item xs={6} md={6} lg={6}>
-                  <div style={{ width: '95%' }}>
+                <Grid>
+                  <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="right">Age</TableCell>
+                          <TableCell align="right">Industry</TableCell>
+                          <TableCell align="right">Job Title</TableCell>
+                          <TableCell align="right">Annual Salary</TableCell>
+                          <TableCell align="right">Currency</TableCell>
+                          <TableCell align="right">Work Experience</TableCell>
+                          <TableCell align="right">Country</TableCell>
+                          <TableCell align="right">State</TableCell>
+                          <TableCell align="right">City</TableCell>
+                          <TableCell align="right">Education</TableCell>
+                          <TableCell align="right">Gender</TableCell>
+                          <TableCell align="right">Race</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {filterRows.map((row) => (
+                          <TableRow key={row[0]}>
+                            <TableCell align="right">{row[4]}</TableCell>
+                            <TableCell align="right">{row[5]}</TableCell>
+                            <TableCell align="right">{row[6]}</TableCell>
+                            <TableCell align="right">{row[7]}</TableCell>
+                            <TableCell align="right">{row[8]}</TableCell>
+                            <TableCell align="right">{row[9]}</TableCell>
+                            <TableCell align="right">{row[14]}</TableCell>
+                            <TableCell align="right">{row[15]}</TableCell>
+                            <TableCell align="right">{row[16]}</TableCell>
+                            <TableCell align="right">{row[17]}</TableCell>
+                            <TableCell align="right">{row[18]}</TableCell>
+                            <TableCell align="right">{row[19]}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  {/* <div style={{ width: '100%' }}>
                     <DataGrid
                       rows={tableRows}
                       columns={columns}
                       getRowId={(row) => row[0]}
-                      pageSize={5}
+                      pagination
+                      // onPageChange={handlePageChange}
+                      paginationMode="server"
+                      pageSize={10}
                       autoHeight={true}
                     />
+                  </div> */}
+                  <div>
+                    <Button variant="contained" color="primary" onClick={handlePreviousPageChange}>
+                      Previous
+                    </Button>
+                  </div>
+                  <div>
+                    <Button variant="contained" color="primary" onClick={handleNextPageChange}>
+                      Next
+                    </Button>
                   </div>
                   <div style={{ width: "300px" }}>
                     <Box pt={3}>
@@ -286,11 +357,14 @@ export default function FilterAndSearch() {
                         style={{ width: 300 }}
                         renderInput={(params) => <TextField {...params} variant="outlined" />}
                         onChange={(event, value) => {
-                          (value === null)
-                            ? setFilters(filters => ({ ...filters, "Industry": "" }))
-                            : setFilters(filters => ({ ...filters, "Industry": value }))
+                          if (value === null) {
+                            setFilters(filters => ({ ...filters, "Industry": "" }))
+                            setPage(0)
+                          } else {
+                            setPage(0)
+                            setFilters(filters => ({ ...filters, "Industry": value }))
+                          }
                         }}
-                      //onChange={(event, value) => finder(value, "Industry")}
                       />
                     </Box>
                   </div>
@@ -299,7 +373,15 @@ export default function FilterAndSearch() {
                     <div className={classes.root} >
                       <NativeSelect
                         id="demo-customized-select-native"
-                        onChange={(event) => setFilters(filters => ({ ...filters, "Age": event.target.value }))}
+                        onChange={(event) => {
+                          if (event.target.value === null) {
+                            setFilters(filters => ({ ...filters, "Age": "" }))
+                            setPage(0)
+                          } else {
+                            setFilters(filters => ({ ...filters, "Age": event.target.value }))
+                            setPage(0)
+                          }
+                        }}
                       >
                         <option value="">None</option>
                         <option value={'under 18'}>Under 18</option>
@@ -322,7 +404,14 @@ export default function FilterAndSearch() {
                         options={genderOptions}
                         getOptionLabel={(option) => option}
                         style={{ width: 300 }}
-                        onChange={(event, value) => setFilters(filters => ({ ...filters, "Gender": value }))}
+                        onChange={(event, value) => {
+                          if (value === null) {
+                            setFilters(filters => ({ ...filters, "Gender": "" }))
+                          } else {
+                            setFilters(filters => ({ ...filters, "Gender": value }))
+
+                          }
+                        }}
                         renderInput={(params) => (
                           <TextField {...params} variant="outlined" />
                         )}
@@ -338,7 +427,14 @@ export default function FilterAndSearch() {
                         id="country-dropdown"
                         options={countryData}
                         getOptionLabel={(option) => option}
-                        onChange={(event, value) => setFilters(filters => ({ ...filters, "Country": value }))}
+                        onChange={(event, value) => {
+                          if (value === null) {
+                            setFilters(filters => ({ ...filters, "Country": "" }))
+                          } else {
+                            setFilters(filters => ({ ...filters, "Country": value }))
+                          }
+
+                        }}
                         style={{ width: 300 }}
                         renderInput={(params) => (
                           <TextField {...params} variant="outlined" />
@@ -353,7 +449,14 @@ export default function FilterAndSearch() {
                         id="state-dropdown"
                         options={stateData}
                         getOptionLabel={(option) => option}
-                        onChange={(event, value) => setFilters(filters => ({ ...filters, "State": value }))}
+                        onChange={(event, value) => {
+                          if (value === null) {
+                            setFilters(filters => ({ ...filters, "State": "" }))
+
+                          } else {
+                            setFilters(filters => ({ ...filters, "State": value }))
+                          }
+                        }}
                         style={{ width: 300 }}
                         renderInput={(params) => (
                           <TextField {...params} variant="outlined" />
@@ -368,19 +471,18 @@ export default function FilterAndSearch() {
                         id="city-dropdown"
                         options={filteredCityData}
                         getOptionLabel={(option) => option}
-                        onChange={(event, value) => setFilters(filters => ({ ...filters, "City": value }))}
+                        onChange={(event, value) => {
+                          if (value === null) {
+                            setFilters(filters => ({ ...filters, "City": "" }))
+                          } else {
+                            setFilters(filters => ({ ...filters, "City": value }))
+                          }
+                        }}
                         style={{ width: 300 }}
                         renderInput={(params) => (
                           <TextField {...params} variant="outlined" />
                         )}
                       />
-                    </Box>
-                  </div>
-                  <div>
-                    <Box pt={5}>
-                      {/* <Button variant="contained" color="primary" onClick={finder()}>
-                        Search
-                      </Button> */}
                     </Box>
                   </div>
                 </Grid>
