@@ -10,9 +10,10 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import Typography from "@material-ui/core/Typography";
 import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
 import { Link } from "react-router-dom";
-
+// This file is for the tab on our app that allows for quick navigation to different features of the app
 export const mainListItems = (
   <div>
+    {/* This is for the home button, where there context about what the app is built to do */}
     <Link to="/" style={{ textDecoration: "none", color: "#558aac" }}>
       <ListItem button>
         <ListItemIcon>
@@ -21,6 +22,7 @@ export const mainListItems = (
         <ListItemText primary="Home" />
       </ListItem>
     </Link>
+    {/* This leads the user to the summary of the 2021 dataset */}
     <Link
       to="/DataSummary"
       style={{ textDecoration: "none", color: "#558aac" }}
@@ -32,6 +34,7 @@ export const mainListItems = (
         <ListItemText primary="Data Summary" />
       </ListItem>
     </Link>
+    {/* This leads the user to a comparison of datasets between 2021 and 2019 as well as a Don't Quit Your Day Job salary Summary */}
     <Link
       to="/DataComparisons"
       style={{ textDecoration: "none", color: "#558aac" }}
@@ -43,6 +46,7 @@ export const mainListItems = (
         <ListItemText primary="Comparing Datasets" />
       </ListItem>
     </Link>
+    {/* This leads the user to filter and search salary location based on a number of filters/criteria */}
     <Link
       to="/FilterAndSearch"
       style={{ textDecoration: "none", color: "#558aac" }}
@@ -54,6 +58,7 @@ export const mainListItems = (
         <ListItemText primary="Filter and Search" />
       </ListItem>
     </Link>
+    {/* This leads the user to a Google Form that they can fill our to add more information to the database */}
     <Link
       to="/AddResponse"
       style={{ textDecoration: "none", color: "#558aac" }}

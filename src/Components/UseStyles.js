@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-
+// this create a styling to use in the visuals and aesthetics of the application
 const drawerWidth = 240;
 
 export const useStyles = makeStyles((theme) => ({
@@ -81,7 +81,7 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     overflow: "auto",
     flexDirection: "column",
-    height: 400
+    height: 400,
   },
   bigTextbox: {
     padding: theme.spacing(2),
@@ -92,6 +92,24 @@ export const useStyles = makeStyles((theme) => ({
   },
   fixedHeight: {
     height: 240,
+  },
+  box: {
+    height: 100,
+    display: "flex",
+    border: "1px solid black",
+    padding: 8
+  },
+  spreadBox: {
+    justifyContent: "space-around",
+    alignItems: "center"
+  },
+  filtercontainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
   },
 }));
 
