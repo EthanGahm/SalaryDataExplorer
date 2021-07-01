@@ -86,6 +86,24 @@ export const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  box: {
+    height: 100,
+    display: "flex",
+    border: "1px solid black",
+    padding: 8
+  },
+  spreadBox: {
+    justifyContent: "space-around",
+    alignItems: "center"
+  },
+  filtercontainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
 }));
 
 export default useStyles;
