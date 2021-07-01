@@ -83,6 +83,13 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     height: 400
   },
+  bigTextbox: {
+    padding: theme.spacing(2),
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "column",
+    height: 460
+  },
   fixedHeight: {
     height: 240,
   },
