@@ -116,7 +116,7 @@ export default function Graph() {
                       <Radar
                         name="Other"
                         dataKey="other"
-                        fill={'#cccc00'}
+                        fill={'#ffedbd'}
                         fillOpacity={0.1}
                       >
                         <LabelList dataKey = "val" position = "insideStart" angle = {0} />
@@ -144,7 +144,7 @@ export default function Graph() {
                   <CircularProgress />
                 ) : (
                   <BarChart width = {800} height = {300} data = {data5}>
-                    <CartesianGrid strokeDasharray = "3 3"/>
+                    <CartesianGrid strokeDasharray = "3 3" fill = {'#00ff00'} />
                     <XAxis 
                       dataKey = "_id" 
                       label = {{value: "Gender", position: "insideBottom", offset: -2}}/>
