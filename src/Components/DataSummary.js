@@ -21,6 +21,10 @@ import useStyles from "./UseStyles.js";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
 import {
+  RadialBarChart,
+  RadialBar,
+  FunnelChart,
+  Funnel,
   RadarChart,
   Radar,
   PolarGrid,
@@ -40,9 +44,11 @@ import {
   Legend,
   LabelList,
 } from "recharts";
+import { sum } from "d3";
 
 const colors = ["#0088FE", "#82ca9d", "#FFBB28"];
-const colors1 = ['#ABCDEF', '#00cc14', '#CCCC00', '#FF4D4D', '#9999ff', '#00CCCC', '#FF00FF'];
+const colors1 = ['#ABCDEF', '#00cc14', '#CCCC00', '#FF4D4D', '#9999ff', '#00CCCC', '#FF00FF', 
+'#00e390', '#9d00ff', '#ff8800'];
 var data1 = [];
 var data2 = [];
 var data3 = [];
@@ -159,10 +165,16 @@ export default function DataSummary() {
       for (let i = 0; i < data5.length; i++) {
         data5[i].fill = colors1[i];
       }
+      data5.forEach(ind => {
+        ind.val = parseInt(ind.val) / 26336 * 100;
+        ind.val = ind.val.toFixed(2);
+        ind.val = ind.val + " %";
+      });
+      console.log(data5);
 
       var response6 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/salaries');
       data6 = response6.data;
-      data6.sort((a, b) => (a._id > b._id) ? 1 : -1);
+      data6.sort((a, b) => (parseFloat(a.salary) < parseFloat(b.salary)) ? 1 : -1);
 
       var response7 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/race');
       data7 = response7.data;
@@ -170,6 +182,11 @@ export default function DataSummary() {
       for (let i = 0; i < data7.length; i++) {
         data7[i].fill = colors1[i];
       }
+      data7.forEach(ind => {
+        ind.val = parseInt(ind.val) / 26336 * 100;
+        ind.val = ind.val.toFixed(2);
+        ind.val = ind.val + " %";
+      });
 
       var response8 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/work');
       data8 = response8.data;
@@ -211,6 +228,12 @@ export default function DataSummary() {
 
       var response9 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/numALL');
       data9 = response9.data;
+
+      var response10 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/topCountries');
+      data10 = response10.data;
+      for (let i = 0; i < data10.length; i++) {
+        data10[i].fill = colors1[i];
+      }
 
       setIsLoaded(true);
     })();
@@ -312,7 +335,7 @@ export default function DataSummary() {
                         cy = "50%" 
                         outerRadius = {90} 
                         label />
-                      <Legend iconSize = {10} />
+                      <Legend iconSize = {10} iconType = {'diamond'} />
                       <Tooltip />
                     </PieChart>
                   </center>
@@ -471,6 +494,13 @@ export default function DataSummary() {
                         fontSize = {14} 
                         fill = {'#000000'}
                       />
+                      <LabelList 
+                        dataKey = "val"
+                        angle = {0} 
+                        position = "top" 
+                        fontSize = {14} 
+                        fill = {'#000000'}
+                      />
                     </Bar>
                     <Tooltip cursor = {false}/>
                   </BarChart></center>
@@ -541,6 +571,13 @@ export default function DataSummary() {
                         angle = {270} 
                         position = "center" 
                         fontSize = {12} 
+                        fill = {'#000000'}
+                      />
+                      <LabelList 
+                        dataKey = "val"
+                        angle = {0} 
+                        position = "top" 
+                        fontSize = {14} 
                         fill = {'#000000'}
                       />
                     </Bar>
@@ -646,6 +683,36 @@ export default function DataSummary() {
               </Paper>
             </Grid>
 
+            <Grid item xs = {12} md = {8} lg = {12}>
+              <Paper className = {classes.paper}>
+                <center><h3>How Lucrative is Your Industry in the Job Market?</h3></center>
+                <p>Data from 2021 survey results illustrate huge gaps and dramatic 
+                  differences among the various industries. With an average annual 
+                  salary of 146k, energy is the most lucrative industry in 2021 
+                  according to the data from the survey. Energy, computing or tech, 
+                  and law or law enforcement are the three highest earning industries 
+                  in 2021, all averaging above 120k per year. Business or consulting, 
+                  entertainment, accounting, banking, and finance, aerospace, and sales 
+                  trail behind, still earning more than 100k per year on average. Other 
+                  seemingly quite lucrative professions such as health care, insurence, 
+                  marketing & advertising & PR, meida and digital,
+                  and government and public administration fell short and drop below 
+                  the 100k line. Education, food, art and design, and retail are among 
+                  the lower end of the spectrum as they only earn around 70k per year. 
+                  Quite out of the ordinary, utilities and telecommunications, 
+                  argriculture and forestry, and auto repair are strikingly above average
+                  grossing industries as they all average more than 87k per year.
+                  Publishing, social work, and library are the three lowest earning 
+                  industries in the 2021 survey. Library averages only 56k per year, 
+                  making the cut as the most unlucrative job industry in 2021. Note 
+                  that these values in the bar chart are all averages among respondants, 
+                  so there definitly are many outliers in each industry, pulling up or 
+                  dragging down the mean. Values in this graph should only be a general 
+                  reference for users since they are not completely accurate 
+                  representations of real-world salary levels.</p>
+              </Paper>
+            </Grid>
+
             <Grid item xs={12} md={8} lg={12}>
               <Paper className={classes.paper}>
                 <center>
@@ -656,26 +723,26 @@ export default function DataSummary() {
                 ) : (
                   <center>
                     <RadarChart
-                      innerRadius={80}
-                      outerRadius={240}
-                      width={800}
-                      height={550}
+                      innerRadius={90}
+                      outerRadius={300}
+                      width={950}
+                      height={670}
                       data={data9}
                     >
                       <PolarGrid />
-                      <PolarAngleAxis dataKey="name" fontSize = {14} />
+                      <PolarAngleAxis dataKey="name" fontSize = {12} />
                       <PolarRadiusAxis angle={30} domain={[0, 4500]} />
                       <Radar
                         name="People"
                         dataKey="all"
-                        stroke={'#8884d8'}
+                        stroke={'#8000ff'}
                         fillOpacity={0.1}
                       >
                         <LabelList 
                           dataKey = "all" 
-                          position = "insideStart" 
+                          position = "outside" 
                           angle = {0}
-                          offset = {10} />
+                          offset = {90} />
                       </Radar>
                       <Radar
                         name="Men"
@@ -709,9 +776,63 @@ export default function DataSummary() {
                         fillOpacity={0.1}
                       >
                       </Radar>
-                      <Legend />
+                      <Legend iconSize = {12} iconType = {'circle'} />
                       <Tooltip />
                     </RadarChart>
+                  </center>
+                )}
+              </Paper>
+            </Grid>
+
+            <Grid item xs = {12} md = {8} lg = {12}>
+              <Paper className = {classes.paper}>
+                <center><h3>Is Computing or Tech the Future of the Job Market?</h3></center>
+                <p>Out of all the industries we have identified in the survey, computing 
+                  or tech is by far the most popular one. Education, nonprofits, health 
+                  care, government and public administration, and accounting banking & 
+                  finance are also very popular industries right behind computing. Law 
+                  and law enforcement, marketing adversiting & PR, business or consulting 
+                  and meida & digital are less popular than the previous industries, but 
+                  they still have a substantial work force. Highly specialized areas such 
+                  as aerospace, auto repair, energy, and environment are the least popular 
+                  industries, despite some of them being extremely lucrative. Since there 
+                  are way more women than men respondants in this survey, every industry 
+                  has more women than men.  
+                </p>
+              </Paper>
+            </Grid>
+
+            <Grid item xs = {12} md = {8} lg = {8}>
+              <Paper className = {classes.textbox}>
+                <center><h2>Top 10 Countries</h2></center>
+                {!isLoaded ? (
+                  <center><CircularProgress /></center>
+                ) : (
+                  <center>
+                    <FunnelChart 
+                      width={620} 
+                      height={250} 
+                    >
+                      <Funnel 
+                        data = {data10}
+                        dataKey='val'
+                        nameKey = "_id"
+                      >
+                        <LabelList
+                          position = "left" 
+                          dataKey = '_id'
+                          stroke = '#000000'
+                          fontSize = {14}
+                        />
+                        <LabelList
+                          position = "right" 
+                          dataKey = 'val'
+                          stroke = '#000000'
+                          fontSize = {14}
+                        />
+                      </Funnel>
+                      <Tooltip />
+                    </FunnelChart>
                   </center>
                 )}
               </Paper>
