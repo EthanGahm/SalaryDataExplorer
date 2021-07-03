@@ -5,7 +5,7 @@ import DataSummary from "./Components/DataSummary";
 import Graph from "./Components/Graph";
 import AddResponse from "./Components/AddResponse";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
-import getLocationsFromJSON from "./HelperMethods/ExtractLocationFromJSON";
+
 import DataComparisons from "./Components/DataComparisons";
 // this is how the app is started up, with different routes leading to different areas of the application
 export default function App() {
