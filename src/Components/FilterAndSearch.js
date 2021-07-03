@@ -62,6 +62,7 @@ export default function FilterAndSearch() {
   const [filters, setFilters] = useState([]);
   const [page, setPage] = useState(0);
   const [filterRows, setFilterRows] = useState([]);
+  const [drawer, setDrawer] = useState(false);
 
 
   // Previous button
@@ -82,7 +83,6 @@ export default function FilterAndSearch() {
     }
   }
 
-
   // setting table rows
   useEffect(() => {
     const response = find(filters, page);
@@ -95,7 +95,7 @@ export default function FilterAndSearch() {
     }).catch((e) => {
       console.error(e);
     });
-  }, [filters, page])
+  }, [page, drawer])
 
   // database query
   function find(filters, page) {
@@ -129,6 +129,7 @@ export default function FilterAndSearch() {
         console.log(e);
       });
   };
+
 
 
   // Gender Data
@@ -206,7 +207,6 @@ export default function FilterAndSearch() {
   };
 
   // Filter
-  const [drawer, setDrawer] = useState(false);
 
   const handleClickOpen = () => {
     setDrawer(true);
@@ -217,7 +217,18 @@ export default function FilterAndSearch() {
   };
 
   const handleResetFilter = () => {
-    
+    setFilters([])
+    setPage(0)
+    const response = find("", 0);
+    const tempRows = [];
+    response.then((res) => {
+      for (const row of Object.values(res.data.rows)) {
+        tempRows.push(Object.values(row));
+      }
+      setFilterRows(tempRows)
+    }).catch((e) => {
+      console.error(e);
+    });
   }
 
 
@@ -329,18 +340,18 @@ export default function FilterAndSearch() {
                       <TableBody>
                         {filterRows.map((row) => (
                           <TableRow key={row[0]}>
+                            <TableCell align="right">{row[2]}</TableCell>
                             <TableCell align="right">{row[3]}</TableCell>
                             <TableCell align="right">{row[4]}</TableCell>
                             <TableCell align="right">{row[5]}</TableCell>
                             <TableCell align="right">{row[6]}</TableCell>
                             <TableCell align="right">{row[7]}</TableCell>
-                            <TableCell align="right">{row[8]}</TableCell>
+                            <TableCell align="right">{row[12]}</TableCell>
                             <TableCell align="right">{row[13]}</TableCell>
                             <TableCell align="right">{row[14]}</TableCell>
                             <TableCell align="right">{row[15]}</TableCell>
                             <TableCell align="right">{row[16]}</TableCell>
                             <TableCell align="right">{row[17]}</TableCell>
-                            <TableCell align="right">{row[18]}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -351,7 +362,7 @@ export default function FilterAndSearch() {
                       Previous
                     </Button>
 
-                    <Button variant="contained" style={{ height: 40 }} color="primary">
+                    <Button variant="contained" style={{ height: 40 }} color="primary" onClick={handleResetFilter}>
                       Reset Filters
                     </Button>
 
@@ -366,6 +377,7 @@ export default function FilterAndSearch() {
                               <Autocomplete
                                 id="industry-dropdown"
                                 options={industriesData}
+                                value={filters["Industry"]}
                                 getOptionLabel={(option) => option}
                                 style={{ width: 300 }}
                                 renderInput={(params) => <TextField {...params} variant="outlined" />}
@@ -385,6 +397,7 @@ export default function FilterAndSearch() {
                               <div className={classes.root} >
                                 <NativeSelect
                                   id="demo-customized-select-native"
+                                  value={filters["Age"]}
                                   onChange={(event) => {
                                     if (event.target.value === null) {
                                       setFilters(filters => ({ ...filters, "Age": "" }))
@@ -412,6 +425,7 @@ export default function FilterAndSearch() {
                               <Autocomplete
                                 id="gender-dropdown"
                                 options={genderOptions}
+                                value={filters["Gender"]}
                                 getOptionLabel={(option) => option}
                                 style={{ width: 300 }}
                                 onChange={(event, value) => {
@@ -435,6 +449,7 @@ export default function FilterAndSearch() {
                               <Autocomplete
                                 id="country-dropdown"
                                 options={countryData}
+                                value={filters["Country"]}
                                 getOptionLabel={(option) => option}
                                 onChange={(event, value) => {
                                   if (value === null) {
@@ -458,6 +473,7 @@ export default function FilterAndSearch() {
                               <Autocomplete
                                 id="state-dropdown"
                                 options={stateData}
+                                value={filters["State"]}
                                 getOptionLabel={(option) => option}
                                 onChange={(event, value) => {
                                   if (value === null) {
@@ -481,6 +497,7 @@ export default function FilterAndSearch() {
                               <Autocomplete
                                 id="city-dropdown"
                                 options={filteredCityData}
+                                value={filters["City"]}
                                 getOptionLabel={(option) => option}
                                 onChange={(event, value) => {
                                   if (value === null) {
