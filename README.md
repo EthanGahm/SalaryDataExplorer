@@ -13,6 +13,7 @@ to take a look at our backend/API repo!
 - React.js
 - Node.js
 - MongoDB
+- Express
 - Jupyter Notebook
 - Python (Pandas and Data Science Packages)
 - HTML/CSS

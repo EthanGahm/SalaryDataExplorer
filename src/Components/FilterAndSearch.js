@@ -91,6 +91,13 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
   }, [summaryFilters])
 
 
+  // State variables
+  const [filters, setFilters] = useState([]);
+  const [page, setPage] = useState(0);
+  const [filterRows, setFilterRows] = useState([]);
+  const [drawer, setDrawer] = useState(false);
+
+
   
  
 
@@ -127,7 +134,6 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
     }
   }
 
-
   // setting table rows
   useEffect(() => {
     const response = find(filters, page);
@@ -140,7 +146,7 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
     }).catch((e) => {
       console.error(e);
     });
-  }, [filters, page])
+  }, [page, drawer])
 
   // database query
   function find(filters, page) {
@@ -198,6 +204,7 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
         console.log(e);
       });
   };
+
 
 
   // Gender Data
@@ -275,7 +282,6 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
   };
 
   // Filter
-  const [drawer, setDrawer] = useState(false);
 
   const handleClickOpen = () => {
     setDrawer(true);
@@ -286,7 +292,18 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
   };
 
   const handleResetFilter = () => {
-    
+    setFilters([])
+    setPage(0)
+    const response = find("", 0);
+    const tempRows = [];
+    response.then((res) => {
+      for (const row of Object.values(res.data.rows)) {
+        tempRows.push(Object.values(row));
+      }
+      setFilterRows(tempRows)
+    }).catch((e) => {
+      console.error(e);
+    });
   }
  
   return (
@@ -358,18 +375,18 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
                       <TableBody>
                         {filterRows.map((row) => (
                           <TableRow key={row[0]}>
+                            <TableCell align="right">{row[2]}</TableCell>
                             <TableCell align="right">{row[3]}</TableCell>
                             <TableCell align="right">{row[4]}</TableCell>
                             <TableCell align="right">{row[5]}</TableCell>
                             <TableCell align="right">{row[6]}</TableCell>
                             <TableCell align="right">{row[7]}</TableCell>
-                            <TableCell align="right">{row[8]}</TableCell>
+                            <TableCell align="right">{row[12]}</TableCell>
                             <TableCell align="right">{row[13]}</TableCell>
                             <TableCell align="right">{row[14]}</TableCell>
                             <TableCell align="right">{row[15]}</TableCell>
                             <TableCell align="right">{row[16]}</TableCell>
                             <TableCell align="right">{row[17]}</TableCell>
-                            <TableCell align="right">{row[18]}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -380,7 +397,7 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
                       Previous
                     </Button>
 
-                    <Button variant="contained" style={{ height: 40 }} color="primary">
+                    <Button variant="contained" style={{ height: 40 }} color="primary" onClick={handleResetFilter}>
                       Reset Filters
                     </Button>
 
@@ -395,6 +412,7 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
                               <Autocomplete
                                 id="industry-dropdown"
                                 options={industriesData}
+                                value={filters["Industry"]}
                                 getOptionLabel={(option) => option}
                                 style={{ width: 300 }}
                                 renderInput={(params) => <TextField {...params} variant="outlined" />}
@@ -421,6 +439,7 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
                               <div className={classes.root} >
                                 <NativeSelect
                                   id="demo-customized-select-native"
+                                  value={filters["Age"]}
                                   onChange={(event) => {
                                     if (event.target.value === null) {
                                       setFilters(filters => ({ ...filters, "Age": "" }))
@@ -455,6 +474,7 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
                               <Autocomplete
                                 id="gender-dropdown"
                                 options={genderOptions}
+                                value={filters["Gender"]}
                                 getOptionLabel={(option) => option}
                                 style={{ width: 300 }}
                                 onChange={(event, value) => {
@@ -485,6 +505,7 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
                               <Autocomplete
                                 id="country-dropdown"
                                 options={countryData}
+                                value={filters["Country"]}
                                 getOptionLabel={(option) => option}
                                 onChange={(event, value) => {
                                   if (value === null) {
@@ -514,6 +535,7 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
                               <Autocomplete
                                 id="state-dropdown"
                                 options={stateData}
+                                value={filters["State"]}
                                 getOptionLabel={(option) => option}
                                 onChange={(event, value) => {
                                   if (value === null) {
@@ -544,6 +566,7 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
                               <Autocomplete
                                 id="city-dropdown"
                                 options={filteredCityData}
+                                value={filters["City"]}
                                 getOptionLabel={(option) => option}
                                 onChange={(event, value) => {
                                   if (value === null) {

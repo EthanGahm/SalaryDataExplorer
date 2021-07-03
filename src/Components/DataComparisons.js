@@ -72,23 +72,23 @@ export default function DataComparisons() {
     (async function getData() {
       /// TOP 3 SALARIES DATA FOR 2019 AND 2021
       var t19 = await axios.get(
-        "http://localhost:5000/salary_data/2019_top_salaries"
+        "https://salary-data-api.herokuapp.com/salary_data/2019_top_salaries"
       );
 
       topThree2019 = t19.data;
       // console.log("2019: " + topThree2019);
       var t21 = await axios.get(
-        "http://localhost:5000/salary_data/top_salaries"
+        "https://salary-data-api.herokuapp.com/salary_data/top_salaries"
       );
 
       topThree2021 = t21.data;
       // console.log("2021: " + topThree2021);
       /// MEDIAN OVERALL SALARIES 2019/2021
       var m19 = await axios.get(
-        "http://localhost:5000/salary_data/2019_median_salary"
+        "https://salary-data-api.herokuapp.com/salary_data/2019_median_salary"
       );
       var m21 = await axios.get(
-        "http://localhost:5000/salary_data/median_salary"
+        "https://salary-data-api.herokuapp.com/salary_data/median_salary"
       );
 
       medians.push(["2019", m19.data[0].median]);
@@ -97,11 +97,11 @@ export default function DataComparisons() {
       // console.log(medians);
       /// MEDIANS SALARIES FOR AGE GROUPS 2019 2021
       var ma19 = await axios.get(
-        "http://localhost:5000/salary_data/2019_median_ages"
+        "https://salary-data-api.herokuapp.com/salary_data/2019_median_ages"
       );
       // console.log(ma19.data);
       var ma21 = await axios.get(
-        "http://localhost:5000/salary_data/median_ages"
+        "https://salary-data-api.herokuapp.com/salary_data/median_ages"
       );
       // console.log(ma21.data);
       age_med_2019 = ma19.data;
