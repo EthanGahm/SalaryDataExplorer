@@ -68,10 +68,9 @@ export default function FilterAndSearch() {
  // State variable used to store the location strings of the rows fitting the current filters
  const [pinLocations, setPinLocations] = useState([]);
 
-const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
-
-
  const [page, setPage] = useState(0);
+
+ const [drawer, setDrawer] = useState(false);
 
   useEffect(() => {
     retrieveIndustries();
@@ -92,10 +91,10 @@ const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
 
 
   // State variables
-  const [filters, setFilters] = useState([]);
-  const [page, setPage] = useState(0);
-  const [filterRows, setFilterRows] = useState([]);
-  const [drawer, setDrawer] = useState(false);
+ 
+ 
+
+
 
 
   
