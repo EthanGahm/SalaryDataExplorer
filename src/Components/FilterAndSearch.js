@@ -22,7 +22,7 @@ import Slider from "@material-ui/core/Slider";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import { positions } from '@material-ui/system';
-import { useEffect, useState } from "react";
+import { useEffect, useState, setState } from "react";
 import GoogleMaps from "./GoogleMaps.js";
 import axios from "axios";
 import { DataGrid } from "@material-ui/data-grid";
@@ -30,8 +30,7 @@ import PageTitle from "./PageTitle";
 import MarkerMap from "./GoogleMaps.js";
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { mergeClasses } from "@material-ui/styles";
-import getLocationsFromJSON from '../HelperMethods/ExtractLocationFromJSON'
-import getSalaryFromJSON from '../HelperMethods/ExtractSalaryFromJSON'
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -48,21 +47,67 @@ import FormControl from '@material-ui/core/FormControl';
 
 
 export default function FilterAndSearch() {
+ // State variable used to store the current filters.
+ const [filters, setFilters] = useState({});
 
+ // State variable used to store the current filters for data summary analysis. 
+ const [summaryFilters, setSummaryFilters] = useState({});
+
+ // State variable used to store the filter rows for the table. 
+ const [filterRows, setFilterRows] = useState([])
+
+ // State variable used to store the data rows displayed in the table.
+ const [allData, setAllData] = useState({});
+
+ // State variable used to store the mean salary of the rows fitting the current filters
+ const [meanSalary, setMeanSalary] = useState();
+
+ // State variable used to store the median salary of the rows fitting the current filters
+ const [medianSalary, setMedianSalary] = useState();
+
+ // State variable used to store the location strings of the rows fitting the current filters
+ const [pinLocations, setPinLocations] = useState([]);
+
+const locationList = ["34.0194543","-118.4911912","Santa Monica, CA, USA"]
+
+
+ const [page, setPage] = useState(0);
 
   useEffect(() => {
     retrieveIndustries();
     retrieveCountries();
     retrieveCities();
     retrieveStates();
+    retrieveAllData();
+   
+    
+    
   }, []);
 
+  useEffect(() => {
+    console.log("filters changed")
+    retrieveSummaryData(summaryFilters)
+    
+  }, [summaryFilters])
 
-  // State variables
-  const [filters, setFilters] = useState([]);
-  const [page, setPage] = useState(0);
-  const [filterRows, setFilterRows] = useState([]);
 
+  
+ 
+
+ function getAll() {
+   var res = axios.get(`http://localhost:5000/salary_data/all_2021`);
+   return res
+ }
+
+ const retrieveAllData = () => {
+  getAll()
+    .then(response => {
+      setAllData(response.data);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+};
 
   // Previous button
   const handlePreviousPageChange = () => {
@@ -111,6 +156,30 @@ export default function FilterAndSearch() {
     return axios.get(dataURL);
   }
 
+  // Takes in a set of filters and retrieves the corresponding summary data values
+  // from the database. This includes mean + median salaries as well as the location
+  // strings for the corresponding rows.
+  const retrieveSummaryData = (summaryFilters) => {
+    const dataURL = new URL("http://localhost:5000/salary_data/allRaw_2021?")
+    for (const [key, value] of Object.entries(summaryFilters)) {
+      if (value === null) {
+        filters[key] = ""
+      }
+      dataURL.searchParams.append(key, value)
+    }
+    let res = axios.get(dataURL);
+    res.then(response => {
+      console.log(response.data)
+      setMeanSalary(response.data.mean_salary)
+      setMedianSalary(response.data.median_salary)
+      setPinLocations(response.data.pin_locations)
+
+    })
+      .catch(e => {
+        console.error(e);
+      });
+  };
+  
 
   // Industry dropdown option
   const [industriesData, setIndustries] = useState([]);
@@ -219,47 +288,7 @@ export default function FilterAndSearch() {
   const handleResetFilter = () => {
     
   }
-
-
-  // Map marker state
-  /*
-  const url = "https://salary-data-api.herokuapp.com/salary_data/all_2021";
-  const [pinLocations, setpinLocations] = React.useState([])
-  React.useEffect(() => {
-    let data = getLocationsFromJSON(url)
-    data.then((data) => setpinLocations(data))
-  }, [])
-
-  // Salary state
-  const [salary, setSalary] = React.useState([])
-  React.useEffect(() => {
-    let data = getSalaryFromJSON(url)
-    data.then((data) => setSalary(data))
-  }, [])
-  
-
-  // Calculates the mean salary
-  const calculateMeanSalary = () => {
-    var add = 0;
-    for (var i = 0; i < salary.length; i++) {
-      add = add + salary[i];
-    }
-    const mean = add / salary.length;
-    return parseInt(mean);
-
-  }
-  const meanSalary = calculateMeanSalary()
-
-  //Calculates the median salary
-  const calculateMedianSalary = () => {
-    const salarySort = salary.sort();
-    const mid = Math.ceil(salary.length / 2);
-    const median = salary.length % 2 == 0 ? (salarySort[mid] + salarySort[mid - 1]) / 2 : salarySort[mid - 1];
-    return parseInt(median)
-  }
-  const medianSalary = calculateMedianSalary();
-  */
-
+ 
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -378,6 +407,13 @@ export default function FilterAndSearch() {
                                     setFilters(filters => ({ ...filters, "Industry": value }))
                                   }
                                 }}
+                                onChange={(event, value) => {
+                                  if (value === null) {
+                                    setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Industry": "" }))
+                                  } else {
+                                    setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Industry": value }))
+                                  }
+                                }}
                               />
                             </Box>
                             <Box pt={3}>
@@ -394,6 +430,13 @@ export default function FilterAndSearch() {
                                       setPage(0)
                                     }
                                   }}
+                                  onChange={(event) => {
+                                  if (event.target.value === null) {
+                                    setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Age": "" }))
+                                  } else {
+                                    setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Age": event.target.value }))
+                                  }
+                                }}
                                 >
                                   <option value="">None</option>
                                   <option value={'under 18'}>Under 18</option>
@@ -424,6 +467,13 @@ export default function FilterAndSearch() {
 
                                   }
                                 }}
+                                onChange={(event, value) => {
+                                  if (value === null) {
+                                    setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Gender": "" }))
+                                  } else {
+                                    setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Gender": value }))
+                                  }
+                                }}
                                 renderInput={(params) => (
                                   <TextField {...params} variant="outlined" />
                                 )}
@@ -444,7 +494,13 @@ export default function FilterAndSearch() {
                                     setPage(0)
                                     setFilters(filters => ({ ...filters, "Country": value }))
                                   }
-
+                                }}
+                                onChange={(event, value) => {
+                                  if (value === null) {
+                                    setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Country": "" }))
+                                  } else {
+                                    setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Country": value }))
+                                  }
                                 }}
                                 style={{ width: 300 }}
                                 renderInput={(params) => (
@@ -469,6 +525,13 @@ export default function FilterAndSearch() {
                                     setFilters(filters => ({ ...filters, "State": value }))
                                   }
                                 }}
+                                onChange={(event, value) => {
+                                  if (value === null) {
+                                    setSummaryFilters(summaryFilters => ({ ...summaryFilters, "State": "" }))
+                                  } else {
+                                    setSummaryFilters(summaryFilters => ({ ...summaryFilters, "State": value }))
+                                  }
+                                }}
                                 style={{ width: 300 }}
                                 renderInput={(params) => (
                                   <TextField {...params} variant="outlined" />
@@ -489,6 +552,13 @@ export default function FilterAndSearch() {
                                   } else {
                                     setPage(0)
                                     setFilters(filters => ({ ...filters, "City": value }))
+                                  }
+                                }}
+                                onChange={(event, value) => {
+                                  if (value === null) {
+                                    setSummaryFilters(summaryFilters => ({ ...summaryFilters, "City": "" }))
+                                  } else {
+                                    setSummaryFilters(summaryFilters => ({ ...summaryFilters, "City": value }))
                                   }
                                 }}
                                 style={{ width: 300 }}
@@ -515,7 +585,7 @@ export default function FilterAndSearch() {
                   <Box pt={3}>
 
                   </Box>
-                  {/* <Paper className={classes.paper}>
+                  { <Paper className={classes.paper}>
                     <Typography variant="h6" gutterBottom>
                       Data Summary
                     </Typography>
@@ -528,18 +598,20 @@ export default function FilterAndSearch() {
                     <Typography variant="subtitle1" gutterBottom>
                       Average Age:
                     </Typography>
-                  </Paper> */}
+                  </Paper> }
                   <Box pt={5}>
 
                   </Box>
                   <Paper className={classes.paper} elevation={0}>
-                    {/* <MarkerMap
+                    
+                     {<MarkerMap
                       location={location}
-                      zoomLevel={8}
+                      zoomLevel={8} 
                       pinLocations={
                         pinLocations
                       }
-                    /> */}
+                    /> 
+                    }
                   </Paper>
                 </Grid>
               </Grid>
