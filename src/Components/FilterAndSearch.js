@@ -78,9 +78,6 @@ export default function FilterAndSearch() {
     retrieveCities();
     retrieveStates();
     retrieveAllData();
-   
-    
-    
   }, []);
 
   useEffect(() => {
@@ -89,16 +86,6 @@ export default function FilterAndSearch() {
     
   }, [summaryFilters])
 
-
-  // State variables
- 
- 
-
-
-
-
-  
- 
 
  function getAll() {
    var res = axios.get(`http://localhost:5000/salary_data/all_2021`);
