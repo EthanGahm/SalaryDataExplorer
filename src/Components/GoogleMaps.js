@@ -1,7 +1,6 @@
-import React, { useState, Component } from 'react'
+import React, { useState, Component, useEffect } from 'react'
 import GoogleMapReact from 'google-map-react'
-import isEmpty from 'lodash.isempty';
-import getCoordinates from '../HelperMethods/LocationCoordinates'
+
 
 const mapContainerStyle = {
   width: "40vw",
@@ -9,15 +8,19 @@ const mapContainerStyle = {
 }
 
 export default function MarkerMap({pinLocations}) {
+  
+  const [coordinates, setCoordinates] = useState(pinLocations)
+  useEffect(() => {
+    setCoordinates(pinLocations)
+  }, [pinLocations])
+  
+  
 
-  const [coordinates, setCoordinates] = React.useState([])
-  React.useEffect(() => {
-    let data = getCoordinates(pinLocations)
-    data.then((data) => setCoordinates(data))
-   },[pinLocations])
    const handleApiLoaded = (map, maps, coordinates) => {
     const markers = [];
     const infowindows = [];
+    
+  
     coordinates.map((coordinate) => {
       markers.push(new maps.Marker({
         position: {
@@ -30,18 +33,19 @@ export default function MarkerMap({pinLocations}) {
         content: coordinate[2],
       }));
     });
-  
+    
     markers.forEach((marker, i) => {
       marker.addListener('click', () => {
         infowindows[i].open(map, marker);
       });
     });
   };
-  
+
+ 
    return (
    <>
    
-   {!isEmpty(coordinates) && (
+   
    <div className="google-map" style={mapContainerStyle}>
    <GoogleMapReact
       bootstrapURLKeys={{key: process.env.REACT_APP_GOOGLEMAPS_ID}}
@@ -53,7 +57,7 @@ export default function MarkerMap({pinLocations}) {
       
    </GoogleMapReact>
    </div>
-   )}
+   
    
    </>
    )}
