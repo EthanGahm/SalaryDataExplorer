@@ -547,11 +547,11 @@ export default function DataComparisons() {
               </Paper>
             </Grid>
           </Grid>
+          {/* Copyright box */}
+          <Box pt={4}>
+            <Copyright />
+          </Box>
         </Container>
-        {/* Copyright box */}
-        <Box pt={4}>
-          <Copyright />
-        </Box>
       </main>
     </div>
   );
