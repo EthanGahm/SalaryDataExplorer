@@ -18,19 +18,13 @@ import { mainListItems } from "./listItems";
 import Title from "./Title";
 import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
-import Slider from "@material-ui/core/Slider";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
-import { positions } from '@material-ui/system';
 import { useEffect, useState, setState } from "react";
-import GoogleMaps from "./GoogleMaps.js";
 import axios from "axios";
-import { DataGrid } from "@material-ui/data-grid";
 import PageTitle from "./PageTitle";
 import MarkerMap from "./GoogleMaps.js";
 import NativeSelect from '@material-ui/core/NativeSelect';
-import { mergeClasses } from "@material-ui/styles";
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -44,9 +38,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
 
-
-
 export default function FilterAndSearch() {
+
   // State variable used to store the current filters.
   const [filters, setFilters] = useState({});
 
@@ -68,34 +61,59 @@ export default function FilterAndSearch() {
   // State variable used to store the location strings of the rows fitting the current filters
   const [pinLocations, setPinLocations] = useState([]);
 
+  // State variable used to store the page number corresponding to the pages in the mongoDB database
   const [page, setPage] = useState(0);
 
+  // State variable used to store whether or not the filter list is displayed when the 'Filter' button is pressed
   const [drawer, setDrawer] = useState(false);
 
+  // State variable used to store distinct industry dropdown options
+  const [industriesData, setIndustries] = useState([]);
+
+  // State variable used to store distinct country dropdown options
+  const [countryData, setCountryData] = useState([]);
+
+  // State variable used to store distinct state dropdown options
+  const [stateData, setStateData] = useState([]);
+
+  // State variable used to store distinct city dropdown options
+  const [cityData, setCityData] = useState([]);
+
+  // State variable used to track whether the site options are displayed or not
+  const [open, setOpen] = React.useState(true);
+
+  // Styling used for the Filter/Search page
+  const classes = useStyles();
+
+
+
+  // Hook that renders once, displaying the dropdown options for the filter and retrieves database for filtering
   useEffect(() => {
     retrieveIndustries();
     retrieveCountries();
     retrieveCities();
     retrieveStates();
     retrieveAllData();
-
-
-
   }, []);
 
+  // Each time the filter is changed, changes the summary data corresponding to the filter selected
   useEffect(() => {
-    console.log("filters changed")
     retrieveSummaryData(summaryFilters)
-
   }, [summaryFilters])
 
 
-
+  /**
+   * Connects to the endpoint from the axios 'GET' call
+   * @returns Connection with the corresponding endpoint in the backend
+   */
   function getAll() {
     var res = axios.get(`http://localhost:5000/salary_data/all_2021`);
     return res
   }
 
+  /**
+   * Calls the endpoint with axios and sets the state variable setAllData with all the specifed data from the backend
+   */
   const retrieveAllData = () => {
     getAll()
       .then(response => {
@@ -106,7 +124,10 @@ export default function FilterAndSearch() {
       });
   };
 
-  // Previous button
+  /**
+   * OnChange function for the previous page button, allows traversal of the previous database page from the backend to front end
+   * @returns the previous page of the database
+   */
   const handlePreviousPageChange = () => {
     if (page <= 0) {
       return
@@ -115,7 +136,10 @@ export default function FilterAndSearch() {
     }
   };
 
-  // Next button
+  /**
+   * OnChange function for the next page button, allows traversal of the next database page from the backend to front end
+   * @returns the next page of the database
+   */
   const handleNextPageChange = () => {
     if (filterRows.length < 5) {
       return
@@ -124,7 +148,11 @@ export default function FilterAndSearch() {
     }
   }
 
-  // setting table rows
+  /**
+   * Using the current filters and page number, utilizes the query from the find function to set the table with the resulting rows
+   * by setting the setFilterRows state variable. This hook activates whenever the page is changed or the drawer is opened or closed with
+   * the selected filters.
+   */
   useEffect(() => {
     const response = find(filters, page);
     const tempRows = [];
@@ -138,7 +166,11 @@ export default function FilterAndSearch() {
     });
   }, [page, drawer])
 
-  // database query
+  /**
+   * @param {*} filters filters specified from the dropdowns using the state variable 'filters'
+   * @param {*} page page number specified from the backend that shows unique rows on each page
+   * @returns an endpoint that appends the page number and filters to show specified data
+   */
   function find(filters, page) {
     const dataURL = new URL("http://localhost:5000/salary_data/all_2021?")
     for (const [key, value] of Object.entries(filters)) {
@@ -175,17 +207,18 @@ export default function FilterAndSearch() {
       });
   };
 
-  console.log(filters)
-
-
-  // Industry dropdown option
-  const [industriesData, setIndustries] = useState([]);
-
+  /**
+   * Used to get the endpoint that contains industries from the database
+   * @returns an array of industries with no duplicates
+   */
   function getIndustries() {
     var res = axios.get('http://localhost:5000/salary_data/industries');
     return res
   }
 
+  /**
+   * Using the endpoint from axios, updates the state variable 'setIndustries' to be used in the dropdown menu
+   */
   const retrieveIndustries = () => {
     getIndustries()
       .then(response => {
@@ -196,21 +229,26 @@ export default function FilterAndSearch() {
       });
   };
 
-
-
-  // Gender Data
+  /**
+   * Options for gender that were stated in the 2021 salary survey
+   */
   const genderOptions = [
     'Woman', 'Man', 'Non-binary', 'Other or prefer not to answer'
   ]
 
-  // Country data
-  const [countryData, setCountryData] = useState([]);
 
+  /**
+   * Used to get the endpoint that contains countries from the database
+   * @returns an array of countries with no duplicates
+   */
   function getCountries() {
     var res = axios.get('http://localhost:5000/salary_data/countries');
     return res
   }
 
+  /**
+   * Using the endpoint from axios, updates the state variable 'setCountryData' to be used in the dropdown menu
+   */
   const retrieveCountries = () => {
     getCountries()
       .then(response => {
@@ -222,16 +260,18 @@ export default function FilterAndSearch() {
   };
 
 
-  // State/Province data
-
-  const [stateData, setStateData] = useState([]);
-
+  /**
+     * Used to get the endpoint that contains states from the database
+     * @returns an array of states with no duplicates
+     */
   function getStates() {
     var res = axios.get('http://localhost:5000/salary_data/states')
     return res
   }
 
-
+  /**
+     * Using the endpoint from axios, updates the state variable 'setStateData' to be used in the dropdown menu
+     */
   const retrieveStates = () => {
     getStates()
       .then(response => {
@@ -243,15 +283,21 @@ export default function FilterAndSearch() {
   };
 
 
-  // City data
-  const [cityData, setCityData] = useState([]);
+  // Used to get rid of null values in the city endpoint data
   var filteredCityData = cityData.filter(function (val) { return val !== null })
 
+   /**
+     * Used to get the endpoint that contains cities from the database
+     * @returns an array of cities with no duplicates
+     */
   function getCities() {
     var res = axios.get('http://localhost:5000/salary_data/cities');
     return res
   }
 
+  /**
+     * Using the endpoint from axios, updates the state variable 'setCityData' to be used in the dropdown menu
+     */
   const retrieveCities = () => {
     getCities()
       .then(response => {
@@ -262,26 +308,37 @@ export default function FilterAndSearch() {
       });
   };
 
-  // Page Styling and Drawer
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  /**
+   * OnChange function to open the drawer and keep track of it being open
+   */
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+
+  /**
+   * OnChange function to close the drawer and keep track of it being closed
+   */
   const handleDrawerClose = () => {
     setOpen(false);
   };
 
-  // Filter
-
+  /**
+   * OnChange function to open the Filter menu and keep track of it being open
+   */
   const handleClickOpen = () => {
     setDrawer(true);
   };
 
+  /**
+   * OnChange function to close the Filter menu and keep track of it being closed
+   */
   const handleClose = () => {
     setDrawer(false);
   };
 
+  /**
+   * OnChange function that when clicked resets the table to default settings, on page 0 and no filters
+   */
   const handleResetFilter = () => {
     setFilters({})
     setPage(0)
@@ -302,9 +359,7 @@ export default function FilterAndSearch() {
       <CssBaseline />
       <AppBar
         position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}
-      >
-
+        className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -314,12 +369,10 @@ export default function FilterAndSearch() {
             className={clsx(
               classes.menuButton,
               open && classes.menuButtonHidden
-            )}
-          >
+            )}>
             <MenuIcon />
           </IconButton>
           <PageTitle text="Data Summary" />
-
         </Toolbar>
       </AppBar>
       <Drawer
@@ -327,8 +380,7 @@ export default function FilterAndSearch() {
         classes={{
           paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
         }}
-        open={open}
-      >
+        open={open}>
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
@@ -366,10 +418,7 @@ export default function FilterAndSearch() {
                       location={location}
                       zoomLevel={8}
                       pinLocations={
-                        pinLocations
-                      }
-                    />
-                    }
+                        pinLocations} />}
                   </Paper>
                 </Grid>
                 <Grid xs={12}>
@@ -378,12 +427,9 @@ export default function FilterAndSearch() {
                       <Button variant="contained" style={{ height: 40 }} color="primary" onClick={handlePreviousPageChange}>
                         Previous
                       </Button>
-
-
                       <Button variant="contained" style={{ height: 40 }} color="primary" onClick={handleResetFilter}>
                         Reset Filters
                       </Button>
-
                       <Button variant="contained" style={{ height: 40 }} color="primary" onClick={handleClickOpen}>Filter</Button>
                       <Dialog disableBackdropClick disableEscapeKeyDown open={drawer} onClose={handleClose}>
                         <DialogTitle>Table Filter</DialogTitle>
@@ -557,56 +603,56 @@ export default function FilterAndSearch() {
                         Next
                       </Button>
                     </Box>
-                    </Paper>
+                  </Paper>
                 </Grid>
-                  <Grid>
-                    <TableContainer component={Paper} style={{ maxHeight: 500 }}>
-                      <Table stickyHeader className={classes.table} aria-label="simple table">
-                        <TableHead>
-                          <TableRow>
-                            <TableCell align="right">Age</TableCell>
-                            <TableCell align="right">Industry</TableCell>
-                            <TableCell align="right">Job Title</TableCell>
-                            <TableCell align="right">Annual Salary</TableCell>
-                            <TableCell align="right">Currency</TableCell>
-                            <TableCell align="right">Work Experience</TableCell>
-                            <TableCell align="right">Country</TableCell>
-                            <TableCell align="right">State</TableCell>
-                            <TableCell align="right">City</TableCell>
-                            <TableCell align="right">Education</TableCell>
-                            <TableCell align="right">Gender</TableCell>
-                            <TableCell align="right">Race</TableCell>
+                <Grid>
+                  <TableContainer component={Paper} style={{ maxHeight: 500 }}>
+                    <Table stickyHeader className={classes.table} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="right">Age</TableCell>
+                          <TableCell align="right">Industry</TableCell>
+                          <TableCell align="right">Job Title</TableCell>
+                          <TableCell align="right">Annual Salary</TableCell>
+                          <TableCell align="right">Currency</TableCell>
+                          <TableCell align="right">Work Experience</TableCell>
+                          <TableCell align="right">Country</TableCell>
+                          <TableCell align="right">State</TableCell>
+                          <TableCell align="right">City</TableCell>
+                          <TableCell align="right">Education</TableCell>
+                          <TableCell align="right">Gender</TableCell>
+                          <TableCell align="right">Race</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {filterRows.map((row) => (
+                          <TableRow key={row[0]}>
+                            <TableCell align="right">{row[3]}</TableCell>
+                            <TableCell align="right">{row[4]}</TableCell>
+                            <TableCell align="right">{row[5]}</TableCell>
+                            <TableCell align="right">{row[6]}</TableCell>
+                            <TableCell align="right">{row[7]}</TableCell>
+                            <TableCell align="right">{row[8]}</TableCell>
+                            <TableCell align="right">{row[13]}</TableCell>
+                            <TableCell align="right">{row[14]}</TableCell>
+                            <TableCell align="right">{row[15]}</TableCell>
+                            <TableCell align="right">{row[16]}</TableCell>
+                            <TableCell align="right">{row[17]}</TableCell>
+                            <TableCell align="right">{row[18]}</TableCell>
                           </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {filterRows.map((row) => (
-                            <TableRow key={row[0]}>
-                              <TableCell align="right">{row[3]}</TableCell>
-                              <TableCell align="right">{row[4]}</TableCell>
-                              <TableCell align="right">{row[5]}</TableCell>
-                              <TableCell align="right">{row[6]}</TableCell>
-                              <TableCell align="right">{row[7]}</TableCell>
-                              <TableCell align="right">{row[8]}</TableCell>
-                              <TableCell align="right">{row[13]}</TableCell>
-                              <TableCell align="right">{row[14]}</TableCell>
-                              <TableCell align="right">{row[15]}</TableCell>
-                              <TableCell align="right">{row[16]}</TableCell>
-                              <TableCell align="right">{row[17]}</TableCell>
-                              <TableCell align="right">{row[18]}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </Grid>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
                 </Grid>
               </Grid>
             </Grid>
-            <Box pt={5}>
-              <Copyright />
-            </Box>
+          </Grid>
+          <Box pt={5}>
+            <Copyright />
+          </Box>
         </Container>
       </main>
     </div>
-      );
+  );
 }
