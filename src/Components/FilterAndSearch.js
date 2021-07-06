@@ -85,8 +85,6 @@ export default function FilterAndSearch() {
   // Styling used for the Filter/Search page
   const classes = useStyles();
 
-
-
   // Hook that renders once, displaying the dropdown options for the filter and retrieves database for filtering
   useEffect(() => {
     retrieveIndustries();
@@ -120,6 +118,7 @@ export default function FilterAndSearch() {
         setAllData(response.data);
       })
       .catch(e => {
+
         console.error(e);
       });
   };
@@ -130,7 +129,7 @@ export default function FilterAndSearch() {
    */
   const handlePreviousPageChange = () => {
     if (page <= 0) {
-      return
+      return;
     } else {
       setPage(page - 1);
     }
@@ -142,11 +141,11 @@ export default function FilterAndSearch() {
    */
   const handleNextPageChange = () => {
     if (filterRows.length < 5) {
-      return
+      return;
     } else {
       setPage(page + 1);
     }
-  }
+  };
 
   /**
    * Using the current filters and page number, utilizes the query from the find function to set the table with the resulting rows
@@ -156,15 +155,17 @@ export default function FilterAndSearch() {
   useEffect(() => {
     const response = find(filters, page);
     const tempRows = [];
-    response.then((res) => {
-      for (const row of Object.values(res.data.rows)) {
-        tempRows.push(Object.values(row));
-      }
-      setFilterRows(tempRows)
-    }).catch((e) => {
-      console.error(e);
-    });
-  }, [page, drawer])
+    response
+      .then((res) => {
+        for (const row of Object.values(res.data.rows)) {
+          tempRows.push(Object.values(row));
+        }
+        setFilterRows(tempRows);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, [page, drawer]);
 
   /**
    * @param {*} filters filters specified from the dropdowns using the state variable 'filters'
@@ -172,15 +173,15 @@ export default function FilterAndSearch() {
    * @returns an endpoint that appends the page number and filters to show specified data
    */
   function find(filters, page) {
-    const dataURL = new URL("http://localhost:5000/salary_data/all_2021?")
+    const dataURL = new URL("http://localhost:5000/salary_data/all_2021?");
     for (const [key, value] of Object.entries(filters)) {
       if (value === null) {
-        filters[key] = ""
+        filters[key] = "";
       }
       dataURL.searchParams.append(key, value);
     }
     dataURL.searchParams.append("page", page);
-    console.log(dataURL.href)
+    console.log(dataURL.href);
     return axios.get(dataURL);
   }
 
@@ -188,12 +189,12 @@ export default function FilterAndSearch() {
   // from the database. This includes mean + median salaries as well as the location
   // strings for the corresponding rows.
   const retrieveSummaryData = (summaryFilters) => {
-    const dataURL = new URL("http://localhost:5000/salary_data/allRaw_2021?")
+    const dataURL = new URL("http://localhost:5000/salary_data/allRaw_2021?");
     for (const [key, value] of Object.entries(summaryFilters)) {
       if (value === null) {
         summaryFilters[key] = ""
       }
-      dataURL.searchParams.append(key, value)
+      dataURL.searchParams.append(key, value);
     }
     let res = axios.get(dataURL);
     res.then(response => {
@@ -207,13 +208,14 @@ export default function FilterAndSearch() {
       });
   };
 
+
   /**
    * Used to get the endpoint that contains industries from the database
    * @returns an array of industries with no duplicates
    */
   function getIndustries() {
-    var res = axios.get('http://localhost:5000/salary_data/industries');
-    return res
+    var res = axios.get("http://localhost:5000/salary_data/industries");
+    return res;
   }
 
   /**
@@ -221,10 +223,10 @@ export default function FilterAndSearch() {
    */
   const retrieveIndustries = () => {
     getIndustries()
-      .then(response => {
+      .then((response) => {
         setIndustries(response.data);
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
       });
   };
@@ -233,8 +235,11 @@ export default function FilterAndSearch() {
    * Options for gender that were stated in the 2021 salary survey
    */
   const genderOptions = [
-    'Woman', 'Man', 'Non-binary', 'Other or prefer not to answer'
-  ]
+    "Woman",
+    "Man",
+    "Non-binary",
+    "Other or prefer not to answer",
+  ];
 
 
   /**
@@ -242,8 +247,8 @@ export default function FilterAndSearch() {
    * @returns an array of countries with no duplicates
    */
   function getCountries() {
-    var res = axios.get('http://localhost:5000/salary_data/countries');
-    return res
+    var res = axios.get("http://localhost:5000/salary_data/countries");
+    return res;
   }
 
   /**
@@ -251,33 +256,34 @@ export default function FilterAndSearch() {
    */
   const retrieveCountries = () => {
     getCountries()
-      .then(response => {
+      .then((response) => {
         setCountryData(response.data);
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
       });
   };
-
 
   /**
      * Used to get the endpoint that contains states from the database
      * @returns an array of states with no duplicates
      */
+
   function getStates() {
-    var res = axios.get('http://localhost:5000/salary_data/states')
-    return res
+    var res = axios.get("http://localhost:5000/salary_data/states");
+    return res;
   }
 
   /**
      * Using the endpoint from axios, updates the state variable 'setStateData' to be used in the dropdown menu
      */
+
   const retrieveStates = () => {
     getStates()
-      .then(response => {
+      .then((response) => {
         setStateData(response.data);
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
       });
   };
@@ -291,8 +297,8 @@ export default function FilterAndSearch() {
      * @returns an array of cities with no duplicates
      */
   function getCities() {
-    var res = axios.get('http://localhost:5000/salary_data/cities');
-    return res
+    var res = axios.get("http://localhost:5000/salary_data/cities");
+    return res;
   }
 
   /**
@@ -300,10 +306,10 @@ export default function FilterAndSearch() {
      */
   const retrieveCities = () => {
     getCities()
-      .then(response => {
+      .then((response) => {
         setCityData(response.data);
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
       });
   };
@@ -607,7 +613,11 @@ export default function FilterAndSearch() {
                 </Grid>
                 <Grid>
                   <TableContainer component={Paper} style={{ maxHeight: 500 }}>
-                    <Table stickyHeader className={classes.table} aria-label="simple table">
+                    <Table
+                      stickyHeader
+                      className={classes.table}
+                      aria-label="simple table"
+                    >
                       <TableHead>
                         <TableRow>
                           <TableCell align="right">Age</TableCell>
