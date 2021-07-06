@@ -98,7 +98,7 @@ export default function FilterAndSearch() {
   useEffect(() => {
     retrieveSummaryData(summaryFilters)
   }, [summaryFilters])
- 
+
 
   /**
    * Connects to the endpoint from the axios 'GET' call
@@ -292,10 +292,10 @@ export default function FilterAndSearch() {
   // Used to get rid of null values in the city endpoint data
   var filteredCityData = cityData.filter(function (val) { return val !== null })
 
-   /**
-     * Used to get the endpoint that contains cities from the database
-     * @returns an array of cities with no duplicates
-     */
+  /**
+    * Used to get the endpoint that contains cities from the database
+    * @returns an array of cities with no duplicates
+    */
   function getCities() {
     var res = axios.get("http://localhost:5000/salary_data/cities");
     return res;
@@ -420,11 +420,10 @@ export default function FilterAndSearch() {
                 </Grid>
                 <Grid xs={6}>
                   <Paper className={classes.paper} elevation={0}>
-                    {<MarkerMap
+                    <MarkerMap
                       location={location}
                       zoomLevel={8}
-                      pinLocations={
-                        pinLocations} />}
+                      pinLocations={pinLocations} />
                   </Paper>
                 </Grid>
                 <Grid xs={12}>
