@@ -1,5 +1,6 @@
 import React, { useState, Component, useEffect } from 'react'
 import GoogleMapReact from 'google-map-react'
+import isEmpty from 'lodash.isempty';
 
 
 const mapContainerStyle = {
@@ -8,56 +9,112 @@ const mapContainerStyle = {
 }
 
 export default function MarkerMap({pinLocations}) {
+  //const [markers, setMarkers] = useState([]);
+  //const [infowindow, setInfowindows] = useState([]);
   
-  const [coordinates, setCoordinates] = useState(pinLocations)
-  useEffect(() => {
-    setCoordinates(pinLocations)
-  }, [pinLocations])
+    
+    
+   
   
   
+   const renderMarkers = (map, maps) => {
+    var markers = []
 
-   const handleApiLoaded = (map, maps, coordinates) => {
-    const markers = [];
-    const infowindows = [];
-    
-  
-    coordinates.map((coordinate) => {
-      markers.push(new maps.Marker({
-        position: {
-          lat: parseFloat(coordinate[0]),
-          lng: parseFloat(coordinate[1]),
-        },
-        map,
-      }));
+    var infowindows = []
+    pinLocations.map((pinLocation) => {
+    let marker = new maps.Marker({
+      position: {lat: parseFloat(pinLocation[0]), lng: parseFloat(pinLocation[1])},
+      map,
+      })
       infowindows.push(new maps.InfoWindow({
-        content: coordinate[2],
+        content: pinLocation[2],
       }));
-    });
-    
+      markers.push(marker)
+      
+    })
+
     markers.forEach((marker, i) => {
       marker.addListener('click', () => {
         infowindows[i].open(map, marker);
       });
     });
+    
+/*
+    componentWillReceiveProps = () => {
+      markersList = []
+      infowindows = []
+      pinLocations.map((pinLocation) => {
+        let marker = new maps.Marker({
+          position: {lat: parseFloat(pinLocation[0]), lng: parseFloat(pinLocation[1])},
+          map,
+          })
+          infowindows.push(new maps.InfoWindow({
+            content: pinLocation[2],
+          }));
+          markers.push(marker)
+          
+        })
+    
+        markers.forEach((marker, i) => {
+          marker.addListener('click', () => {
+            infowindows[i].open(map, marker);
+          });
+        });
+        setMarkers(markersList)
+        setInfowindows(infowindows)
+      }
+    }
+    */
+   
+    
+    
+   //}
+      /*
+      const markers = [];
+      const infowindows = [];
+      
+    
+      pinLocations.map((pinLocation) => {
+        
+        markers.push(new maps.Marker({
+          position: {
+            lat: parseFloat(pinLocation[0]),
+            lng: parseFloat(pinLocation[1]),
+          },
+          map,
+        }));
+        infowindows.push(new maps.InfoWindow({
+          content: pinLocation[2],
+        }));
+      });
+      markers.forEach((marker, i) => {
+        marker.addListener('click', () => {
+          infowindows[i].open(map, marker);
+        });
+      });
+      
+    
+   };
+*/
   };
-
- 
    return (
    <>
    
    
    <div className="google-map" style={mapContainerStyle}>
+   {!isEmpty(pinLocations) && (
    <GoogleMapReact
       bootstrapURLKeys={{key: process.env.REACT_APP_GOOGLEMAPS_ID}}
       defaultZoom={3}
       defaultCenter={{lat: 37.09024, lng: -95.712891}}
       yesIWantToUseGoogleMapApiInternals={true}
-      onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps, coordinates)}
+      onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
     >
       
    </GoogleMapReact>
+   )}
    </div>
    
    
    </>
-   )}
+   )};

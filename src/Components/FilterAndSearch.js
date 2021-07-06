@@ -68,6 +68,8 @@ export default function FilterAndSearch() {
  // State variable used to store the location strings of the rows fitting the current filters
  const [pinLocations, setPinLocations] = useState([]);
 
+ const [locationList, setLocationList] = useState([])
+
  const [page, setPage] = useState(0);
 
  const [drawer, setDrawer] = useState(false);
@@ -85,7 +87,7 @@ export default function FilterAndSearch() {
     retrieveSummaryData(summaryFilters)
     
   }, [summaryFilters])
-
+ 
 
  function getAll() {
    var res = axios.get(`http://localhost:5000/salary_data/all_2021`);
@@ -613,14 +615,15 @@ export default function FilterAndSearch() {
                   </Box>
                   <Paper className={classes.paper} elevation={0}>
                     
-                     {<MarkerMap
+                     <MarkerMap
                       location={location}
                       zoomLevel={8} 
                       pinLocations={
                         pinLocations
                       }
+                     
                     /> 
-                    }
+                    
                   </Paper>
                 </Grid>
               </Grid>
