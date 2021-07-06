@@ -96,7 +96,6 @@ export const useStyles = makeStyles((theme) => ({
   box: {
     height: 100,
     display: "flex",
-    border: "1px solid black",
     padding: 8
   },
   spreadBox: {
