@@ -794,7 +794,7 @@ export default function DataSummary() {
                   or tech is by far the most popular one. Education, nonprofits, health 
                   care, government and public administration, and accounting banking & 
                   finance are also very popular industries right behind computing. Law 
-                  and law enforcement, marketing adversiting & PR, business or consulting 
+                  and law enforcement, marketing advertising & PR, business or consulting 
                   and meida & digital are less popular than the previous industries, but 
                   they still have a substantial work force. Highly specialized areas such 
                   as aerospace, auto repair, energy, and environment are the least popular 
