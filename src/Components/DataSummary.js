@@ -170,7 +170,6 @@ export default function DataSummary() {
         ind.val = ind.val.toFixed(2);
         ind.val = ind.val + " %";
       });
-      console.log(data5);
 
       var response6 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/salaries');
       data6 = response6.data;
@@ -228,6 +227,10 @@ export default function DataSummary() {
 
       var response9 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/numALL');
       data9 = response9.data;
+      for (let i = 0; i < data9.length; i++) {
+        data9[i].per = data9[i].other / data9[i].all * 100;
+      }
+      console.log(data9);
 
       var response10 = await axios.get('https://salary-data-api.herokuapp.com/salary_data/topCountries');
       data10 = response10.data;
@@ -288,7 +291,7 @@ export default function DataSummary() {
                   <h2>Average Annual Salary over Time</h2>
                 </center>
                 {!isLoaded ? (
-                  <CircularProgress />
+                  <center><CircularProgress /></center>
                 ) : (
                   <center><LineChart 
                     width={620} 
@@ -319,7 +322,7 @@ export default function DataSummary() {
                   <h2>Distribution of Age Groups</h2>
                 </center>
                 {!isLoaded ? (
-                  <CircularProgress />
+                  <center><CircularProgress /></center>
                 ) : (
                   <center>
                     <PieChart 
@@ -385,7 +388,7 @@ export default function DataSummary() {
                   <h2>Distribution of Degrees</h2>
                 </center>
                 {!isLoaded ? (
-                  <CircularProgress />
+                  <center><CircularProgress /></center>
                 ) : (
                   <center>
                     <PieChart
@@ -415,7 +418,7 @@ export default function DataSummary() {
                   <h2>Average Annual Salary By Degree</h2>
                 </center>
                 {!isLoaded ? (
-                  <CircularProgress />
+                  <center><CircularProgress /></center>
                 ) : (
                 <center><BarChart width = {600} height = {320} data = {data4}>
                   <CartesianGrid strokeDasharray = "3 3"/>
@@ -476,7 +479,7 @@ export default function DataSummary() {
               <Paper className = {classes.textbox}>
                 <center><h2>Salary Difference by Gender</h2></center>
                 {!isLoaded ? (
-                  <CircularProgress />
+                  <center><CircularProgress /></center>
                 ) : (
                   <center><BarChart width = {440} height = {300} data = {data5}>
                     <CartesianGrid strokeDasharray = "3 3"/>
@@ -555,7 +558,7 @@ export default function DataSummary() {
               <Paper className = {classes.bigTextbox}>
                 <center><h2>Salary Difference by Race</h2></center>
                 {!isLoaded ? (
-                  <CircularProgress />
+                  <center><CircularProgress /></center>
                 ) : (
                   <center><BarChart width = {530} height = {350} data = {data7}>
                     <CartesianGrid strokeDasharray = "3 3"/>
@@ -593,7 +596,7 @@ export default function DataSummary() {
                   <h2>Average Annual Salary by Work experience</h2>
                 </center>
                 {!isLoaded ? (
-                  <CircularProgress />
+                  <center><CircularProgress /></center>
                 ) : (
                   <center><LineChart 
                     width={530} 
@@ -640,7 +643,7 @@ export default function DataSummary() {
               <Paper className = {classes.paper}>
                 <center><h2>Average Annual Salary Across Industries</h2></center>
                 {!isLoaded ? (
-                  <CircularProgress />
+                  <center><CircularProgress /></center>
                 ) : (
                   <center>
                     <BarChart 
@@ -719,7 +722,7 @@ export default function DataSummary() {
                   <h2>Distribution of People in the Job Market</h2>
                 </center>
                 {!isLoaded ? (
-                  <CircularProgress />
+                  <center><CircularProgress /></center>
                 ) : (
                   <center>
                     <RadarChart
@@ -797,21 +800,46 @@ export default function DataSummary() {
                   as aerospace, auto repair, energy, and environment are the least popular 
                   industries, despite some of them being extremely lucrative. Since there 
                   are way more women than men respondants in this survey, every industry 
-                  has more women than men.  
+                  has more women than men. As seen in the salary difference by gender graph 
+                  above, more than 77% of the respondants are women. For each industry, they 
+                  should comprise of roughly 77% correspondingly. However, some industries 
+                  have a much higher percentenage of men and much lower percentage of women.
+                  For computing or tech, although it is by far the most popluar job area, 
+                  the gap between men and women is least wide. Despite being one of the 
+                  most luractive industries, women only amount to 54% of the computing or 
+                  tech population. Despite being very popular and lucrative, computing or 
+                  tech is still a very male-dominated industry. Energy, auto repair, 
+                  entertainment, and food are some of the other very popular industries among 
+                  men, and the percentages of women drop below 70% in these areas. On the 
+                  other hand, some industries are overwhelmingly favored by women. Almost 92%
+                  of those who work in the social work industry are women, and women comprise 
+                  of 90% of the popluation in recruitment or HR. Shockingly, 92% of those who 
+                  work in aerospace are women, but this is due to the very small sample size 
+                  since only 12 people work in this industry in the survey. Other industries 
+                  such as health care, education, library, and nonprofits also have a higher 
+                  presence of women than men. The food industry has the highest percentage of 
+                  non-binary people (13%), followed by argriculture or forestry and library, 
+                  both over 7%. Additionally, food is also the most popular industry (3.77%) 
+                  for those who entered "other or prefer not to answer" as their gender. 
+                  Other popular industries for those who identify as other or did not answer 
+                  are agriculture or forestry, entertainment, and retail. Data analysis on 
+                  all graphs on this page are not meant to be accruate and comprehensive due 
+                  to the imperfect nature of the survey and low sample size for some of the 
+                  industries.
                 </p>
               </Paper>
             </Grid>
 
-            <Grid item xs = {12} md = {8} lg = {8}>
-              <Paper className = {classes.textbox}>
+            <Grid item xs = {12} md = {8} lg = {12}>
+              <Paper className = {classes.paper}>
                 <center><h2>Top 10 Countries</h2></center>
                 {!isLoaded ? (
                   <center><CircularProgress /></center>
                 ) : (
                   <center>
                     <FunnelChart 
-                      width={620} 
-                      height={250} 
+                      width={1070} 
+                      height={230} 
                     >
                       <Funnel 
                         data = {data10}
@@ -835,6 +863,25 @@ export default function DataSummary() {
                     </FunnelChart>
                   </center>
                 )}
+              </Paper>
+            </Grid>
+
+            <Grid item xs = {12} md = {8} lg = {12}>
+              <Paper className = {classes.paper}>
+                <center><h3>A Very USA-Centered Survey</h3></center>
+                <p>As shown by all the graphs above, the majority of respondants in this 
+                  dataset are young, white, female professionals. These areas are nothing 
+                  compared to the lopsidedness of the countries entered in the 2021 survey.
+                  Illustrated by the funnel chart to the left, over 85% of respondants are 
+                  from the United States. Other top countries are Canada, Australia, 
+                  Germany, England, Ireland, New Zealand, The Netherlands, France, and 
+                  Scotland, making the data set very much western-centered. Smaller entries 
+                  from other countries simply could not contribute much, so it would not 
+                  make much sense to conduct data analysis on average annual salary by 
+                  country. Although there are many flaws and imperfections, this survey 
+                  could provide a basic guide and reference for professionals in the job 
+                  market. 
+                </p>
               </Paper>
             </Grid>
 
