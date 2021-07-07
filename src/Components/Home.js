@@ -82,19 +82,27 @@ export default function Home() {
               <Paper className={classes.paper}>
                 {/* context about the app */}
                 <Title>About this Tool</Title>
-                This is a tool that allows users to access information about
-                their salaries based on the 2021 ask a manager survey. Users
-                could search for a specific job position or industry to find
-                salary data. We have charts and graphs to represent the
-                different levels of salaries, and we could show corrolations
-                between demographics and salary.
+                This application is a data analysis tool built from the AskAManager.org 
+                2021 and 2019 survey results. Through graphs and text analysis, users can 
+                explore interesting trends and compare their own salary to the data 
+                visualizaed in this software. Information on this side could be used as 
+                reference to provide guidance for professionals across various industries, 
+                countries, gender, races, and education levels. User can also filter and 
+                search for salaries according to their specified demographic information 
+                such as location, age, gender, industry, and race. Additionally, users are 
+                more then welcome to sumbit their own reponses to the survey, and their 
+                salary information will be included in our 2021 database. Their additions 
+                to the dataset will also be reflected in the Data Summery page on this app.
               </Paper>
             </Grid>
 
             <Grid item xs = {12} md = {8} lg = {4}>
               <Paper className = {classes.paper}>
                 <Title>Key Features</Title>
-                Hello!!!!!!!!!!!
+                Are you underpaid? Explore salary data trends now!
+                Compare 2019, 2021, and other datasets.
+                Filter and search for your job.
+                Interested in contributing? Add your own responce!
               </Paper>
             </Grid>
 
