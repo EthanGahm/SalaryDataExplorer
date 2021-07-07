@@ -86,11 +86,11 @@ export default function AddResponse() {
               Loading…
             </iframe>
           </Box>
+          {/* Copyright for the app */}
+          <Box pt={5}>
+            <Copyright />
+          </Box>
         </Container>
-        {/* Copyright for the app */}
-        <Box pt={5}>
-          <Copyright />
-        </Box>
       </main>
     </div>
   );
