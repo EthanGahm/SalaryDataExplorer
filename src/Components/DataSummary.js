@@ -391,7 +391,7 @@ export default function DataSummary() {
                 </center>
                 <p>
                   According to the data collected from Ask A Manager's 2021
-                  survey, the line chart on the left shows the progression of
+                  survey, the first line chart shows the progression of
                   annual salary over time. As age grows, the annual salary
                   generally increases, and it peaks around when a person is
                   between 45 and 54. Not surprisingly, the average annual salary
@@ -590,7 +590,7 @@ export default function DataSummary() {
                   <h3>Gender Income Gap is a Grand Canyon</h3>
                 </center>
                 <p>
-                  Based on the bar chart to the left, the pay gap between men
+                  Based on the gender bar chart, the pay gap between men
                   and other genders is quite significant. With an average annual
                   salary at 130k, men earn a whopping 40k more than their women
                   counterparts. Although earning dramatically lower salaries
@@ -735,10 +735,10 @@ export default function DataSummary() {
                   <h3>Work Experience Matters</h3>
                 </center>
                 <p>
-                  The average annual salary increases steadily until 21-30 years
+                  The average annual salary increases until 21-30 years
                   of work experience, and begins to decrease afterwards.
-                  Starting at 70k, one could reach 115k per year after 21-30
-                  years in the work force. The trend basically goes hand in hand
+                  Starting at 70k, one could reach 115k per year after working 21-30
+                  years. The trend basically goes hand in hand
                   with the first graph illustrating the growth of annual salary
                   over time. As a person grows older and gains more experience
                   working, it makes sense that his/her salary increases along
@@ -928,7 +928,7 @@ export default function DataSummary() {
                   are the least popular industries, despite some of them being
                   extremely lucrative. Since there are way more women than men
                   respondants in this survey, every industry has more women than
-                  men. As seen in the salary difference by gender graph above,
+                  men. As seen in the salary difference by gender graph,
                   more than 77% of the respondants are women. For each industry,
                   they should comprise of roughly 77% correspondingly. However,
                   some industries have a much higher percentenage of men and
@@ -1002,11 +1002,11 @@ export default function DataSummary() {
                   <h3>A Very USA-Centered Survey</h3>
                 </center>
                 <p>
-                  As shown by all the graphs above, the majority of respondants
+                  As shown by all the previous graphs, the majority of respondants
                   in this dataset are young, white, female professionals. These
                   areas are nothing compared to the lopsidedness of the
                   countries entered in the 2021 survey. Illustrated by the
-                  funnel chart to the left, over 85% of respondants are from the
+                  funnel chart, over 85% of respondants are from the
                   United States. Other top countries are Canada, Australia,
                   Germany, England, Ireland, New Zealand, The Netherlands,
                   France, and Scotland, making the data set very much
