@@ -204,7 +204,12 @@ export default function FilterAndSearch() {
       .then((response) => {
         setMeanSalary(response.data.mean_salary);
         setMedianSalary(response.data.median_salary);
-        setPinLocations(response.data.pin_locations);
+        if (Object.keys(summaryFilters) == 0){
+          setPinLocations([82.8628, 135.0000])
+          }
+          else {
+          setPinLocations(response.data.pin_locations)
+          }
       })
       .catch((e) => {
         console.error(e);
