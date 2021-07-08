@@ -54,6 +54,8 @@ export default function FilterAndSearch() {
 
   // State variable used to store the mean salary of the rows fitting the current filters
   const [meanSalary, setMeanSalary] = useState();
+  const [topSalary, setTopSalary] = useState();
+  const [botSalary, setBotSalary] = useState();
 
   // State variable used to store the median salary of the rows fitting the current filters
   const [medianSalary, setMedianSalary] = useState();
@@ -105,7 +107,7 @@ export default function FilterAndSearch() {
    * @returns Connection with the corresponding endpoint in the backend
    */
   function getAll() {
-    var res = axios.get(`http://localhost:5000/salary_data/all_2021`);
+    var res = axios.get(`http://localhost:5000/all_2021`);
     return res
   }
 
@@ -201,7 +203,8 @@ export default function FilterAndSearch() {
       setMeanSalary(response.data.mean_salary)
       setMedianSalary(response.data.median_salary)
       setPinLocations(response.data.pin_locations)
-
+      setTopSalary(response.data.top_salary);
+      setBotSalary(response.data.bot_salary);
     })
       .catch(e => {
         console.error(e);
@@ -360,6 +363,7 @@ export default function FilterAndSearch() {
     });
   }
 
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -378,7 +382,7 @@ export default function FilterAndSearch() {
             )}>
             <MenuIcon />
           </IconButton>
-          <PageTitle text="Data Summary" />
+          <PageTitle text="Filter and Search" />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -402,11 +406,12 @@ export default function FilterAndSearch() {
             <Grid container direction="row">
               <Title>Set Parameters and Search the Dataset</Title>
               <Grid item xs={12} md={12} lg={12} container maxwidth={'lg'}>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6} lg = {6}>
                   {<Paper className={classes.paper}>
                     <Typography variant="h6" gutterBottom>
                       Data Summary
                     </Typography>
+                    <p>Filters: filters</p>
                     <Typography variant="subtitle1" gutterBottom>
                       Mean Salary: {meanSalary}
                     </Typography>
@@ -414,11 +419,14 @@ export default function FilterAndSearch() {
                       Median Salary: {medianSalary}
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
-                      Average Age:
+                      Highest Salary: {topSalary}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Lowest Salary: {botSalary}
                     </Typography>
                   </Paper>}
                 </Grid>
-                <Grid xs={6}>
+                <Grid item xs={12} md={6} lg={6}>
                   <Paper className={classes.paper} elevation={0}>
                     {<MarkerMap
                       location={location}
