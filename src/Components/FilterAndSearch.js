@@ -24,30 +24,29 @@ import { useEffect, useState, setState } from "react";
 import axios from "axios";
 import PageTitle from "./PageTitle";
 import MarkerMap from "./GoogleMaps.js";
-import NativeSelect from '@material-ui/core/NativeSelect';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControl from '@material-ui/core/FormControl';
+import NativeSelect from "@material-ui/core/NativeSelect";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import FormControl from "@material-ui/core/FormControl";
 
 export default function FilterAndSearch() {
-
   // State variable used to store the current filters.
   const [filters, setFilters] = useState({});
 
-  // State variable used to store the current filters for data summary analysis. 
+  // State variable used to store the current filters for data summary analysis.
   const [summaryFilters, setSummaryFilters] = useState({});
 
-  // State variable used to store the filter rows for the table. 
-  const [filterRows, setFilterRows] = useState([])
+  // State variable used to store the filter rows for the table.
+  const [filterRows, setFilterRows] = useState([]);
 
   // State variable used to store the data rows displayed in the table.
   const [allData, setAllData] = useState({});
@@ -98,17 +97,18 @@ export default function FilterAndSearch() {
 
   // Each time the filter is changed, changes the summary data corresponding to the filter selected
   useEffect(() => {
-    retrieveSummaryData(summaryFilters)
-  }, [summaryFilters])
-
+    retrieveSummaryData(summaryFilters);
+  }, [summaryFilters]);
 
   /**
    * Connects to the endpoint from the axios 'GET' call
    * @returns Connection with the corresponding endpoint in the backend
    */
   function getAll() {
-    var res = axios.get(`http://localhost:5000/all_2021`);
-    return res
+    var res = axios.get(
+      `https://salary-data-api.herokuapp.com/salary_data/all_2021`
+    );
+    return res;
   }
 
   /**
@@ -116,11 +116,10 @@ export default function FilterAndSearch() {
    */
   const retrieveAllData = () => {
     getAll()
-      .then(response => {
+      .then((response) => {
         setAllData(response.data);
       })
-      .catch(e => {
-
+      .catch((e) => {
         console.error(e);
       });
   };
@@ -175,7 +174,9 @@ export default function FilterAndSearch() {
    * @returns an endpoint that appends the page number and filters to show specified data
    */
   function find(filters, page) {
-    const dataURL = new URL("http://localhost:5000/salary_data/all_2021?");
+    const dataURL = new URL(
+      "https://salary-data-api.herokuapp.com/salary_data/all_2021?"
+    );
     for (const [key, value] of Object.entries(filters)) {
       if (value === null) {
         filters[key] = "";
@@ -191,33 +192,42 @@ export default function FilterAndSearch() {
   // from the database. This includes mean + median salaries as well as the location
   // strings for the corresponding rows.
   const retrieveSummaryData = (summaryFilters) => {
-    const dataURL = new URL("http://localhost:5000/salary_data/allRaw_2021?");
+    const dataURL = new URL(
+      "https://salary-data-api.herokuapp.com/salary_data/allRaw_2021?"
+    );
     for (const [key, value] of Object.entries(summaryFilters)) {
       if (value === null) {
-        summaryFilters[key] = ""
+        summaryFilters[key] = "";
       }
       dataURL.searchParams.append(key, value);
     }
     let res = axios.get(dataURL);
-    res.then(response => {
-      setMeanSalary(response.data.mean_salary)
-      setMedianSalary(response.data.median_salary)
-      setPinLocations(response.data.pin_locations)
-      setTopSalary(response.data.top_salary);
-      setBotSalary(response.data.bot_salary);
-    })
-      .catch(e => {
+    res
+      .then((response) => {
+        setMeanSalary(response.data.mean_salary);
+        setMedianSalary(response.data.median_salary);
+        setTopSalary(response.data.top_salary);
+        setBotSalary(response.data.bot_salary);
+        if (Object.keys(summaryFilters) == 0){
+          setPinLocations([82.8628, 135.0000])
+          }
+          else {
+          setPinLocations(response.data.pin_locations)
+          }
+      })
+      .catch((e) => {
         console.error(e);
       });
   };
-
 
   /**
    * Used to get the endpoint that contains industries from the database
    * @returns an array of industries with no duplicates
    */
   function getIndustries() {
-    var res = axios.get("http://localhost:5000/salary_data/industries");
+    var res = axios.get(
+      "https://salary-data-api.herokuapp.com/salary_data/industries"
+    );
     return res;
   }
 
@@ -244,13 +254,14 @@ export default function FilterAndSearch() {
     "Other or prefer not to answer",
   ];
 
-
   /**
    * Used to get the endpoint that contains countries from the database
    * @returns an array of countries with no duplicates
    */
   function getCountries() {
-    var res = axios.get("http://localhost:5000/salary_data/countries");
+    var res = axios.get(
+      "https://salary-data-api.herokuapp.com/salary_data/countries"
+    );
     return res;
   }
 
@@ -268,18 +279,20 @@ export default function FilterAndSearch() {
   };
 
   /**
-     * Used to get the endpoint that contains states from the database
-     * @returns an array of states with no duplicates
-     */
+   * Used to get the endpoint that contains states from the database
+   * @returns an array of states with no duplicates
+   */
 
   function getStates() {
-    var res = axios.get("http://localhost:5000/salary_data/states");
+    var res = axios.get(
+      "https://salary-data-api.herokuapp.com/salary_data/states"
+    );
     return res;
   }
 
   /**
-     * Using the endpoint from axios, updates the state variable 'setStateData' to be used in the dropdown menu
-     */
+   * Using the endpoint from axios, updates the state variable 'setStateData' to be used in the dropdown menu
+   */
 
   const retrieveStates = () => {
     getStates()
@@ -291,22 +304,25 @@ export default function FilterAndSearch() {
       });
   };
 
-
   // Used to get rid of null values in the city endpoint data
-  var filteredCityData = cityData.filter(function (val) { return val !== null })
+  var filteredCityData = cityData.filter(function (val) {
+    return val !== null;
+  });
 
-   /**
-     * Used to get the endpoint that contains cities from the database
-     * @returns an array of cities with no duplicates
-     */
+  /**
+   * Used to get the endpoint that contains cities from the database
+   * @returns an array of cities with no duplicates
+   */
   function getCities() {
-    var res = axios.get("http://localhost:5000/salary_data/cities");
+    var res = axios.get(
+      "https://salary-data-api.herokuapp.com/salary_data/cities"
+    );
     return res;
   }
 
   /**
-     * Using the endpoint from axios, updates the state variable 'setCityData' to be used in the dropdown menu
-     */
+   * Using the endpoint from axios, updates the state variable 'setCityData' to be used in the dropdown menu
+   */
   const retrieveCities = () => {
     getCities()
       .then((response) => {
@@ -349,19 +365,21 @@ export default function FilterAndSearch() {
    * OnChange function that when clicked resets the table to default settings, on page 0 and no filters
    */
   const handleResetFilter = () => {
-    setFilters({})
-    setPage(0)
+    setFilters({});
+    setPage(0);
     const response = find("", 0);
     const tempRows = [];
-    response.then((res) => {
-      for (const row of Object.values(res.data.rows)) {
-        tempRows.push(Object.values(row));
-      }
-      setFilterRows(tempRows)
-    }).catch((e) => {
-      console.error(e);
-    });
-  }
+    response
+      .then((res) => {
+        for (const row of Object.values(res.data.rows)) {
+          tempRows.push(Object.values(row));
+        }
+        setFilterRows(tempRows);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
 
 
   return (
@@ -369,7 +387,8 @@ export default function FilterAndSearch() {
       <CssBaseline />
       <AppBar
         position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}>
+        className={clsx(classes.appBar, open && classes.appBarShift)}
+      >
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -379,7 +398,8 @@ export default function FilterAndSearch() {
             className={clsx(
               classes.menuButton,
               open && classes.menuButtonHidden
-            )}>
+            )}
+          >
             <MenuIcon />
           </IconButton>
           <PageTitle text="Filter and Search" />
@@ -390,7 +410,8 @@ export default function FilterAndSearch() {
         classes={{
           paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
         }}
-        open={open}>
+        open={open}
+      >
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
@@ -428,24 +449,52 @@ export default function FilterAndSearch() {
                 </Grid>
                 <Grid item xs={12} md={6} lg={6}>
                   <Paper className={classes.paper} elevation={0}>
-                    {<MarkerMap
-                      location={location}
-                      zoomLevel={8}
-                      pinLocations={
-                        pinLocations} />}
+                    {
+                      <MarkerMap
+                        location={location}
+                        zoomLevel={8}
+                        pinLocations={pinLocations}
+                      />
+                    }
                   </Paper>
                 </Grid>
                 <Grid xs={12}>
                   <Paper elevation={1}>
-                    <Box m={1} alignItems="center" className={`${classes.spreadBox} ${classes.box}`}>
-                      <Button variant="contained" style={{ height: 40 }} color="primary" onClick={handlePreviousPageChange}>
+                    <Box
+                      m={1}
+                      alignItems="center"
+                      className={`${classes.spreadBox} ${classes.box}`}
+                    >
+                      <Button
+                        variant="contained"
+                        style={{ height: 40 }}
+                        color="primary"
+                        onClick={handlePreviousPageChange}
+                      >
                         Previous
                       </Button>
-                      <Button variant="contained" style={{ height: 40 }} color="primary" onClick={handleResetFilter}>
+                      <Button
+                        variant="contained"
+                        style={{ height: 40 }}
+                        color="primary"
+                        onClick={handleResetFilter}
+                      >
                         Reset Filters
                       </Button>
-                      <Button variant="contained" style={{ height: 40 }} color="primary" onClick={handleClickOpen}>Filter</Button>
-                      <Dialog disableBackdropClick disableEscapeKeyDown open={drawer} onClose={handleClose}>
+                      <Button
+                        variant="contained"
+                        style={{ height: 40 }}
+                        color="primary"
+                        onClick={handleClickOpen}
+                      >
+                        Filter
+                      </Button>
+                      <Dialog
+                        disableBackdropClick
+                        disableEscapeKeyDown
+                        open={drawer}
+                        onClose={handleClose}
+                      >
                         <DialogTitle>Table Filter</DialogTitle>
                         <DialogContent>
                           <form className={classes.filtercontainer}>
@@ -458,46 +507,74 @@ export default function FilterAndSearch() {
                                   value={filters["Industry"]}
                                   getOptionLabel={(option) => option}
                                   style={{ width: 300 }}
-                                  renderInput={(params) => <TextField {...params} variant="outlined" />}
+                                  renderInput={(params) => (
+                                    <TextField {...params} variant="outlined" />
+                                  )}
                                   onChange={(event, value) => {
                                     if (value === null) {
-                                      setFilters(filters => ({ ...filters, "Industry": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Industry": "" }))
-                                      setPage(0)
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        Industry: "",
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        Industry: "",
+                                      }));
+                                      setPage(0);
                                     } else {
-                                      setPage(0)
-                                      setFilters(filters => ({ ...filters, "Industry": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Industry": value }))
+                                      setPage(0);
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        Industry: value,
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        Industry: value,
+                                      }));
                                     }
                                   }}
                                 />
                               </Box>
                               <Box pt={3}>
                                 Age Range:
-                                <div className={classes.root} >
+                                <div className={classes.root}>
                                   <NativeSelect
                                     id="demo-customized-select-native"
                                     value={filters["Age"]}
                                     onChange={(event) => {
                                       if (event.target.value === null) {
-                                        setFilters(filters => ({ ...filters, "Age": "" }))
-                                        setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Age": "" }))
-                                        setPage(0)
+                                        setFilters((filters) => ({
+                                          ...filters,
+                                          Age: "",
+                                        }));
+                                        setSummaryFilters((summaryFilters) => ({
+                                          ...summaryFilters,
+                                          Age: "",
+                                        }));
+                                        setPage(0);
                                       } else {
-                                        setFilters(filters => ({ ...filters, "Age": event.target.value }))
-                                        setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Age": event.target.value }))
-                                        setPage(0)
+                                        setFilters((filters) => ({
+                                          ...filters,
+                                          Age: event.target.value,
+                                        }));
+                                        setSummaryFilters((summaryFilters) => ({
+                                          ...summaryFilters,
+                                          Age: event.target.value,
+                                        }));
+                                        setPage(0);
                                       }
                                     }}
                                   >
                                     <option value="">None</option>
-                                    <option value={'under 18'}>Under 18</option>
-                                    <option value={'18-24'}>18-24</option>
-                                    <option value={'25-34'}>25-34</option>
-                                    <option value={'35-44'}>35-44</option>
-                                    <option value={'45-54'}>45-54</option>
-                                    <option value={'55-64'}>55-64</option>
-                                    <option value={'65 or over'}>65 or Over</option>
+                                    <option value={"under 18"}>Under 18</option>
+                                    <option value={"18-24"}>18-24</option>
+                                    <option value={"25-34"}>25-34</option>
+                                    <option value={"35-44"}>35-44</option>
+                                    <option value={"45-54"}>45-54</option>
+                                    <option value={"55-64"}>55-64</option>
+                                    <option value={"65 or over"}>
+                                      65 or Over
+                                    </option>
                                   </NativeSelect>
                                 </div>
                               </Box>
@@ -512,13 +589,25 @@ export default function FilterAndSearch() {
                                   style={{ width: 300 }}
                                   onChange={(event, value) => {
                                     if (value === null) {
-                                      setPage(0)
-                                      setFilters(filters => ({ ...filters, "Gender": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Gender": "" }))
+                                      setPage(0);
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        Gender: "",
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        Gender: "",
+                                      }));
                                     } else {
-                                      setPage(0)
-                                      setFilters(filters => ({ ...filters, "Gender": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Gender": value }))
+                                      setPage(0);
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        Gender: value,
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        Gender: value,
+                                      }));
                                     }
                                   }}
                                   renderInput={(params) => (
@@ -536,13 +625,25 @@ export default function FilterAndSearch() {
                                   getOptionLabel={(option) => option}
                                   onChange={(event, value) => {
                                     if (value === null) {
-                                      setPage(0)
-                                      setFilters(filters => ({ ...filters, "Country": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Country": "" }))
+                                      setPage(0);
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        Country: "",
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        Country: "",
+                                      }));
                                     } else {
-                                      setPage(0)
-                                      setFilters(filters => ({ ...filters, "Country": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Country": value }))
+                                      setPage(0);
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        Country: value,
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        Country: value,
+                                      }));
                                     }
                                   }}
                                   style={{ width: 300 }}
@@ -561,17 +662,27 @@ export default function FilterAndSearch() {
                                   getOptionLabel={(option) => option}
                                   onChange={(event, value) => {
                                     if (value === null) {
-                                      setPage(0)
-                                      setFilters(filters => ({ ...filters, "State": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "State": "" }))
-
+                                      setPage(0);
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        State: "",
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        State: "",
+                                      }));
                                     } else {
-                                      setPage(0)
-                                      setFilters(filters => ({ ...filters, "State": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "State": value }))
+                                      setPage(0);
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        State: value,
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        State: value,
+                                      }));
                                     }
                                   }}
-
                                   style={{ width: 300 }}
                                   renderInput={(params) => (
                                     <TextField {...params} variant="outlined" />
@@ -588,16 +699,27 @@ export default function FilterAndSearch() {
                                   getOptionLabel={(option) => option}
                                   onChange={(event, value) => {
                                     if (value === null) {
-                                      setPage(0)
-                                      setFilters(filters => ({ ...filters, "City": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "City": "" }))
+                                      setPage(0);
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        City: "",
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        City: "",
+                                      }));
                                     } else {
-                                      setPage(0)
-                                      setFilters(filters => ({ ...filters, "City": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "City": value }))
+                                      setPage(0);
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        City: value,
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        City: value,
+                                      }));
                                     }
                                   }}
-
                                   style={{ width: 300 }}
                                   renderInput={(params) => (
                                     <TextField {...params} variant="outlined" />
@@ -613,7 +735,12 @@ export default function FilterAndSearch() {
                           </Button>
                         </DialogActions>
                       </Dialog>
-                      <Button variant="contained" style={{ height: 40 }} color="primary" onClick={handleNextPageChange}>
+                      <Button
+                        variant="contained"
+                        style={{ height: 40 }}
+                        color="primary"
+                        onClick={handleNextPageChange}
+                      >
                         Next
                       </Button>
                     </Box>
