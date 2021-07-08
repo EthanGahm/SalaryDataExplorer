@@ -90,7 +90,7 @@ export default function DataComparisons() {
       var m21 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/median_salary"
       );
-
+      medians = [];
       medians.push(["2019", m19.data[0].median]);
       medians.push(["2021", m21.data[0].median]);
       medians.push(["DQYDJ", 43206]);
@@ -351,6 +351,20 @@ export default function DataComparisons() {
                       />
                       {/* api /docs used:https://recharts.org/en-US/api/Cell */}
                       <Bar dataKey="1" name="Median Salary" fill={colors[0]}>
+                        <LabelList
+                          dataKey="0"
+                          angle={0}
+                          position="center"
+                          fontSize={14}
+                          fill={"#000000"}
+                        />
+                        <LabelList
+                          dataKey="1"
+                          angle={0}
+                          position="top"
+                          fontSize={14}
+                          fill={"#000000"}
+                        />
                         {medians.map((entry, index) => (
                           <Cell
                             dataKey="1"
