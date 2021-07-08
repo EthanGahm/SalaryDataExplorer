@@ -10,15 +10,18 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import Typography from "@material-ui/core/Typography";
 import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
 import { Link } from "react-router-dom";
+import Tooltip from '@material-ui/core/Tooltip';
 // This file is for the tab on our app that allows for quick navigation to different features of the app
 export const mainListItems = (
   <div>
     {/* This is for the home button, where there context about what the app is built to do */}
     <Link to="/" style={{ textDecoration: "none", color: "#558aac" }}>
       <ListItem button>
+        <Tooltip title="Home">
         <ListItemIcon>
           <HomeIcon />
         </ListItemIcon>
+        </Tooltip>
         <ListItemText primary="Home" />
       </ListItem>
     </Link>
@@ -28,9 +31,11 @@ export const mainListItems = (
       style={{ textDecoration: "none", color: "#558aac" }}
     >
       <ListItem button>
+        <Tooltip title="Data Summary">
         <ListItemIcon>
           <TimelineIcon />
         </ListItemIcon>
+        </Tooltip>
         <ListItemText primary="Data Summary" />
       </ListItem>
     </Link>
@@ -40,9 +45,11 @@ export const mainListItems = (
       style={{ textDecoration: "none", color: "#558aac" }}
     >
       <ListItem button>
+        <Tooltip title="Data Comparison">
         <ListItemIcon>
           <CompareArrowsIcon />
         </ListItemIcon>
+        </Tooltip>
         <ListItemText primary="Comparing Datasets" />
       </ListItem>
     </Link>
@@ -52,9 +59,11 @@ export const mainListItems = (
       style={{ textDecoration: "none", color: "#558aac" }}
     >
       <ListItem button>
+        <Tooltip title="Filter and Search">
         <ListItemIcon>
           <SearchIcon />
         </ListItemIcon>
+        </Tooltip>
         <ListItemText primary="Filter and Search" />
       </ListItem>
     </Link>
@@ -64,9 +73,11 @@ export const mainListItems = (
       style={{ textDecoration: "none", color: "#558aac" }}
     >
       <ListItem button>
+        <Tooltip title="Add Response">
         <ListItemIcon>
           <AddIcon />
         </ListItemIcon>
+        </Tooltip>
         <ListItemText primary="Add a Response" />
       </ListItem>
     </Link>

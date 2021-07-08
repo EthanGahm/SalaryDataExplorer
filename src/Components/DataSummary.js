@@ -44,7 +44,7 @@ import {
   Legend,
   LabelList,
 } from "recharts";
-import { sum } from "d3";
+// import { sum } from "d3";
 
 const colors = ["#0088FE", "#82ca9d", "#FFBB28"];
 const colors1 = [
