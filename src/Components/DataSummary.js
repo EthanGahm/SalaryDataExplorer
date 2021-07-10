@@ -81,7 +81,17 @@ export default function DataSummary() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [isLoadedSalOverTime, setIsLoadedSalOverTime] = React.useState(false);
+  const [isLoadedDistAges, setIsLoadedDistAges] = React.useState(false);
+  const [isLoadedDistDeg, setIsLoadedDistDeg] = React.useState(false);
+  const [isLoadedSalByDeg, setIsLoadedSalByDeg] = React.useState(false);
+  const [isLoadedSalByGen, setIsLoadedSalByGen] = React.useState(false);
+  const [isLoadedSalByRace, setIsLoadedSalByRace] = React.useState(false);
+  const [isLoadedSalOverExp, setIsLoadedSalOverExp] = React.useState(false);
+  const [isLoadedSalInds, setIsLoadedSalInds] = React.useState(false);
+  const [isLoadedDistPeople, setIsLoadedDistPeople] = React.useState(false);
+  const [isLoadedCountries, setIsLoadedCountries] = React.useState(false);
+
   useEffect(() => {
     (async function getData() {
       var response1 = await axios.get(
@@ -90,7 +100,7 @@ export default function DataSummary() {
       data1 = response1.data;
       data1.sort((a, b) => (a._id > b._id ? 1 : -1));
       data1.unshift(data1.pop());
-
+      setIsLoadedSalOverTime(true);
       var response2 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/disAge"
       );
@@ -104,7 +114,7 @@ export default function DataSummary() {
       for (let i = 0; i < data2.length; i++) {
         data2[i].fill = colors1[i];
       }
-
+      setIsLoadedDistAges(true);
       var response3 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/disDegrees"
       );
@@ -136,7 +146,7 @@ export default function DataSummary() {
       for (let i = 0; i < data3.length; i++) {
         data3[i].fill = colors1[i];
       }
-
+      setIsLoadedDistDeg(true);
       var response4 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/degrees"
       );
@@ -168,7 +178,7 @@ export default function DataSummary() {
       for (let i = 0; i < data4.length; i++) {
         data4[i].fill = colors1[i];
       }
-
+      setIsLoadedSalByDeg(true);
       var response5 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/gender"
       );
@@ -182,7 +192,7 @@ export default function DataSummary() {
         ind.val = ind.val.toFixed(2);
         ind.val = ind.val + " %";
       });
-
+      setIsLoadedSalByGen(true);
       var response6 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/salaries"
       );
@@ -190,7 +200,7 @@ export default function DataSummary() {
       data6.sort((a, b) =>
         parseFloat(a.salary) < parseFloat(b.salary) ? 1 : -1
       );
-
+      setIsLoadedSalInds(true);
       var response7 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/race"
       );
@@ -204,7 +214,7 @@ export default function DataSummary() {
         ind.val = ind.val.toFixed(2);
         ind.val = ind.val + " %";
       });
-
+      setIsLoadedSalByRace(true);
       var response8 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/work"
       );
@@ -244,7 +254,7 @@ export default function DataSummary() {
         }
       }
       data8.sort((a, b) => (a.compare > b.compare ? 1 : -1));
-
+      setIsLoadedSalOverExp(true);
       var response9 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/numALL"
       );
@@ -253,7 +263,7 @@ export default function DataSummary() {
         data9[i].per = (data9[i].other / data9[i].all) * 100;
       }
       console.log(data9);
-
+      setIsLoadedDistPeople(true);
       var response10 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/topCountries"
       );
@@ -262,7 +272,7 @@ export default function DataSummary() {
         data10[i].fill = colors1[i];
       }
 
-      setIsLoaded(true);
+      setIsLoadedCountries(true);
     })();
   }, []);
 
@@ -314,7 +324,7 @@ export default function DataSummary() {
                 <center>
                   <h2>Average Annual Salary over Time</h2>
                 </center>
-                {!isLoaded ? (
+                {!isLoadedSalOverTime ? (
                   <center>
                     <CircularProgress />
                   </center>
@@ -356,7 +366,7 @@ export default function DataSummary() {
                 <center>
                   <h2>Distribution of Age Groups</h2>
                 </center>
-                {!isLoaded ? (
+                {!isLoadedDistAges ? (
                   <center>
                     <CircularProgress />
                   </center>
@@ -425,7 +435,7 @@ export default function DataSummary() {
                 <center>
                   <h2>Distribution of Degrees</h2>
                 </center>
-                {!isLoaded ? (
+                {!isLoadedDistDeg ? (
                   <center>
                     <CircularProgress />
                   </center>
@@ -458,7 +468,7 @@ export default function DataSummary() {
                 <center>
                   <h2>Average Annual Salary By Degree</h2>
                 </center>
-                {!isLoaded ? (
+                {!isLoadedSalByDeg ? (
                   <center>
                     <CircularProgress />
                   </center>
@@ -537,7 +547,7 @@ export default function DataSummary() {
                 <center>
                   <h2>Salary Difference by Gender</h2>
                 </center>
-                {!isLoaded ? (
+                {!isLoadedSalByGen ? (
                   <center>
                     <CircularProgress />
                   </center>
@@ -640,7 +650,7 @@ export default function DataSummary() {
                 <center>
                   <h2>Salary Difference by Race</h2>
                 </center>
-                {!isLoaded ? (
+                {!isLoadedSalByRace ? (
                   <center>
                     <CircularProgress />
                   </center>
@@ -692,7 +702,7 @@ export default function DataSummary() {
                 <center>
                   <h2>Average Annual Salary by Work experience</h2>
                 </center>
-                {!isLoaded ? (
+                {!isLoadedSalOverExp ? (
                   <center>
                     <CircularProgress />
                   </center>
@@ -757,7 +767,7 @@ export default function DataSummary() {
                 <center>
                   <h2>Average Annual Salary Across Industries</h2>
                 </center>
-                {!isLoaded ? (
+                {!isLoadedSalInds ? (
                   <center>
                     <CircularProgress />
                   </center>
@@ -845,7 +855,7 @@ export default function DataSummary() {
                 <center>
                   <h2>Distribution of People in the Job Market</h2>
                 </center>
-                {!isLoaded ? (
+                {!isLoadedDistPeople ? (
                   <center>
                     <CircularProgress />
                   </center>
@@ -968,7 +978,7 @@ export default function DataSummary() {
                 <center>
                   <h2>Top 10 Countries</h2>
                 </center>
-                {!isLoaded ? (
+                {!isLoadedCountries ? (
                   <center>
                     <CircularProgress />
                   </center>

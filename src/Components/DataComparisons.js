@@ -63,7 +63,10 @@ export default function DataComparisons() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [isLoadedTopIndustries, setIsLoadedTopIndustries] =
+    React.useState(false);
+  const [isLoadedMedSals, setIsLoadedMedSals] = React.useState(false);
+  const [isLoadedByAge, setIsLoadedByAge] = React.useState(false);
   // colors for the graphs
   const colors = ["#0088FE", "#00C49F", "#FFBB28"];
 
@@ -82,6 +85,7 @@ export default function DataComparisons() {
       );
 
       topThree2021 = t21.data;
+      setIsLoadedTopIndustries(true);
       // console.log("2021: " + topThree2021);
       /// MEDIAN OVERALL SALARIES 2019/2021
       var m19 = await axios.get(
@@ -94,6 +98,7 @@ export default function DataComparisons() {
       medians.push(["2019", m19.data[0].median]);
       medians.push(["2021", m21.data[0].median]);
       medians.push(["DQYDJ", 43206]);
+      setIsLoadedMedSals(true);
       // console.log(medians);
       /// MEDIANS SALARIES FOR AGE GROUPS 2019 2021
       var ma19 = await axios.get(
@@ -118,7 +123,7 @@ export default function DataComparisons() {
         "https://salary-data-api.herokuapp.com/salary_data/degrees"
       );
 
-      setIsLoaded(true);
+      setIsLoadedByAge(true);
     })();
   }, []);
 
@@ -191,7 +196,7 @@ export default function DataComparisons() {
             <Grid item xs={12} md={8} lg={6}>
               <Paper className={classes.paper}>
                 <center></center>
-                {!isLoaded ? (
+                {!isLoadedTopIndustries ? (
                   <center>
                     <CircularProgress />
                   </center>
@@ -233,7 +238,7 @@ export default function DataComparisons() {
             <Grid item xs={12} md={8} lg={6}>
               <Paper className={classes.paper}>
                 <center></center>
-                {!isLoaded ? (
+                {!isLoadedTopIndustries ? (
                   <center>
                     <CircularProgress />
                   </center>
@@ -326,7 +331,7 @@ export default function DataComparisons() {
             </Grid>
             <Grid item xs={12} md={8} lg={12}>
               <Paper className={classes.paper}>
-                {!isLoaded ? (
+                {!isLoadedMedSals ? (
                   <center>
                     <CircularProgress />
                   </center>
@@ -393,7 +398,7 @@ export default function DataComparisons() {
             </Grid>
             <Grid item xs={12} md={8} lg={4}>
               <Paper className={classes.paper}>
-                {!isLoaded ? (
+                {!isLoadedByAge ? (
                   <CircularProgress />
                 ) : (
                   <center>
@@ -441,7 +446,7 @@ export default function DataComparisons() {
             </Grid>
             <Grid item xs={12} md={8} lg={4}>
               <Paper className={classes.paper}>
-                {!isLoaded ? (
+                {!isLoadedByAge ? (
                   <CircularProgress />
                 ) : (
                   <center>
@@ -489,7 +494,7 @@ export default function DataComparisons() {
             </Grid>
             <Grid item xs={12} md={8} lg={4}>
               <Paper className={classes.paper}>
-                {!isLoaded ? (
+                {!isLoadedByAge ? (
                   <CircularProgress />
                 ) : (
                   <center>
