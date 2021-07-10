@@ -59,16 +59,16 @@ const colors1 = [
   "#9d00ff",
   "#ff8800",
 ];
-var data1 = [];
-var data2 = [];
-var data3 = [];
-var data4 = [];
-var data5 = [];
-var data6 = [];
-var data7 = [];
-var data8 = [];
-var data9 = [];
-var data10 = [];
+var salaryOverTimeData = [];
+var ageDistributionData = [];
+var degreeDistributionData = [];
+var degreeSalaryData = [];
+var genderSalaryData = [];
+var industrySalaryData = [];
+var raceSalaryData = [];
+var workExpSalaryData = [];
+var distPeopleData = [];
+var topCountriesData = [];
 
 export default function DataSummary() {
   const classes = useStyles();
@@ -94,182 +94,185 @@ export default function DataSummary() {
 
   useEffect(() => {
     (async function getData() {
-      var response1 = await axios.get(
+      var salaryOverTime = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/ages"
       );
-      data1 = response1.data;
-      data1.sort((a, b) => (a._id > b._id ? 1 : -1));
-      data1.unshift(data1.pop());
+      salaryOverTimeData = salaryOverTime.data;
+      salaryOverTimeData.sort((a, b) => (a._id > b._id ? 1 : -1));
+      salaryOverTimeData.unshift(salaryOverTimeData.pop());
       setIsLoadedSalOverTime(true);
-      var response2 = await axios.get(
+      var ageDistribution = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/disAge"
       );
-      data2 = response2.data;
-      data2.sort((a, b) => (a._id > b._id ? 1 : -1));
-      data2.unshift(data2.pop());
-      let temp1 = data2.slice(0, 3);
-      let temp2 = data2.slice(3);
+      ageDistributionData = ageDistribution.data;
+      ageDistributionData.sort((a, b) => (a._id > b._id ? 1 : -1));
+      ageDistributionData.unshift(ageDistributionData.pop());
+      let temp1 = ageDistributionData.slice(0, 3);
+      let temp2 = ageDistributionData.slice(3);
       temp1.push(temp1.shift());
-      data2 = temp1.concat(temp2);
-      for (let i = 0; i < data2.length; i++) {
-        data2[i].fill = colors1[i];
+      ageDistributionData = temp1.concat(temp2);
+      for (let i = 0; i < ageDistributionData.length; i++) {
+        ageDistributionData[i].fill = colors1[i];
       }
       setIsLoadedDistAges(true);
-      var response3 = await axios.get(
+      var degreeDistribution = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/disDegrees"
       );
-      data3 = response3.data;
-      for (let i = 0; i < data3.length; i++) {
-        if (data3[i]._id === "High School") {
-          data3[i].compare = 0;
+      degreeDistributionData = degreeDistribution.data;
+      for (let i = 0; i < degreeDistributionData.length; i++) {
+        if (degreeDistributionData[i]._id === "High School") {
+          degreeDistributionData[i].compare = 0;
         }
-        if (data3[i]._id === "Some college") {
-          data3[i].compare = 1;
+        if (degreeDistributionData[i]._id === "Some college") {
+          degreeDistributionData[i].compare = 1;
         }
-        if (data3[i]._id === "College degree") {
-          data3[i].compare = 2;
+        if (degreeDistributionData[i]._id === "College degree") {
+          degreeDistributionData[i].compare = 2;
         }
-        if (data3[i]._id === "Master's degree") {
-          data3[i].compare = 3;
+        if (degreeDistributionData[i]._id === "Master's degree") {
+          degreeDistributionData[i].compare = 3;
         }
-        if (data3[i]._id === "PhD") {
-          data3[i].compare = 4;
+        if (degreeDistributionData[i]._id === "PhD") {
+          degreeDistributionData[i].compare = 4;
         }
-        if (data3[i]._id === "Professional degree (MD, JD, etc.)") {
-          data3[i].compare = 5;
+        if (
+          degreeDistributionData[i]._id === "Professional degree (MD, JD, etc.)"
+        ) {
+          degreeDistributionData[i].compare = 5;
         }
-        if (data3[i]._id === "Other") {
-          data3[i].compare = 6;
+        if (degreeDistributionData[i]._id === "Other") {
+          degreeDistributionData[i].compare = 6;
         }
       }
-      data3.sort((a, b) => (a.compare > b.compare ? 1 : -1));
-      for (let i = 0; i < data3.length; i++) {
-        data3[i].fill = colors1[i];
+      degreeDistributionData.sort((a, b) => (a.compare > b.compare ? 1 : -1));
+      for (let i = 0; i < degreeDistributionData.length; i++) {
+        degreeDistributionData[i].fill = colors1[i];
       }
       setIsLoadedDistDeg(true);
-      var response4 = await axios.get(
+      var degreeSalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/degrees"
       );
-      data4 = response4.data;
-      for (let i = 0; i < data4.length; i++) {
-        if (data4[i]._id === "High School") {
-          data4[i].compare = 0;
+      degreeSalaryData = degreeSalary.data;
+      for (let i = 0; i < degreeSalaryData.length; i++) {
+        if (degreeSalaryData[i]._id === "High School") {
+          degreeSalaryData[i].compare = 0;
         }
-        if (data4[i]._id === "Some college") {
-          data4[i].compare = 1;
+        if (degreeSalaryData[i]._id === "Some college") {
+          degreeSalaryData[i].compare = 1;
         }
-        if (data4[i]._id === "College degree") {
-          data4[i].compare = 2;
+        if (degreeSalaryData[i]._id === "College degree") {
+          degreeSalaryData[i].compare = 2;
         }
-        if (data4[i]._id === "Master's degree") {
-          data4[i].compare = 3;
+        if (degreeSalaryData[i]._id === "Master's degree") {
+          degreeSalaryData[i].compare = 3;
         }
-        if (data4[i]._id === "PhD") {
-          data4[i].compare = 4;
+        if (degreeSalaryData[i]._id === "PhD") {
+          degreeSalaryData[i].compare = 4;
         }
-        if (data4[i]._id === "Professional degree (MD, JD, etc.)") {
-          data4[i].compare = 5;
+        if (degreeSalaryData[i]._id === "Professional degree (MD, JD, etc.)") {
+          degreeSalaryData[i].compare = 5;
         }
-        if (data4[i]._id === "Other") {
-          data4[i].compare = 6;
+        if (degreeSalaryData[i]._id === "Other") {
+          degreeSalaryData[i].compare = 6;
         }
       }
-      data4.sort((a, b) => (a.compare > b.compare ? 1 : -1));
-      for (let i = 0; i < data4.length; i++) {
-        data4[i].fill = colors1[i];
+      degreeSalaryData.sort((a, b) => (a.compare > b.compare ? 1 : -1));
+      for (let i = 0; i < degreeSalaryData.length; i++) {
+        degreeSalaryData[i].fill = colors1[i];
       }
       setIsLoadedSalByDeg(true);
-      var response5 = await axios.get(
+      var genderSalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/gender"
       );
-      data5 = response5.data;
-      data5.sort((a, b) => (a._id > b._id ? 1 : -1));
-      for (let i = 0; i < data5.length; i++) {
-        data5[i].fill = colors1[i];
+      genderSalaryData = genderSalary.data;
+      genderSalaryData.sort((a, b) => (a._id > b._id ? 1 : -1));
+      for (let i = 0; i < genderSalaryData.length; i++) {
+        genderSalaryData[i].fill = colors1[i];
       }
-      data5.forEach((ind) => {
+      genderSalaryData.forEach((ind) => {
         ind.val = (parseInt(ind.val) / 26336) * 100;
         ind.val = ind.val.toFixed(2);
         ind.val = ind.val + " %";
       });
       setIsLoadedSalByGen(true);
-      var response6 = await axios.get(
+      var industrySalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/salaries"
       );
-      data6 = response6.data;
-      data6.sort((a, b) =>
+      industrySalaryData = industrySalary.data;
+      industrySalaryData.sort((a, b) =>
         parseFloat(a.salary) < parseFloat(b.salary) ? 1 : -1
       );
       setIsLoadedSalInds(true);
-      var response7 = await axios.get(
+      var raceSalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/race"
       );
-      data7 = response7.data;
-      data7.sort((a, b) => (a._id > b._id ? 1 : -1));
-      for (let i = 0; i < data7.length; i++) {
-        data7[i].fill = colors1[i];
+      raceSalaryData = raceSalary.data;
+      raceSalaryData.sort((a, b) => (a._id > b._id ? 1 : -1));
+      for (let i = 0; i < raceSalaryData.length; i++) {
+        raceSalaryData[i].fill = colors1[i];
       }
-      data7.forEach((ind) => {
+      raceSalaryData.forEach((ind) => {
         ind.val = (parseInt(ind.val) / 26336) * 100;
         ind.val = ind.val.toFixed(2);
         ind.val = ind.val + " %";
       });
       setIsLoadedSalByRace(true);
-      var response8 = await axios.get(
+      var workExpSalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/work"
       );
-      data8 = response8.data;
-      for (let i = 0; i < data8.length; i++) {
-        if (data8[i]._id === "0 - 1 years") {
-          data8[i]._id = "0-1";
-          data8[i].compare = 0;
+      workExpSalaryData = workExpSalary.data;
+      for (let i = 0; i < workExpSalaryData.length; i++) {
+        if (workExpSalaryData[i]._id === "0 - 1 years") {
+          workExpSalaryData[i]._id = "0-1";
+          workExpSalaryData[i].compare = 0;
         }
-        if (data8[i]._id === "2 - 4 years") {
-          data8[i]._id = "2-4";
-          data8[i].compare = 1;
+        if (workExpSalaryData[i]._id === "2 - 4 years") {
+          workExpSalaryData[i]._id = "2-4";
+          workExpSalaryData[i].compare = 1;
         }
-        if (data8[i]._id === "5 - 7 years") {
-          data8[i]._id = "5-7";
-          data8[i].compare = 2;
+        if (workExpSalaryData[i]._id === "5 - 7 years") {
+          workExpSalaryData[i]._id = "5-7";
+          workExpSalaryData[i].compare = 2;
         }
-        if (data8[i]._id === "8 - 10 years") {
-          data8[i]._id = "8-10";
-          data8[i].compare = 3;
+        if (workExpSalaryData[i]._id === "8 - 10 years") {
+          workExpSalaryData[i]._id = "8-10";
+          workExpSalaryData[i].compare = 3;
         }
-        if (data8[i]._id === "11 - 20 years") {
-          data8[i]._id = "11-20";
-          data8[i].compare = 4;
+        if (workExpSalaryData[i]._id === "11 - 20 years") {
+          workExpSalaryData[i]._id = "11-20";
+          workExpSalaryData[i].compare = 4;
         }
-        if (data8[i]._id === "21 - 30 years") {
-          data8[i]._id = "21-30";
-          data8[i].compare = 5;
+        if (workExpSalaryData[i]._id === "21 - 30 years") {
+          workExpSalaryData[i]._id = "21-30";
+          workExpSalaryData[i].compare = 5;
         }
-        if (data8[i]._id === "31 - 40 years") {
-          data8[i]._id = "31-40";
-          data8[i].compare = 6;
+        if (workExpSalaryData[i]._id === "31 - 40 years") {
+          workExpSalaryData[i]._id = "31-40";
+          workExpSalaryData[i].compare = 6;
         }
-        if (data8[i]._id === "41 years or more") {
-          data8[i]._id = "40+";
-          data8[i].compare = 7;
+        if (workExpSalaryData[i]._id === "41 years or more") {
+          workExpSalaryData[i]._id = "40+";
+          workExpSalaryData[i].compare = 7;
         }
       }
-      data8.sort((a, b) => (a.compare > b.compare ? 1 : -1));
+      workExpSalaryData.sort((a, b) => (a.compare > b.compare ? 1 : -1));
       setIsLoadedSalOverExp(true);
-      var response9 = await axios.get(
+      var distPeople = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/numALL"
       );
-      data9 = response9.data;
-      for (let i = 0; i < data9.length; i++) {
-        data9[i].per = (data9[i].other / data9[i].all) * 100;
+      distPeopleData = distPeople.data;
+      for (let i = 0; i < distPeopleData.length; i++) {
+        distPeopleData[i].per =
+          (distPeopleData[i].other / distPeopleData[i].all) * 100;
       }
-      console.log(data9);
+      console.log(distPeopleData);
       setIsLoadedDistPeople(true);
-      var response10 = await axios.get(
+      var topCountries = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/topCountries"
       );
-      data10 = response10.data;
-      for (let i = 0; i < data10.length; i++) {
-        data10[i].fill = colors1[i];
+      topCountriesData = topCountries.data;
+      for (let i = 0; i < topCountriesData.length; i++) {
+        topCountriesData[i].fill = colors1[i];
       }
 
       setIsLoadedCountries(true);
@@ -330,7 +333,11 @@ export default function DataSummary() {
                   </center>
                 ) : (
                   <center>
-                    <LineChart width={620} height={280} data={data1}>
+                    <LineChart
+                      width={620}
+                      height={280}
+                      data={salaryOverTimeData}
+                    >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="_id" padding={{ left: 20, right: 20 }}>
                         <Label
@@ -378,7 +385,7 @@ export default function DataSummary() {
                       margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
                     >
                       <Pie
-                        data={data2}
+                        data={ageDistributionData}
                         dataKey="val"
                         nameKey="_id"
                         cx="50%"
@@ -447,7 +454,7 @@ export default function DataSummary() {
                       margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
                     >
                       <Pie
-                        data={data3}
+                        data={degreeDistributionData}
                         dataKey="val"
                         nameKey="_id"
                         cx="50%"
@@ -474,7 +481,7 @@ export default function DataSummary() {
                   </center>
                 ) : (
                   <center>
-                    <BarChart width={600} height={320} data={data4}>
+                    <BarChart width={600} height={320} data={degreeSalaryData}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis
                         dataKey="_id"
@@ -553,7 +560,7 @@ export default function DataSummary() {
                   </center>
                 ) : (
                   <center>
-                    <BarChart width={440} height={300} data={data5}>
+                    <BarChart width={440} height={300} data={genderSalaryData}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis
                         dataKey="_id"
@@ -656,7 +663,7 @@ export default function DataSummary() {
                   </center>
                 ) : (
                   <center>
-                    <BarChart width={530} height={350} data={data7}>
+                    <BarChart width={530} height={350} data={raceSalaryData}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis
                         dataKey="_id"
@@ -708,7 +715,11 @@ export default function DataSummary() {
                   </center>
                 ) : (
                   <center>
-                    <LineChart width={530} height={280} data={data8}>
+                    <LineChart
+                      width={530}
+                      height={280}
+                      data={workExpSalaryData}
+                    >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="_id" padding={{ left: 20, right: 20 }}>
                         <Label
@@ -776,7 +787,7 @@ export default function DataSummary() {
                     <BarChart
                       width={1500}
                       height={370}
-                      data={data6}
+                      data={industrySalaryData}
                       margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
                     >
                       <CartesianGrid strokeDasharray="3 3" />
@@ -866,7 +877,7 @@ export default function DataSummary() {
                       outerRadius={300}
                       width={950}
                       height={670}
-                      data={data9}
+                      data={distPeopleData}
                     >
                       <PolarGrid />
                       <PolarAngleAxis dataKey="name" fontSize={12} />
@@ -985,7 +996,11 @@ export default function DataSummary() {
                 ) : (
                   <center>
                     <FunnelChart width={1070} height={230}>
-                      <Funnel data={data10} dataKey="val" nameKey="_id">
+                      <Funnel
+                        data={topCountriesData}
+                        dataKey="val"
+                        nameKey="_id"
+                      >
                         <LabelList
                           position="left"
                           dataKey="_id"
