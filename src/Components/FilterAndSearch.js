@@ -208,8 +208,8 @@ export default function FilterAndSearch() {
         setMedianSalary(response.data.median_salary);
         setTopSalary(response.data.top_salary);
         setBotSalary(response.data.bot_salary);
-        if (Object.keys(summaryFilters) == 0){
-          setPinLocations([82.8628, 135.0000])
+        if (Object.keys(summaryFilters).length == 0){
+          setPinLocations([82.8628, 135.0000, "antarctica"])
           }
           else {
           setPinLocations(response.data.pin_locations)
