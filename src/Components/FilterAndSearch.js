@@ -37,6 +37,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
+import { ViewArraySharp } from "@material-ui/icons";
 
 export default function FilterAndSearch() {
 
@@ -68,16 +69,22 @@ export default function FilterAndSearch() {
   const [drawer, setDrawer] = useState(false);
 
   // State variable used to store distinct industry dropdown options
-  const [industriesData, setIndustries] = useState([]);
+  const [industriesData, setIndustries] = useState([""]);
 
   // State variable used to store distinct country dropdown options
-  const [countryData, setCountryData] = useState([]);
+  const [countryData, setCountryData] = useState([""]);
 
   // State variable used to store distinct state dropdown options
-  const [stateData, setStateData] = useState([]);
+  const [stateData, setStateData] = useState([""]);
 
-  // State variable used to store distinct city dropdown options
-  const [cityData, setCityData] = useState([]);
+  // State variable used to store distinct race dropdown options
+  const [raceData, setRaceData] = useState([""]);
+
+  // State variable used to store distinct work experience dropdown options
+  const [workData, setWorkData] = useState([""]);
+
+  // State variable used to store distinct education dropdown options
+  const [educationData, setEducationData] = useState([""]);
 
   // State variable used to track whether the site options are displayed or not
   const [open, setOpen] = React.useState(true);
@@ -89,8 +96,10 @@ export default function FilterAndSearch() {
   useEffect(() => {
     retrieveIndustries();
     retrieveCountries();
-    retrieveCities();
+    retrieveRaces();
     retrieveStates();
+    retrieveEducation();
+    retrieveWorkExp();
     retrieveAllData();
   }, []);
 
@@ -174,10 +183,22 @@ export default function FilterAndSearch() {
    */
   function find(filters, page) {
     const dataURL = new URL("http://localhost:5000/salary_data/all_2021?");
+    const raceList = []
+    if(filters["Race"] !== undefined){
+      for(const race of raceOptions){
+        if(filters["Race"].includes(race)){
+          raceList.push(race)
+        }
+      }
+      filters["Race"] = raceList
+    }
+    console.log(raceList)
+
     for (const [key, value] of Object.entries(filters)) {
       if (value === null) {
         filters[key] = "";
       }
+      console.log(value)
       dataURL.searchParams.append(key, value);
     }
     dataURL.searchParams.append("page", page);
@@ -231,6 +252,9 @@ export default function FilterAndSearch() {
       });
   };
 
+    // Used to get rid of null values in the industry endpoint data
+    var fixedIndustryData = industriesData.filter(function (val) { return val !== null })
+
   /**
    * Options for gender that were stated in the 2021 salary survey
    */
@@ -241,6 +265,8 @@ export default function FilterAndSearch() {
     "Other or prefer not to answer",
   ];
 
+  // Used to get rid of null values in the country endpoint data
+  var fixedCountryData = countryData.filter(function (val) { return val !== null })
 
   /**
    * Used to get the endpoint that contains countries from the database
@@ -289,30 +315,98 @@ export default function FilterAndSearch() {
   };
 
 
-  // Used to get rid of null values in the city endpoint data
-  var filteredCityData = cityData.filter(function (val) { return val !== null })
+  // Dropdown menu options for the race filter
+  const raceOptions = [
+    "Asian or Asian American",
+    "Black or African American",
+    "Hispanic Latino or Spanish origin",
+    "Middle Eastern or Northern African",
+    "Native American or Alaska Native",
+    "White",
+    "Another option not listed here or prefer not to answer",
+  ]
 
-   /**
-     * Used to get the endpoint that contains cities from the database
-     * @returns an array of cities with no duplicates
-     */
-  function getCities() {
-    var res = axios.get("http://localhost:5000/salary_data/cities");
+
+  /**
+    * Used to get the endpoint that contains race from the database
+    * @returns an array of race with no duplicates
+    */
+  function getRaces() {
+    var res = axios.get("http://localhost:5000/salary_data/races");
     return res;
   }
 
   /**
      * Using the endpoint from axios, updates the state variable 'setCityData' to be used in the dropdown menu
      */
-  const retrieveCities = () => {
-    getCities()
+  const retrieveRaces = () => {
+    getRaces()
       .then((response) => {
-        setCityData(response.data);
+        setRaceData(response.data);
       })
       .catch((e) => {
         console.log(e);
       });
   };
+
+  //Dropdown option for the work experience filter
+  const workOptions = [
+    "0 - 1 years",
+    "2 - 4 years",
+    "5 - 7 years",
+    "8 - 10 years",
+    "11 - 20 years",
+    "21 - 30 years",
+    "31 - 40 years",
+    "41 years or more",
+  ]
+
+  /**
+   * Used to get the endpoint that contains work experience from the database
+   * @returns an array of work experience with no duplicates
+   */
+  function getWorkExp() {
+    var res = axios.get("http://localhost:5000/salary_data/work_exp");
+    return res;
+  }
+
+  /**
+  * Using the endpoint from axios, updates the state variable 'setWorkData' to be used in the dropdown menu
+  */
+  const retrieveWorkExp = () => {
+    getWorkExp()
+      .then((response) => {
+        setWorkData(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  /**
+   * Used to get the endpoint that contains education from the database
+   * @returns an array of education with no duplicates
+   */
+  function getEducation() {
+    var res = axios.get("http://localhost:5000/salary_data/education");
+    return res;
+  }
+
+  /**
+  * Using the endpoint from axios, updates the state variable 'setWorkData' to be used in the dropdown menu
+  */
+  const retrieveEducation = () => {
+    getEducation()
+      .then((response) => {
+        setEducationData(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+    // Used to get rid of null values in the education endpoint data
+    var fixedEducationData = educationData.filter(function (val) { return val !== null })
 
   /**
    * OnChange function to open the drawer and keep track of it being open
@@ -418,7 +512,7 @@ export default function FilterAndSearch() {
                     </Typography>
                   </Paper>}
                 </Grid>
-                <Grid xs={6}>
+                <Grid item xs={6}>
                   <Paper className={classes.paper} elevation={0}>
                     {<MarkerMap
                       location={location}
@@ -427,8 +521,8 @@ export default function FilterAndSearch() {
                         pinLocations} />}
                   </Paper>
                 </Grid>
-                <Grid xs={12}>
-                  <Paper elevation={1}>
+                <Grid item xs={12}>
+                  <Paper elevation={2}>
                     <Box m={1} alignItems="center" className={`${classes.spreadBox} ${classes.box}`}>
                       <Button variant="contained" style={{ height: 40 }} color="primary" onClick={handlePreviousPageChange}>
                         Previous
@@ -443,33 +537,12 @@ export default function FilterAndSearch() {
                           <form className={classes.filtercontainer}>
                             <FormControl className={classes.formControl}>
                               <Box pt={3}>
-                                Industry:
-                                <Autocomplete
-                                  id="industry-dropdown"
-                                  options={industriesData}
-                                  value={filters["Industry"]}
-                                  getOptionLabel={(option) => option}
-                                  style={{ width: 300 }}
-                                  renderInput={(params) => <TextField {...params} variant="outlined" />}
-                                  onChange={(event, value) => {
-                                    if (value === null) {
-                                      setFilters(filters => ({ ...filters, "Industry": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Industry": "" }))
-                                      setPage(0)
-                                    } else {
-                                      setPage(0)
-                                      setFilters(filters => ({ ...filters, "Industry": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Industry": value }))
-                                    }
-                                  }}
-                                />
-                              </Box>
-                              <Box pt={3}>
                                 Age Range:
                                 <div className={classes.root} >
                                   <NativeSelect
                                     id="demo-customized-select-native"
-                                    value={filters["Age"]}
+                                    value={filters["Age"] || ""}
+
                                     onChange={(event) => {
                                       if (event.target.value === null) {
                                         setFilters(filters => ({ ...filters, "Age": "" }))
@@ -493,38 +566,55 @@ export default function FilterAndSearch() {
                                   </NativeSelect>
                                 </div>
                               </Box>
-
                               <Box pt={3}>
-                                Gender:
+                                Industry:
                                 <Autocomplete
-                                  id="gender-dropdown"
-                                  options={genderOptions}
-                                  value={filters["Gender"]}
-                                  getOptionLabel={(option) => option}
+                                  id="industry-dropdown"
+                                  options={fixedIndustryData}
+                                  value={filters["Industry"] || ""}
+                                  getOptionLabel={(option, value) => option}
                                   style={{ width: 300 }}
+                                  renderInput={(params) => <TextField {...params} variant="outlined" />}
                                   onChange={(event, value) => {
                                     if (value === null) {
+                                      setFilters(filters => ({ ...filters, "Industry": "" }))
+                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Industry": "" }))
                                       setPage(0)
-                                      setFilters(filters => ({ ...filters, "Gender": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Gender": "" }))
                                     } else {
                                       setPage(0)
-                                      setFilters(filters => ({ ...filters, "Gender": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Gender": value }))
+                                      setFilters(filters => ({ ...filters, "Industry": value }))
+                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Industry": value }))
                                     }
                                   }}
-                                  renderInput={(params) => (
-                                    <TextField {...params} variant="outlined" />
-                                  )}
                                 />
                               </Box>
-
+                              <Box pt={3}>
+                                Work Experience:
+                                  <Autocomplete
+                                    id="work_exp-dropdown"
+                                    options={workOptions}
+                                    getOptionLabel={(option) => option}
+                                    renderInput={(params) => <TextField {...params} variant="outlined" />}
+                                    value={filters["Work_Experience"] || ""}
+                                    onChange={(event, value) => {
+                                      if (value === null) {
+                                        setFilters(filters => ({ ...filters, "Work_Experience": "" }))
+                                        setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Work_Experience": "" }))
+                                        setPage(0)
+                                      } else {
+                                        setPage(0)
+                                        setFilters(filters => ({ ...filters, "Work_Experience": value }))
+                                        setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Work_Experience": value }))
+                                      }
+                                    }}
+                                    />
+                              </Box>
                               <Box pt={3}>
                                 Country:
                                 <Autocomplete
                                   id="country-dropdown"
-                                  options={countryData}
-                                  value={filters["Country"]}
+                                  options={fixedCountryData}
+                                  value={filters["Country"] || ""}
                                   getOptionLabel={(option) => option}
                                   onChange={(event, value) => {
                                     if (value === null) {
@@ -545,11 +635,11 @@ export default function FilterAndSearch() {
                               </Box>
 
                               <Box pt={3}>
-                                State/Province:
+                                State:
                                 <Autocomplete
                                   id="state-dropdown"
                                   options={stateData}
-                                  value={filters["State"]}
+                                  value={filters["State"] || ""}
                                   getOptionLabel={(option) => option}
                                   onChange={(event, value) => {
                                     if (value === null) {
@@ -570,23 +660,74 @@ export default function FilterAndSearch() {
                                   )}
                                 />
                               </Box>
-
                               <Box pt={3}>
-                                City:
+                                Education:
                                 <Autocomplete
-                                  id="city-dropdown"
-                                  options={filteredCityData}
-                                  value={filters["City"]}
+                                  id="education-dropdown"
+                                  options={fixedEducationData}
+                                  value={filters["Highest_Level_of_Education"] || ""}
                                   getOptionLabel={(option) => option}
                                   onChange={(event, value) => {
                                     if (value === null) {
                                       setPage(0)
-                                      setFilters(filters => ({ ...filters, "City": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "City": "" }))
+                                      setFilters(filters => ({ ...filters, "Highest_Level_of_Education": "" }))
+                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Highest_Level_of_Education": "" }))
+
                                     } else {
                                       setPage(0)
-                                      setFilters(filters => ({ ...filters, "City": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "City": value }))
+                                      setFilters(filters => ({ ...filters, "Highest_Level_of_Education": value }))
+                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Highest_Level_of_Education": value }))
+                                    }
+                                  }}
+
+                                  style={{ width: 300 }}
+                                  renderInput={(params) => (
+                                    <TextField {...params} variant="outlined" />
+                                  )}
+                                />
+                              </Box>
+                              <Box pt={3}>
+                                Gender:
+                                <Autocomplete
+                                  id="gender-dropdown"
+                                  options={genderOptions}
+                                  value={filters["Gender"] || ""}
+                                  getOptionLabel={(option) => option}
+                                  style={{ width: 300 }}
+                                  onChange={(event, value) => {
+                                    if (value === null) {
+                                      setPage(0)
+                                      setFilters(filters => ({ ...filters, "Gender": "" }))
+                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Gender": "" }))
+                                    } else {
+                                      setPage(0)
+                                      setFilters(filters => ({ ...filters, "Gender": value }))
+                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Gender": value }))
+                                    }
+                                  }}
+                                  renderInput={(params) => (
+                                    <TextField {...params} variant="outlined" />
+                                  )}
+                                />
+                              </Box>
+
+                              <Box pt={3}>
+                                Race:
+                                <Autocomplete
+                                  multiple
+                                  id="race-dropdown"
+                                  options={raceOptions}
+                                  value={filters["Race"]}
+                                  getOptionLabel={(option) => option}
+                                  onChange={(event, value) => {
+                                    if (value === null) {
+                                      setPage(0)
+                                      setFilters(filters => ({ ...filters, "Race": "" }))
+                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Race": "" }))
+                                    } else {
+                                      setPage(0)
+                                      setFilters(filters => ({ ...filters, "Race": value }))
+                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Race": value }))
                                     }
                                   }}
 
@@ -637,18 +778,18 @@ export default function FilterAndSearch() {
                       <TableBody>
                         {filterRows.map((row) => (
                           <TableRow key={row[0]}>
+                            <TableCell align="right">{row[2]}</TableCell>
                             <TableCell align="right">{row[3]}</TableCell>
                             <TableCell align="right">{row[4]}</TableCell>
                             <TableCell align="right">{row[5]}</TableCell>
                             <TableCell align="right">{row[6]}</TableCell>
                             <TableCell align="right">{row[7]}</TableCell>
-                            <TableCell align="right">{row[8]}</TableCell>
+                            <TableCell align="right">{row[12]}</TableCell>
                             <TableCell align="right">{row[13]}</TableCell>
                             <TableCell align="right">{row[14]}</TableCell>
                             <TableCell align="right">{row[15]}</TableCell>
                             <TableCell align="right">{row[16]}</TableCell>
                             <TableCell align="right">{row[17]}</TableCell>
-                            <TableCell align="right">{row[18]}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
