@@ -15,14 +15,11 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import mainListItems from "./listItems";
 import Copyright from "./Copyright";
-// import Title from "./Title";
 import PageTitle from "./PageTitle";
 import useStyles from "./UseStyles.js";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
 import {
-  RadialBarChart,
-  RadialBar,
   FunnelChart,
   Funnel,
   RadarChart,
@@ -44,7 +41,6 @@ import {
   Legend,
   LabelList,
 } from "recharts";
-// import { sum } from "d3";
 
 const colors = ["#0088FE", "#82ca9d", "#FFBB28"];
 const colors1 = [
@@ -59,6 +55,7 @@ const colors1 = [
   "#9d00ff",
   "#ff8800",
 ];
+
 var salaryOverTimeData = [];
 var ageDistributionData = [];
 var degreeDistributionData = [];
@@ -101,6 +98,7 @@ export default function DataSummary() {
       salaryOverTimeData.sort((a, b) => (a._id > b._id ? 1 : -1));
       salaryOverTimeData.unshift(salaryOverTimeData.pop());
       setIsLoadedSalOverTime(true);
+      
       var ageDistribution = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/disAge"
       );
@@ -115,6 +113,7 @@ export default function DataSummary() {
         ageDistributionData[i].fill = colors1[i];
       }
       setIsLoadedDistAges(true);
+      
       var degreeDistribution = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/disDegrees"
       );
@@ -149,6 +148,7 @@ export default function DataSummary() {
         degreeDistributionData[i].fill = colors1[i];
       }
       setIsLoadedDistDeg(true);
+      
       var degreeSalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/degrees"
       );
@@ -181,6 +181,7 @@ export default function DataSummary() {
         degreeSalaryData[i].fill = colors1[i];
       }
       setIsLoadedSalByDeg(true);
+      
       var genderSalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/gender"
       );
@@ -195,6 +196,7 @@ export default function DataSummary() {
         ind.val = ind.val + " %";
       });
       setIsLoadedSalByGen(true);
+      
       var industrySalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/salaries"
       );
@@ -203,6 +205,7 @@ export default function DataSummary() {
         parseFloat(a.salary) < parseFloat(b.salary) ? 1 : -1
       );
       setIsLoadedSalInds(true);
+      
       var raceSalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/race"
       );
@@ -217,6 +220,7 @@ export default function DataSummary() {
         ind.val = ind.val + " %";
       });
       setIsLoadedSalByRace(true);
+      
       var workExpSalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/work"
       );
@@ -257,6 +261,7 @@ export default function DataSummary() {
       }
       workExpSalaryData.sort((a, b) => (a.compare > b.compare ? 1 : -1));
       setIsLoadedSalOverExp(true);
+      
       var distPeople = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/numALL"
       );
@@ -265,8 +270,8 @@ export default function DataSummary() {
         distPeopleData[i].per =
           (distPeopleData[i].other / distPeopleData[i].all) * 100;
       }
-      console.log(distPeopleData);
       setIsLoadedDistPeople(true);
+      
       var topCountries = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/topCountries"
       );
@@ -274,7 +279,6 @@ export default function DataSummary() {
       for (let i = 0; i < topCountriesData.length; i++) {
         topCountriesData[i].fill = colors1[i];
       }
-
       setIsLoadedCountries(true);
     })();
   }, []);
@@ -752,10 +756,10 @@ export default function DataSummary() {
                   <h3>Work Experience Matters</h3>
                 </center>
                 <p>
-                  The average annual salary increases steadily until 21-30 years
+                  The average annual salary increases until 21-30 years
                   of work experience, and begins to decrease afterwards.
-                  Starting at 70k, one could reach 115k per year after 21-30
-                  years in the work force. The trend basically goes hand in hand
+                  Starting at 70k, one could reach 115k per year after working 21-30
+                  years. The trend basically goes hand in hand
                   with the first graph illustrating the growth of annual salary
                   over time. As a person grows older and gains more experience
                   working, it makes sense that his/her salary increases along
@@ -946,10 +950,10 @@ export default function DataSummary() {
                   they still have a substantial work force. Highly specialized
                   areas such as aerospace, auto repair, energy, and environment
                   are the least popular industries, despite some of them being
-                  extremely lucrative. Since there were more female than male
-                  respondents in this survey, every industry has more women than
-                  men. As seen in the salary difference by gender graph above,
-                  more than 77% of the respondents are women. For each industry,
+                  extremely lucrative. Since there are way more women than men
+                  respondants in this survey, every industry has more women than
+                  men. As seen in the salary difference by gender graph,
+                  more than 77% of the respondants are women. For each industry,
                   they should comprise of roughly 77% correspondingly. However,
                   some industries have a much higher percentenage of men and
                   much lower percentage of women. For computing or tech,
@@ -1026,12 +1030,12 @@ export default function DataSummary() {
                   <h3>A Very USA-Centered Survey</h3>
                 </center>
                 <p>
-                  As shown by all the graphs above, the majority of respondents
+                  As shown by all the previous graphs, the majority of respondants
                   in this dataset are young, white, female professionals. These
                   areas are nothing compared to the lopsidedness of the
                   countries entered in the 2021 survey. Illustrated by the
-                  funnel chart to the left, over 85% of respondents are from the
-                  United States. Other top countries include Canada, Australia,
+                  funnel chart, over 85% of respondants are from the
+                  United States. Other top countries are Canada, Australia,
                   Germany, England, Ireland, New Zealand, The Netherlands,
                   France, and Scotland, making the data set very much
                   western-centered. Smaller entries from other countries simply
