@@ -37,6 +37,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
+// import { CircularProgress } from "@material-ui/core";
 
 export default function FilterAndSearch() {
   // State variable used to store the current filters.
@@ -55,6 +56,10 @@ export default function FilterAndSearch() {
   const [meanSalary, setMeanSalary] = useState();
   const [topSalary, setTopSalary] = useState();
   const [botSalary, setBotSalary] = useState();
+  const [avgAge, setAvgAge] = useState();
+  const [highInd, setHighInd] = useState();
+  const [popInd, setPopInd] = useState();
+  const [comDeg, setComDeg] = useState();
 
   // State variable used to store the median salary of the rows fitting the current filters
   const [medianSalary, setMedianSalary] = useState();
@@ -184,7 +189,6 @@ export default function FilterAndSearch() {
       dataURL.searchParams.append(key, value);
     }
     dataURL.searchParams.append("page", page);
-    console.log(dataURL.href);
     return axios.get(dataURL);
   }
 
@@ -208,6 +212,11 @@ export default function FilterAndSearch() {
         setMedianSalary(response.data.median_salary);
         setTopSalary(response.data.top_salary);
         setBotSalary(response.data.bot_salary);
+        setAvgAge(response.data.avg_age);
+        setHighInd(response.data.high_ind);
+        setPopInd(response.data.pop_ind);
+        setComDeg(response.data.com_deg);
+
         if (Object.keys(summaryFilters) == 0){
           setPinLocations([82.8628, 135.0000])
           }
@@ -380,6 +389,7 @@ export default function FilterAndSearch() {
         console.error(e);
       });
   };
+  // console.log(typeof(highInd));
 
 
   return (
@@ -432,18 +442,29 @@ export default function FilterAndSearch() {
                     <Typography variant="h6" gutterBottom>
                       Data Summary
                     </Typography>
-                    <p>Filters: filters</p>
                     <Typography variant="subtitle1" gutterBottom>
-                      Mean Salary: {meanSalary}
+                      Mean Salary: ${meanSalary}
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
-                      Median Salary: {medianSalary}
+                      Median Salary: ${medianSalary}
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
-                      Highest Salary: {topSalary}
+                      Highest Salary: ${topSalary}
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
-                      Lowest Salary: {botSalary}
+                      Lowest Salary: ${botSalary}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Average Age: {avgAge}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Highest Earning Industries: {highInd}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Most Popular Industries: {popInd}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Most Common Degree: {comDeg}
                     </Typography>
                   </Paper>}
                 </Grid>
