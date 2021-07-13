@@ -217,8 +217,8 @@ export default function FilterAndSearch() {
         setPopInd(response.data.pop_ind);
         setComDeg(response.data.com_deg);
 
-        if (Object.keys(summaryFilters) == 0){
-          setPinLocations([82.8628, 135.0000])
+        if (Object.keys(summaryFilters).length == 0){
+          setPinLocations([82.8628, 135.0000, "antarctica"])
           }
           else {
           setPinLocations(response.data.pin_locations)

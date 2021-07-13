@@ -73,7 +73,7 @@ export default function AddResponse() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Title>Add Your Own Response! </Title>
+          <Title>Add Your Own Response! Responses submitted through this page will be added directly to our copy of the 2021 dataset and will show up on graphs and in searches.</Title>
           <Box>
             <iframe
               src="https://docs.google.com/forms/d/e/1FAIpQLSdsCwNyG9kLUVL8QqINFvW-jLQAMHJkyXo6ykaS2ei4MTtPqA/viewform?embedded=true"
