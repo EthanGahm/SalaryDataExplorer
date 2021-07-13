@@ -190,16 +190,15 @@ export default function FilterAndSearch() {
           raceList.push(race)
         }
       }
-      filters["Race"] = raceList
+      filters["Race"] = raceList.join(", ")
     }
-    console.log(raceList)
 
     for (const [key, value] of Object.entries(filters)) {
       if (value === null) {
         filters[key] = "";
       }
-      console.log(value)
       dataURL.searchParams.append(key, value);
+      filters["Race"] = raceList
     }
     dataURL.searchParams.append("page", page);
     console.log(dataURL.href);
@@ -717,7 +716,7 @@ export default function FilterAndSearch() {
                                   multiple
                                   id="race-dropdown"
                                   options={raceOptions}
-                                  value={filters["Race"]}
+                                  value={filters["Race"]||[]}
                                   getOptionLabel={(option) => option}
                                   onChange={(event, value) => {
                                     if (value === null) {
