@@ -27,6 +27,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FilterAndSearch from "./FilterAndSearch";
 import DataSummary from "./DataSummary";
 import AddResponse from "./AddResponse";
+import salaryPic from "./salaryPic.jpg";
+import homePic from "./homePic.jpeg";
+import Button from "@material-ui/core/Button";
 // This is the home page, which holds a description for what features the app has.
 
 export default function Home() {
@@ -82,19 +85,33 @@ export default function Home() {
 
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
+
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-
             <Grid item xs={12} md={6} lg={12}>
+            {/* <div style={{backgroundImage: `url(${homePic})`}} > */}
               <Paper className={classes.paper}>
                 {/* context about the app */}
                 <Title>About this Tool</Title>
                 <p>This application is a data analysis tool built from the AskAManager.org 
                 2021 and 2019 survey results. Through graphs and text analysis, users can 
                 explore interesting trends and compare their own salary to the data 
-                visualizaed in this software. Information on this side could be used as 
+                visualizaed in this software. Information on this site could be used as 
                 reference to provide guidance for professionals across various industries, 
                 countries, gender, races, and education levels.</p>
+
+                <div class="container">
+                  <center><img src = {homePic} /></center>
+                  <Button
+                    variant="contained"
+                    style={{ height: 40 }}
+                    color="secondary"
+                    href = 'DataSummary'
+                  >
+                    View Graphs
+                  </Button>
+                </div>
+
                 <p>User can also filter and 
                 search for salaries according to their specified demographic information 
                 such as location, age, gender, industry, and race. Additionally, users are 
@@ -103,35 +120,46 @@ export default function Home() {
                 to the dataset will also be reflected in the Data Summery page on this app.
                 </p>
               </Paper>
+            {/* </div> */}
             </Grid>
 
             <Grid item xs = {12} md = {10} lg = {6}>
               <Paper className = {classes.longTextbox}>
                 <Title>Key Features</Title>
                 <ul>
-                  <li style={{fontSize: 16}}>Explore Data Trends</li>
+                  <li style={{fontSize: 16, color: "orange"}}>Explore Data Trends</li>
                     <p>Want to know which age group, gender, race, or industry earns the most? 
                     Looking for a job but unsure of its typical salary levels? You won't 
                     believe these are the actual highest paid industries! What are some of 
                     the most popular industries for young professionals these days? Interested?
                     Checkout our <a href="/DataSummary">Data Summary</a> page for more 
                     information now!</p>
-                  <li style={{fontSize: 16}}>Compare Across Datasets</li>
+                  <li style={{fontSize: 16, color: "orange"}}>Compare Across Datasets</li>
                     <p>Want to learn more about how salary trends shifted from 2019 to 2021 after 
                     COVID 19 hit? Eager to find out how this dataset compares to the national 
                     averages? Curious of the top earning industries in 2019 as opposeed to 2021? 
                     Check out our <a href="/DataComparisons">Comparing Datasets</a> page for more 
                     information!</p>
-                  <li style={{fontSize: 16}}>Filter and Search for Specific Jobs</li>
+                  <li style={{fontSize: 16, color: "orange"}}>Filter and Search for Specific Jobs</li>
                     <p>Got a feeling that you are underpaid? Want to know the average salary 
                     in your age group, industry, or area? Look no further than our <a href="
                     FilterAndSearch">Filter and Search</a> page to find the information you need!</p>
-                  <li style={{fontSize: 16}}>Sumbit Your Own Salary Data</li>
+                  <li style={{fontSize: 16, color: "orange"}}>Sumbit Your Own Salary Data</li>
                     <p>Feeling generous and want to contribute? Feel free to <a href="AddResponse">
                     sumbit your own salary data</a> to help others like you. Your data will be 
                     included in our database, and it will be reflected in the <a href="DataSummary">
                     Data Summery</a> page as well.</p>
                 </ul>
+                <p>The Data Summary page shows salary trends based on the 2021 survey data, 
+                  and users can visualize average salary by age, gender, race, work 
+                  experience, highest level of education, industry, and more. The Data 
+                  Comparison page allows users to visualize differences between the 2019 
+                  survey data, 2021 survey data, and the United States national data on 
+                  Don't Quit Your Day Job (DQYDJ). The Filter and Search page enbles users 
+                  to filter jobs through various demographic catagories such as age, gender, 
+                  industry, country, and race. Users are more then welcome to enter their 
+                  own salaries in the Add Response page to contribute to our 2021 dataset.
+                </p>
               </Paper>
             </Grid>
 
@@ -170,13 +198,13 @@ export default function Home() {
                   previous and next buttons if there are too many rows of entries to 
                   display at once.
                 </p>
+                <img src = {salaryPic} width = {440} height = {250} />
               </Paper>
             </Grid>
-
           </Grid>
 
           <Grid container spacing={3}>
-            <Grid item xs = {12} md = {8} lg = {12}>
+            <Grid item xs = {12} md = {12} lg = {12}>
               <Paper className = {classes.paper}>
                 <Title>FAQ</Title>
                 <Accordion>

@@ -3,8 +3,8 @@ import GoogleMapReact from 'google-map-react'
 import isEmpty from 'lodash.isempty'
 
 const mapContainerStyle = {
-  width: "40vw",
-  height: "40vh",
+  width: "43vw",
+  height: "70vh",
 }
 
 const getInfoWindowString = (place, count) => `
@@ -48,7 +48,7 @@ export default function MarkerMap({pinLocations}) {
     pinLocations.forEach(function(x) {counts[x[2]] = (counts[x[2]] || 0)+1; });
 
     pinLocations.map((pinLocation) => {
-      console.log(pinLocation[2])
+      // console.log(pinLocation[2])
       for (let i in counts) {
         if (i == pinLocation[2]) {
           var pinCount = counts[i];
