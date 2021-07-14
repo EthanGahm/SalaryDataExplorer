@@ -37,6 +37,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
+import Card from '@material-ui/core/Card';
 // import { CircularProgress } from "@material-ui/core";
 
 export default function FilterAndSearch() {
@@ -60,6 +61,7 @@ export default function FilterAndSearch() {
   const [highInd, setHighInd] = useState();
   const [popInd, setPopInd] = useState();
   const [comDeg, setComDeg] = useState();
+  const [searchParam, setSearchParam] = useState();
 
   // State variable used to store the median salary of the rows fitting the current filters
   const [medianSalary, setMedianSalary] = useState();
@@ -216,6 +218,7 @@ export default function FilterAndSearch() {
         setHighInd(response.data.high_ind);
         setPopInd(response.data.pop_ind);
         setComDeg(response.data.com_deg);
+        setSearchParam(response.data.search_param);
 
         if (Object.keys(summaryFilters).length == 0){
           setPinLocations([82.8628, 135.0000, "antarctica"])
@@ -376,6 +379,7 @@ export default function FilterAndSearch() {
   const handleResetFilter = () => {
     setFilters({});
     setPage(0);
+    setSummaryFilters({});
     const response = find("", 0);
     const tempRows = [];
     response
@@ -389,7 +393,7 @@ export default function FilterAndSearch() {
         console.error(e);
       });
   };
-  // console.log(typeof(highInd));
+  console.log(summaryFilters);
 
 
   return (
@@ -438,9 +442,12 @@ export default function FilterAndSearch() {
               <Title>Set Parameters and Search the Dataset</Title>
               <Grid item xs={12} md={12} lg={12} container maxwidth={'lg'}>
                 <Grid item xs={12} md={6} lg = {6}>
-                  {<Paper className={classes.paper}>
+                  <Card className={classes.card}>
                     <Typography variant="h6" gutterBottom>
                       Data Summary
+                    </Typography>
+                    <Typography variant="subtitle1" color='secondary' gutterBottom>
+                      Filters: {searchParam}
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
                       Mean Salary: ${meanSalary}
@@ -466,7 +473,7 @@ export default function FilterAndSearch() {
                     <Typography variant="subtitle1" gutterBottom>
                       Most Common Degree: {comDeg}
                     </Typography>
-                  </Paper>}
+                  </Card>
                 </Grid>
                 <Grid item xs={12} md={6} lg={6}>
                   <Paper className={classes.paper} elevation={0}>

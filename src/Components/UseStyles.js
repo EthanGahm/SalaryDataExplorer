@@ -102,7 +102,14 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     overflow: "auto",
     flexDirection: "column",
-    height: 670
+    height: 920
+  },
+  card: {
+    padding: theme.spacing(2),
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "column",
+    height: 450
   },
   fixedHeight: {
     height: 240,
