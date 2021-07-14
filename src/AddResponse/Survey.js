@@ -241,7 +241,7 @@ export default function SurveyComponent() {
                     "55-64",
                     "65 or over",
                   ]}
-                  value={filters["age"]}
+                  value={surveyResponses["age"]}
                   getOptionLabel={(option) => option}
                   style={{ width: 300 }}
                   renderInput={(params) => (
@@ -249,16 +249,16 @@ export default function SurveyComponent() {
                   )}
                   onChange={(event, value) => {
                     if (value === null || value == "") {
-                      setFilters((filters) => ({
-                        ...filters,
+                      setFilters((surveyResponses) => ({
+                        ...surveyResponses,
                         age: "",
                       }));
 
                       setPage(0);
                     } else {
                       setPage(0);
-                      setFilters((filters) => ({
-                        ...filters,
+                      setFilters((surveyResponses) => ({
+                        ...surveyResponses,
                         age: value,
                       }));
                     }
