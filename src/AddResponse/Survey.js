@@ -24,8 +24,6 @@ export default function SurveyComponent() {
   // setting default values to survey question on 2021 survey from AskAManager we don't wish to include in our survey
   surveyResponses["currency"] = "USD";
   surveyResponses["Other"] = "";
-  surveyResponses["job_context"] = "";
-  surveyResponses["other_context"] = "";
 
   /**
    *  "other_compensation",
@@ -132,10 +130,22 @@ export default function SurveyComponent() {
 
     return arr;
   }
+
+  const isValidSubmission = () => {
+    const requiredFields = ["age", "industry", "job_title", "annual_salary", "work_experience", "country", "city", "Highest_Level_of_Education", "gender", "race"];
+    for (const field of requiredFields) {
+      if (surveyResponses[field] === undefined || surveyResponses[field] === "") {
+        return false;
+      }
+    }
+    return true;
+  }
+
   /**
    * OnChange function to finish creating the JSON to send to the backend
    */
   const handleSurveySubmission = () => {
+    console.log("job_context: " + surveyResponses["job_context"])
     //checking that all fields that need to be answered are answered
     // NOT FINISHED: Working on form validation- kind of works, but forces a reload if one entry not filled out
     // var requiredQuestions = [
@@ -167,6 +177,10 @@ export default function SurveyComponent() {
     //   }
     // }
     // ordering the race options like the 2021 survey is set up
+    if (!isValidSubmission()) {
+      alert("Please ensure all required fields are filled out before submitting.")
+      return;
+    }
     const racesOrder2021 = races;
     if (surveyResponses.race != (undefined || null)) {
       applyCustomOrder(surveyResponses.race, racesOrder2021);
@@ -249,15 +263,12 @@ export default function SurveyComponent() {
                   )}
                   onChange={(event, value) => {
                     if (value === null || value == "") {
-                      setFilters((surveyResponses) => ({
+                      setSurveyResponses((surveyResponses) => ({
                         ...surveyResponses,
                         age: "",
                       }));
-
-                      setPage(0);
                     } else {
-                      setPage(0);
-                      setFilters((surveyResponses) => ({
+                      setSurveyResponses((surveyResponses) => ({
                         ...surveyResponses,
                         age: value,
                       }));
