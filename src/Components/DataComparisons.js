@@ -177,14 +177,13 @@ export default function DataComparisons() {
                   <h3>Comparing the 2021 Dataset to Other Datasets</h3>
                 </center>
                 <p>
-                  As our team analyzed and cleaned the 2021 survey responses on
-                  the AskAManager.org site, we wanted to see how they compared
-                  to other datasets. So, we decided to compare our findings with
-                  the survey held in 2019 on AskAManager, and additionally
-                  seeing how this data compares to the average American because
-                  a large majority of responses came from people working in the
-                  United States of America. Below are some of the most
-                  interesting trends and analyses we were able to make when
+                  The 2021 AskAManager.org salary survey is only one tiny snapshot
+                  of a relatively small group of people. Here, we compare data from
+                  the 2021 survey to data from a similar survey conducted in 2019.
+                  In adition, because a majority of survey responses were from US
+                  readers, we examine how the salaries of typical respondants
+                  compare to those of the average American. Below are some of the most
+                  interesting trends and analyses we were able to find when
                   looking at all of these datasets.
                 </p>
               </Paper>
@@ -282,10 +281,9 @@ export default function DataComparisons() {
                   </h3>
                 </center>
                 <p>
-                  When looking at the top earning industries, we decided to look
-                  at median annual salaries versus mean salaries because we felt
-                  that this would produce more accurate results. One interesting
-                  trend that can be observed is that both the 2019 and 2021 had
+                  To reduce the skewing effects of outlier data points, we examined
+                  the median (rather than mean) annual salaries of top earning
+                  industries across both datasets. Notably, both the 2019 and 2021 datasets had
                   the same top 3 highest earning industries: Computing or Tech,
                   Aerospace, and Energy. This may be due to the fact that both
                   of these surveys come from the AskAManager blog which likely
@@ -304,7 +302,7 @@ export default function DataComparisons() {
                   </h3>
                 </center>
                 <p>
-                  In order to get a better idea of where respondants of the
+                  In order to get a better idea of how respondants of the
                   survey compared to a more general population, we used
                   information gathered from a company called Don't Quit Your Day
                   Job (DQYDJ). We decided to use data from the United States
@@ -312,17 +310,20 @@ export default function DataComparisons() {
                   AskAManager survey responses. Based on their findings in 2019,
                   the median annual income in the United States was $43,206.
                   When comparing this value to both the 2019 and 2021
-                  AskAManager survey results, there is a massive gap of about
+                  AskAManager survey results, there is a gap of about
                   $30,000 , with both datasets having a median personal salary
-                  of about $70,000. There may be a few factors leading to this
-                  gap. The first is that the data gathered from the AskAManager
+                  of about $70,000. A few factors might contribute to this discrepency.
+                  The first is that the data gathered from the AskAManager
                   blog were voluntary, so there is response bias that appears,
                   with higher-earning respondants choosing to share their
                   salaries versus research over an more general population.
-                  Another factors is the amount of responses and data from each
+                  As shown on the data summary page, respondants are overwhelmingly white,
+                  highly educated,
+                  and tend to work in high-earning industries, like computing and tech.
+                  Another factor is the amount of responses and data from each
                   dataset. For example, both surveys yielded a total of about
-                  50,000 responses whereas the DQYDJ research was based on 175+
-                  million responses.
+                  50,000 responses whereas the DQYDJ research was based on more than 175
+                  million datapoints.
                 </p>
               </Paper>
               <center>

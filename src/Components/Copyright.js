@@ -9,9 +9,10 @@ export default function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      {/* link for the copyright */}
+
       <Link color="inherit" href="https://devhub.virginia.edu/">
-        UVA DevHub
+        UVa Development Hub
+
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}

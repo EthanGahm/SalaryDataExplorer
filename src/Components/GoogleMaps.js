@@ -3,9 +3,19 @@ import GoogleMapReact from 'google-map-react'
 import isEmpty from 'lodash.isempty'
 
 const mapContainerStyle = {
-  width: "40vw",
-  height: "40vh",
+  width: "43vw",
+  height: "70vh",
 }
+
+const getInfoWindowString = (place, count) => `
+    <div>
+      <div style="font-size: 12px;">
+        ${place}
+      </div>
+      <div style="font-size: 12px; color: red;">
+        Number of people: ${count}
+      </div>
+    </div>`;
 
 export default function MarkerMap({pinLocations}) {
     // Used to store a list of references to all markers currently on the map.
@@ -25,7 +35,7 @@ export default function MarkerMap({pinLocations}) {
       renderMarkers(map, maps)
     }
   }, [map, maps, pinLocations])
-
+  
     
    const renderMarkers = (map, maps) => {
     for (const marker of markers.current) {
@@ -34,16 +44,25 @@ export default function MarkerMap({pinLocations}) {
     markers.current = [];
 
     var infowindows = []
-    
+    var counts = {}
+    pinLocations.forEach(function(x) {counts[x[2]] = (counts[x[2]] || 0)+1; });
+
     pinLocations.map((pinLocation) => {
-    
+      // console.log(pinLocation[2])
+      for (let i in counts) {
+        if (i == pinLocation[2]) {
+          var pinCount = counts[i];
+        }
+        
+        
+    }
     let marker = new maps.Marker({
       position: {lat: parseFloat(pinLocation[0]), lng: parseFloat(pinLocation[1])},
       map,
       })
 
       infowindows.push(new maps.InfoWindow({
-        content: pinLocation[2],
+        content: getInfoWindowString(pinLocation[2], pinCount),
       }));
       markers.current.push(marker)
     

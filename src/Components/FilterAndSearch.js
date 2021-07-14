@@ -37,6 +37,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
+import Card from '@material-ui/core/Card';
+// import { CircularProgress } from "@material-ui/core";
 
 export default function FilterAndSearch() {
   // State variable used to store the current filters.
@@ -55,6 +57,11 @@ export default function FilterAndSearch() {
   const [meanSalary, setMeanSalary] = useState();
   const [topSalary, setTopSalary] = useState();
   const [botSalary, setBotSalary] = useState();
+  const [avgAge, setAvgAge] = useState();
+  const [highInd, setHighInd] = useState();
+  const [popInd, setPopInd] = useState();
+  const [comDeg, setComDeg] = useState();
+  const [searchParam, setSearchParam] = useState();
 
   // State variable used to store the median salary of the rows fitting the current filters
   const [medianSalary, setMedianSalary] = useState();
@@ -184,7 +191,6 @@ export default function FilterAndSearch() {
       dataURL.searchParams.append(key, value);
     }
     dataURL.searchParams.append("page", page);
-    console.log(dataURL.href);
     return axios.get(dataURL);
   }
 
@@ -208,8 +214,14 @@ export default function FilterAndSearch() {
         setMedianSalary(response.data.median_salary);
         setTopSalary(response.data.top_salary);
         setBotSalary(response.data.bot_salary);
-        if (Object.keys(summaryFilters) == 0){
-          setPinLocations([82.8628, 135.0000])
+        setAvgAge(response.data.avg_age);
+        setHighInd(response.data.high_ind);
+        setPopInd(response.data.pop_ind);
+        setComDeg(response.data.com_deg);
+        setSearchParam(response.data.search_param);
+
+        if (Object.keys(summaryFilters).length == 0){
+          setPinLocations([82.8628, 135.0000, "antarctica"])
           }
           else {
           setPinLocations(response.data.pin_locations)
@@ -367,6 +379,7 @@ export default function FilterAndSearch() {
   const handleResetFilter = () => {
     setFilters({});
     setPage(0);
+    setSummaryFilters({});
     const response = find("", 0);
     const tempRows = [];
     response
@@ -380,6 +393,7 @@ export default function FilterAndSearch() {
         console.error(e);
       });
   };
+  console.log(summaryFilters);
 
 
   return (
@@ -428,24 +442,38 @@ export default function FilterAndSearch() {
               <Title>Set Parameters and Search the Dataset</Title>
               <Grid item xs={12} md={12} lg={12} container maxwidth={'lg'}>
                 <Grid item xs={12} md={6} lg = {6}>
-                  {<Paper className={classes.paper}>
+                  <Card className={classes.card}>
                     <Typography variant="h6" gutterBottom>
                       Data Summary
                     </Typography>
-                    <p>Filters: filters</p>
-                    <Typography variant="subtitle1" gutterBottom>
-                      Mean Salary: {meanSalary}
+                    <Typography variant="subtitle1" color='secondary' gutterBottom>
+                      Filters: {searchParam}
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
-                      Median Salary: {medianSalary}
+                      Mean Salary: ${meanSalary}
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
-                      Highest Salary: {topSalary}
+                      Median Salary: ${medianSalary}
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
-                      Lowest Salary: {botSalary}
+                      Highest Salary: ${topSalary}
                     </Typography>
-                  </Paper>}
+                    <Typography variant="subtitle1" gutterBottom>
+                      Lowest Salary: ${botSalary}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Average Age: {avgAge}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Highest Earning Industries: {highInd}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Most Popular Industries: {popInd}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Most Common Degree: {comDeg}
+                    </Typography>
+                  </Card>
                 </Grid>
                 <Grid item xs={12} md={6} lg={6}>
                   <Paper className={classes.paper} elevation={0}>
