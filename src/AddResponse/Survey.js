@@ -130,55 +130,45 @@ export default function SurveyComponent() {
 
     return arr;
   }
-
+  /**
+   * ensures that fields required for survey submission are not left blank
+   * @returns true if all required fields have been assigned a value, false if not
+   */
   const isValidSubmission = () => {
-    const requiredFields = ["age", "industry", "job_title", "annual_salary", "work_experience", "country", "city", "Highest_Level_of_Education", "gender", "race"];
+    const requiredFields = [
+      "age",
+      "industry",
+      "job_title",
+      "annual_salary",
+      "work_experience",
+      "country",
+      "city",
+      "Highest_Level_of_Education",
+      "gender",
+      "race",
+    ];
     for (const field of requiredFields) {
-      if (surveyResponses[field] === undefined || surveyResponses[field] === "") {
+      if (
+        surveyResponses[field] === undefined ||
+        surveyResponses[field] === ""
+      ) {
         return false;
       }
     }
     return true;
-  }
+  };
 
   /**
    * OnChange function to finish creating the JSON to send to the backend
    */
   const handleSurveySubmission = () => {
-    console.log("job_context: " + surveyResponses["job_context"])
-    //checking that all fields that need to be answered are answered
-    // NOT FINISHED: Working on form validation- kind of works, but forces a reload if one entry not filled out
-    // var requiredQuestions = [
-    //   "age",
-    //   "industry",
-    //   "job_title",
-    //   "annual_salary",
-    //   "work_experience",
-    //   "other_compensation",
-    //   "country",
-    //   "gender",
-    //   "race",
-    // ];
-    // for (var i in requiredQuestions) {
-    //   if (!surveyResponses.hasOwnProperty(i)) {
-    //     surveyResponses[requiredQuestions[i]] = "";
-    //   }
-    // }
-    // for (var key in surveyResponses) {
-    //   if (surveyResponses.hasOwnProperty(key)) {
-    //     console.log(key + ": " + surveyResponses[key]);
-    //     if (requiredQuestions.includes(key) && surveyResponses[key] === "") {
-    //       console.log(requiredQuestions.findIndex(key));
-    //       alert(
-    //         "ERROR: UNABLE TO SUBMIT RESPONSE. PLEASE ENTER A VALUE FOR QUESTION # 1"
-    //       );
-    //       window.location.reload();
-    //     }
-    //   }
-    // }
+    console.log("job_context: " + surveyResponses["job_context"]);
+
     // ordering the race options like the 2021 survey is set up
     if (!isValidSubmission()) {
-      alert("Please ensure all required fields are filled out before submitting.")
+      alert(
+        "Please ensure all required fields are filled out before submitting."
+      );
       return;
     }
     const racesOrder2021 = races;
@@ -208,9 +198,10 @@ export default function SurveyComponent() {
     surveyResponses["address"] = addr;
 
     // making api call to google geocoder with address filter to get lat and lng values
-
+    // console.log(surveyResponses);
     submitJSONToDB();
-    window.location.reload();
+
+    // setTimeout(location.reload.bind(location), 3000);
   };
   /**
    * async function that makes an api call using the helper method getCoordsFromAddress which takes the address string of a user's submission
@@ -226,10 +217,13 @@ export default function SurveyComponent() {
         console.error(error);
       }
     }
-    axios.post(
-      "http://localhost:5000/salary_data/addResponse",
-      surveyResponses
-    );
+    console.log(surveyResponses);
+    await axios
+      .post(
+        "https://salary-data-api.herokuapp.com/salary_data/addResponse",
+        surveyResponses
+      )
+      .then(setTimeout(location.reload.bind(location), 1000));
   }
   const handleOnChange = () => {
     console.log("Click");
@@ -242,7 +236,7 @@ export default function SurveyComponent() {
           <form className={classes.filtercontainer}>
             <FormControl className={classes.formControl}>
               <Box pt={3}>
-                What is your age?
+                What is your age? *
                 <Autocomplete
                   required
                   id="age-dropdown"
@@ -278,7 +272,7 @@ export default function SurveyComponent() {
               </Box>
 
               <Box pt={3}>
-                What industry do you work in?
+                What industry do you work in? *
                 <Autocomplete
                   required
                   id="industry-dropdown"
@@ -305,8 +299,7 @@ export default function SurveyComponent() {
                 />
               </Box>
               <Box pt={3}>
-                What is your exact job title?
-                <br></br>
+                What is your exact job title? *<br></br>
                 <TextField
                   required
                   id="jobTitleData"
@@ -330,8 +323,7 @@ export default function SurveyComponent() {
                 />
               </Box>
               <Box pt={3}>
-                What is your annual income (in USD, please)?
-                <br></br>
+                What is your annual income (in USD, please)? *<br></br>
                 <TextField
                   required
                   required="required"
@@ -357,7 +349,7 @@ export default function SurveyComponent() {
                 />
               </Box>
               <Box pt={3}>
-                How many years of work experience do you have (professional) ?
+                How many years of work experience do you have (professional) ? *
                 <Autocomplete
                   required
                   id="workExp-dropdown"
@@ -411,8 +403,7 @@ export default function SurveyComponent() {
               </Box>
               <Box pt={3}>
                 Please list any additional income or monetary compensation you
-                received in a year:
-                <br></br>
+                received in a year: *<br></br>
                 <TextField
                   required
                   required="required"
@@ -464,7 +455,7 @@ export default function SurveyComponent() {
                 />
               </Box>
               <Box pt={3}>
-                What country do you work in?
+                What country do you work in? *
                 <Autocomplete
                   required
                   id="country-dropdown"
@@ -519,8 +510,7 @@ export default function SurveyComponent() {
               </Box>
 
               <Box pt={3}>
-                What city do you live in?:
-                <br></br>
+                What city do you live in?: *<br></br>
                 <TextField
                   id="city"
                   style={{ width: 300 }}
@@ -546,7 +536,7 @@ export default function SurveyComponent() {
                 />
               </Box>
               <Box pt={3}>
-                What is your highest level of completed education?
+                What is your highest level of completed education? *
                 <Autocomplete
                   required
                   id="education-dropdown"
@@ -573,7 +563,7 @@ export default function SurveyComponent() {
                 />
               </Box>
               <Box pt={3}>
-                What is your gender?
+                What is your gender? *
                 <Autocomplete
                   required
                   id="gender-dropdown"
@@ -600,7 +590,7 @@ export default function SurveyComponent() {
                 />
               </Box>
               <Box pt={3}>
-                What is your race (Choose all that apply)?
+                What is your race (Choose all that apply)? *
                 <Autocomplete
                   required
                   multiple
