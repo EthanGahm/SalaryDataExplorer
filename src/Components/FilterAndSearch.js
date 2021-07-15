@@ -183,22 +183,12 @@ export default function FilterAndSearch() {
    */
   function find(filters, page) {
     const dataURL = new URL("http://localhost:5000/salary_data/all_2021?");
-    const raceList = []
-    if(filters["Race"] !== undefined){
-      for(const race of raceOptions){
-        if(filters["Race"].includes(race)){
-          raceList.push(race)
-        }
-      }
-      filters["Race"] = raceList.join(", ")
-    }
-
+    
     for (const [key, value] of Object.entries(filters)) {
       if (value === null) {
         filters[key] = "";
       }
       dataURL.searchParams.append(key, value);
-      filters["Race"] = raceList
     }
     dataURL.searchParams.append("page", page);
     console.log(dataURL.href);
