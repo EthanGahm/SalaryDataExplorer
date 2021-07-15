@@ -17,8 +17,8 @@ const getInfoWindowString = (place, count) => `
       </div>
     </div>`;
 
-export default function MarkerMap({pinLocations}) {
-    // Used to store a list of references to all markers currently on the map.
+export default function MarkerMap({ pinLocations }) {
+  // Used to store a list of references to all markers currently on the map.
   // When the filters change, this list is emptied (markers are deleted) and then rebuilt with a new set of markers.
   const markers = useRef([]);
 
@@ -35,9 +35,9 @@ export default function MarkerMap({pinLocations}) {
       renderMarkers(map, maps)
     }
   }, [map, maps, pinLocations])
-  
-    // renderMarkers creates an array of markers and corresponding infowindows using map and maps objects
-   const renderMarkers = (map, maps) => {
+
+  // renderMarkers creates an array of markers and corresponding infowindows using map and maps objects
+  const renderMarkers = (map, maps) => {
     for (const marker of markers.current) {
       marker.setMap(null);
     }
@@ -45,7 +45,7 @@ export default function MarkerMap({pinLocations}) {
     var infowindows = [];
     // Counts the number of pins that share the same name from location data
     var counts = {};
-    pinLocations.forEach(function(x) {counts[x[2]] = (counts[x[2]] || 0)+1; });
+    pinLocations.forEach(function (x) { counts[x[2]] = (counts[x[2]] || 0) + 1; });
 
     pinLocations.map((pinLocation) => {
       // Sets pinCount to the counted number of same pins
@@ -53,20 +53,20 @@ export default function MarkerMap({pinLocations}) {
         if (i == pinLocation[2]) {
           var pinCount = counts[i];
         }
-        
-        
-    }
-    // Creates map markers with an infowindow
-    let marker = new maps.Marker({
-      position: {lat: parseFloat(pinLocation[0]), lng: parseFloat(pinLocation[1])},
-      map,
+
+
+      }
+      // Creates map markers with an infowindow
+      let marker = new maps.Marker({
+        position: { lat: parseFloat(pinLocation[0]), lng: parseFloat(pinLocation[1]) },
+        map,
       })
 
       infowindows.push(new maps.InfoWindow({
         content: getInfoWindowString(pinLocation[2], pinCount),
       }));
       markers.current.push(marker)
-    
+
     })
 
     markers.current.forEach((marker, i) => {
@@ -74,29 +74,34 @@ export default function MarkerMap({pinLocations}) {
         infowindows[i].open(map, marker);
       });
     });
-    
+
   };
-   return (
-   <>
-   
-   
-   <div className="google-map" style={mapContainerStyle}>
+  return (
+    <>
 
-   <GoogleMapReact
-      bootstrapURLKeys={{key: process.env.REACT_APP_GOOGLEMAPS_ID}}
-      defaultZoom={3}
-      defaultCenter={{lat: 37.09024, lng: -95.712891}}
-      yesIWantToUseGoogleMapApiInternals={true}
-      onGoogleApiLoaded={({ map, maps }) => {
-        setMap(map)
-        setMaps(maps)
-      }}
-    >
-      
-   </GoogleMapReact>
 
-   </div>
-   
-   
-   </>
-   )};
+      <div className="google-map" style={mapContainerStyle}>
+
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLEMAPS_ID }}
+          defaultZoom={3}
+          options={{
+            fullscreenControl: false,
+            minZoom: 2,
+          }}
+          defaultCenter={{ lat: 37.09024, lng: -95.712891 }}
+          yesIWantToUseGoogleMapApiInternals={true}
+          onGoogleApiLoaded={({ map, maps }) => {
+            setMap(map)
+            setMaps(maps)
+          }}
+        >
+
+        </GoogleMapReact>
+
+      </div>
+
+
+    </>
+  )
+};
