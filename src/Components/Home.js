@@ -99,7 +99,7 @@ export default function Home() {
                   visualizaed in this software. Information on this site may be used as
                   reference to provide guidance for professionals across industries.</p>
 
-                <div class="container">
+                <div class="container" style = {{position: "relative", width: "100%"}}>
                   <center><img src={homePic} /></center>
                   <Button
                     variant="contained"
