@@ -20,10 +20,10 @@ import Title from "./Title";
 import PageTitle from "./PageTitle";
 import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import FilterAndSearch from "./FilterAndSearch";
 import DataSummary from "./DataSummary";
 import AddResponse from "./AddResponse";
@@ -103,9 +103,15 @@ export default function Home() {
                   <center><img src={homePic} /></center>
                   <Button
                     variant="contained"
-                    style={{ height: 40 }}
+                    style={{ 
+                      height: 40, 
+                      position: "absolute", 
+                      top: "50%", 
+                      left: "50%",
+                      transform: 'translate(-50%, -50%)',
+                    }}
                     color="secondary"
-                    href='DataSummary'
+                    href="DataSummary"
                   >
                     View Graphs
                   </Button>
@@ -216,9 +222,7 @@ export default function Home() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography>
-
-                    </Typography>
+                    <Typography></Typography>
                   </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -295,9 +299,7 @@ export default function Home() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography>
-
-                    </Typography>
+                    <Typography></Typography>
                   </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -311,9 +313,8 @@ export default function Home() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography>
+                    <Typography></Typography>
 
-                    </Typography>
                   </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -323,13 +324,12 @@ export default function Home() {
                     id="panel1a-header"
                   >
                     <Typography className={classes.heading}>
-                      Where do I find salary data for people in my country/state/province?
+                      Where do I find salary data for people in my
+                      country/state/province?
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography>
-
-                    </Typography>
+                    <Typography></Typography>
                   </AccordionDetails>
                 </Accordion>
               </Paper>
