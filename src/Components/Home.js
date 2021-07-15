@@ -100,11 +100,17 @@ export default function Home() {
                 reference to provide guidance for professionals across various industries, 
                 countries, gender, races, and education levels.</p>
 
-                <div class="container">
+                <div class="container" style = {{position: "relative" , width: "100%"}}>
                   <center><img src = {homePic} /></center>
                   <Button
                     variant="contained"
-                    style={{ height: 40 }}
+                    style={{ 
+                      height: 40, 
+                      position: "absolute", 
+                      top: "50%", 
+                      left: "50%",
+                      transform: 'translate(-50%, -50%)',
+                    }}
                     color="secondary"
                     href = 'DataSummary'
                   >
