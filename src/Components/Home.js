@@ -20,10 +20,10 @@ import Title from "./Title";
 import PageTitle from "./PageTitle";
 import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import FilterAndSearch from "./FilterAndSearch";
 import DataSummary from "./DataSummary";
 import AddResponse from "./AddResponse";
@@ -89,123 +89,162 @@ export default function Home() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={12}>
-            {/* <div style={{backgroundImage: `url(${homePic})`}} > */}
+              {/* <div style={{backgroundImage: `url(${homePic})`}} > */}
               <Paper className={classes.paper}>
                 {/* context about the app */}
                 <Title>About this Tool</Title>
-                <p>This application is a data analysis tool built from the AskAManager.org 
-                2021 and 2019 survey results. Through graphs and text analysis, users can 
-                explore interesting trends and compare their own salary to the data 
-                visualizaed in this software. Information on this site could be used as 
-                reference to provide guidance for professionals across various industries, 
-                countries, gender, races, and education levels.</p>
+                <p>
+                  This application is a data analysis tool built from the
+                  AskAManager.org 2021 and 2019 survey results. Through graphs
+                  and text analysis, users can explore interesting trends and
+                  compare their own salary to the data visualizaed in this
+                  software. Information on this site could be used as reference
+                  to provide guidance for professionals across various
+                  industries, countries, gender, races, and education levels.
+                </p>
 
                 <div class="container">
-                  <center><img src = {homePic} /></center>
+                  <center>
+                    <img src={homePic} />
+                  </center>
                   <Button
                     variant="contained"
                     style={{ height: 40 }}
                     color="secondary"
-                    href = 'DataSummary'
+                    href="DataSummary"
                   >
                     View Graphs
                   </Button>
                 </div>
 
-                <p>User can also filter and 
-                search for salaries according to their specified demographic information 
-                such as location, age, gender, industry, and race. Additionally, users are 
-                more then welcome to sumbit their own reponses to the survey, and their 
-                salary information will be included in our 2021 database. Your additions 
-                to the dataset will also be reflected in the Data Summery page on this app.
+                <p>
+                  User can also filter and search for salaries according to
+                  their specified demographic information such as location, age,
+                  gender, industry, and race. Additionally, users are more then
+                  welcome to submit their own reponses to the survey, and their
+                  salary information will be included in our 2021 database. Your
+                  additions to the dataset will also be reflected in the Data
+                  Summary page on this app.
                 </p>
               </Paper>
-            {/* </div> */}
+              {/* </div> */}
             </Grid>
 
-            <Grid item xs = {12} md = {10} lg = {6}>
-              <Paper className = {classes.longTextbox}>
+            <Grid item xs={12} md={10} lg={6}>
+              <Paper className={classes.longTextbox}>
                 <Title>Key Features</Title>
                 <ul>
-                  <li style={{fontSize: 16, color: "orange"}}>Explore Data Trends</li>
-                    <p>Want to know which age group, gender, race, or industry earns the most? 
-                    Looking for a job but unsure of its typical salary levels? You won't 
-                    believe these are the actual highest paid industries! What are some of 
-                    the most popular industries for young professionals these days? Interested?
-                    Checkout our <a href="/DataSummary">Data Summary</a> page for more 
-                    information now!</p>
-                  <li style={{fontSize: 16, color: "orange"}}>Compare Across Datasets</li>
-                    <p>Want to learn more about how salary trends shifted from 2019 to 2021 after 
-                    COVID 19 hit? Eager to find out how this dataset compares to the national 
-                    averages? Curious of the top earning industries in 2019 as opposeed to 2021? 
-                    Check out our <a href="/DataComparisons">Comparing Datasets</a> page for more 
-                    information!</p>
-                  <li style={{fontSize: 16, color: "orange"}}>Filter and Search for Specific Jobs</li>
-                    <p>Got a feeling that you are underpaid? Want to know the average salary 
-                    in your age group, industry, or area? Look no further than our <a href="
-                    FilterAndSearch">Filter and Search</a> page to find the information you need!</p>
-                  <li style={{fontSize: 16, color: "orange"}}>Sumbit Your Own Salary Data</li>
-                    <p>Feeling generous and want to contribute? Feel free to <a href="AddResponse">
-                    sumbit your own salary data</a> to help others like you. Your data will be 
-                    included in our database, and it will be reflected in the <a href="DataSummary">
-                    Data Summery</a> page as well.</p>
+                  <li style={{ fontSize: 16, color: "orange" }}>
+                    Explore Data Trends
+                  </li>
+                  <p>
+                    Want to know which age group, gender, race, or industry
+                    earns the most? Looking for a job but unsure of its typical
+                    salary levels? You won't believe these are the actual
+                    highest paid industries! What are some of the most popular
+                    industries for young professionals these days? Interested?
+                    Checkout our <a href="/DataSummary">Data Summary</a> page
+                    for more information now!
+                  </p>
+                  <li style={{ fontSize: 16, color: "orange" }}>
+                    Compare Across Datasets
+                  </li>
+                  <p>
+                    Want to learn more about how salary trends shifted from 2019
+                    to 2021 after COVID 19 hit? Eager to find out how this
+                    dataset compares to the national averages? Curious of the
+                    top earning industries in 2019 as opposeed to 2021? Check
+                    out our <a href="/DataComparisons">Comparing Datasets</a>{" "}
+                    page for more information!
+                  </p>
+                  <li style={{ fontSize: 16, color: "orange" }}>
+                    Filter and Search for Specific Jobs
+                  </li>
+                  <p>
+                    Got a feeling that you are underpaid? Want to know the
+                    average salary in your age group, industry, or area? Look no
+                    further than our{" "}
+                    <a
+                      href="
+                    FilterAndSearch"
+                    >
+                      Filter and Search
+                    </a>{" "}
+                    page to find the information you need!
+                  </p>
+                  <li style={{ fontSize: 16, color: "orange" }}>
+                    Submit Your Own Salary Data
+                  </li>
+                  <p>
+                    Feeling generous and want to contribute? Feel free to{" "}
+                    <a href="AddResponse">submit your own salary data</a> to
+                    help others like you. Your data will be included in our
+                    database, and it will be reflected in the{" "}
+                    <a href="DataSummary">Data Summary</a> page as well.
+                  </p>
                 </ul>
-                <p>The Data Summary page shows salary trends based on the 2021 survey data, 
-                  and users can visualize average salary by age, gender, race, work 
-                  experience, highest level of education, industry, and more. The Data 
-                  Comparison page allows users to visualize differences between the 2019 
-                  survey data, 2021 survey data, and the United States national data on 
-                  Don't Quit Your Day Job (DQYDJ). The Filter and Search page enbles users 
-                  to filter jobs through various demographic catagories such as age, gender, 
-                  industry, country, and race. Users are more then welcome to enter their 
-                  own salaries in the Add Response page to contribute to our 2021 dataset.
+                <p>
+                  The Data Summary page shows salary trends based on the 2021
+                  survey data, and users can visualize average salary by age,
+                  gender, race, work experience, highest level of education,
+                  industry, and more. The Data Comparison page allows users to
+                  visualize differences between the 2019 survey data, 2021
+                  survey data, and the United States national data on Don't Quit
+                  Your Day Job (DQYDJ). The Filter and Search page enbles users
+                  to filter jobs through various demographic catagories such as
+                  age, gender, industry, country, and race. Users are more then
+                  welcome to enter their own salaries in the Add Response page
+                  to contribute to our 2021 dataset.
                 </p>
               </Paper>
             </Grid>
 
-            <Grid item xs = {12} md = {6} lg = {6}>
-              <Paper className = {classes.longTextbox}>
+            <Grid item xs={12} md={6} lg={6}>
+              <Paper className={classes.longTextbox}>
                 <Title>Demographics</Title>
-                <p>In the Data Summary page, users can find the average salary data by 
-                  age, highest level of education, gender, race, work experience, and 
-                  industry. Age is divided into seven groups: under 18, 18-24, 25-34, 
-                  45-54, 55-64, and 65 or over. Degrees have seven catagories as well:
-                  high school, some college, college degree, master's degree, PhD, 
-                  professional degree (MD, JD, etc.), and other. The 2021 survey has 
-                  four choices for gender: man, woman, non-binary, and other or prefer 
-                  not to answer. There are also seven choices for race: Asian or Asian 
-                  American, Black or African American, Hispanic/Latino or Spanish origin, 
-                  Middle Eastern or North African, Native American or Alaskan Native, 
-                  White, and other or prefer not to answer. Since many people are mixed, 
-                  the survey allows multiple selections for race. Work experience is 
-                  divided into 8 catagories: 0-1 years, 2-4 years, 5-7 years, 8-10 years, 
-                  11-20 years, 21-30 years, 31-40 years, and 40 or more years. There are 
-                  33 distinct industries and numerous country/state/city entries around 
-                  the world.
+                <p>
+                  In the Data Summary page, users can find the average salary
+                  data by age, highest level of education, gender, race, work
+                  experience, and industry. Age is divided into seven groups:
+                  under 18, 18-24, 25-34, 45-54, 55-64, and 65 or over. Degrees
+                  have seven catagories as well: high school, some college,
+                  college degree, master's degree, PhD, professional degree (MD,
+                  JD, etc.), and other. The 2021 survey has four choices for
+                  gender: man, woman, non-binary, and other or prefer not to
+                  answer. There are also seven choices for race: Asian or Asian
+                  American, Black or African American, Hispanic/Latino or
+                  Spanish origin, Middle Eastern or North African, Native
+                  American or Alaskan Native, White, and other or prefer not to
+                  answer. Since many people are mixed, the survey allows
+                  multiple selections for race. Work experience is divided into
+                  8 catagories: 0-1 years, 2-4 years, 5-7 years, 8-10 years,
+                  11-20 years, 21-30 years, 31-40 years, and 40 or more years.
+                  There are 33 distinct industries and numerous
+                  country/state/city entries around the world.
                 </p>
                 <p>
-                  In the Filter and Search page, users have the power to filter by age, 
-                  industry, gender, location, and race to find entries belonging in the 
-                  specified catagories. 
-                  (Filtering by location only supports country and states since most cities 
-                  have very few data.) 
-                  Rows that meet the entered requirements will 
-                  display at the bottom of the page for reference. After searching for 
-                  jobs, users can find basic stats our of the returned jobs such as mean 
-                  salary, median salary, average age, etc. Additionally, they can also 
-                  locate where the entries are on the embedded Google Maps component. 
-                  Users can reset filters and toggle through the pages using the 
-                  previous and next buttons if there are too many rows of entries to 
-                  display at once.
+                  In the Filter and Search page, users have the power to filter
+                  by age, industry, gender, location, and race to find entries
+                  belonging in the specified catagories. (Filtering by location
+                  only supports country and states since most cities have very
+                  few data.) Rows that meet the entered requirements will
+                  display at the bottom of the page for reference. After
+                  searching for jobs, users can find basic stats our of the
+                  returned jobs such as mean salary, median salary, average age,
+                  etc. Additionally, they can also locate where the entries are
+                  on the embedded Google Maps component. Users can reset filters
+                  and toggle through the pages using the previous and next
+                  buttons if there are too many rows of entries to display at
+                  once.
                 </p>
-                <img src = {salaryPic} width = {440} height = {250} />
+                <img src={salaryPic} width={440} height={250} />
               </Paper>
             </Grid>
           </Grid>
 
           <Grid container spacing={3}>
-            <Grid item xs = {12} md = {12} lg = {12}>
-              <Paper className = {classes.paper}>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={classes.paper}>
                 <Title>FAQ</Title>
                 <Accordion>
                   <AccordionSummary
@@ -218,9 +257,7 @@ export default function Home() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography>
-                    
-                    </Typography>
+                    <Typography></Typography>
                   </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -235,10 +272,11 @@ export default function Home() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                    Want to learn more about how salary trends shifted from 2019 to 2021 after 
-                    COVID 19 hit? Eager to find out how this dataset compares to the national 
-                    averages? Check out our <a href="/DataComparisons">Comparing Datasets</a> page 
-                    for more information!
+                      Want to learn more about how salary trends shifted from
+                      2019 to 2021 after COVID 19 hit? Eager to find out how
+                      this dataset compares to the national averages? Check out
+                      our <a href="/DataComparisons">Comparing Datasets</a> page
+                      for more information!
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
@@ -254,9 +292,16 @@ export default function Home() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                    Got a feeling that you are underpaid? Want to know the average salary 
-                    in your age group, industry, or area? Look no further than our <a href="
-                    FilterAndSearch">Filter and Search</a> page to find the information you need! 
+                      Got a feeling that you are underpaid? Want to know the
+                      average salary in your age group, industry, or area? Look
+                      no further than our{" "}
+                      <a
+                        href="
+                    FilterAndSearch"
+                      >
+                        Filter and Search
+                      </a>{" "}
+                      page to find the information you need!
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
@@ -272,17 +317,16 @@ export default function Home() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                    Feeling generous and want to contribute? Feel free to <a href="AddResponse">
-                    sumbit your own salary data</a> to help others like you. Your data will be 
-                    included in our database, and it will be reflected in the <a href="DataSummary">
-                    Data Summery</a> page as well.
-                    Am I too old?
-                  What if I don't have a job yet?
-                  I can't find any entries in my country/state/province/city.
-                  I don't know which industry my job belongs to.
-                  What is the default currency in the graphs?
-                  How can I convert my currency to USD?
-                  Who created this magnificent application?
+                      Feeling generous and want to contribute? Feel free to{" "}
+                      <a href="AddResponse">submit your own salary data</a> to
+                      help others like you. Your data will be included in our
+                      database, and it will be reflected in the{" "}
+                      <a href="DataSummary">Data Summary</a> page as well. Am I
+                      too old? What if I don't have a job yet? I can't find any
+                      entries in my country/state/province/city. I don't know
+                      which industry my job belongs to. What is the default
+                      currency in the graphs? How can I convert my currency to
+                      USD? Who created this magnificent application?
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
@@ -297,9 +341,7 @@ export default function Home() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography>
-                    
-                    </Typography>
+                    <Typography></Typography>
                   </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -313,9 +355,7 @@ export default function Home() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography>
-                    
-                    </Typography>
+                    <Typography></Typography>
                   </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -325,13 +365,12 @@ export default function Home() {
                     id="panel1a-header"
                   >
                     <Typography className={classes.heading}>
-                      Where do I find salary data for people in my country/state/province?
+                      Where do I find salary data for people in my
+                      country/state/province?
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography>
-                    
-                    </Typography>
+                    <Typography></Typography>
                   </AccordionDetails>
                 </Accordion>
               </Paper>
