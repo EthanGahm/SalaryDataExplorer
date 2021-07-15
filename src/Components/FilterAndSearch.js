@@ -113,7 +113,7 @@ export default function FilterAndSearch() {
    */
   function getAll() {
     var res = axios.get(
-      `https://salary-data-api.herokuapp.com/salary_data/all_2021`
+      `http://salary-data-api.herokuapp.com/salary_data/all_2021`
     );
     return res;
   }
@@ -210,6 +210,8 @@ export default function FilterAndSearch() {
     let res = axios.get(dataURL);
     res
       .then((response) => {
+        console.log(JSON.stringify(response))
+        console.log(response)
         setMeanSalary(response.data.mean_salary);
         setMedianSalary(response.data.median_salary);
         setTopSalary(response.data.top_salary);
@@ -220,12 +222,12 @@ export default function FilterAndSearch() {
         setComDeg(response.data.com_deg);
         setSearchParam(response.data.search_param);
 
-        if (Object.keys(summaryFilters).length == 0){
+        if (Object.keys(summaryFilters).length == 0) {
           setPinLocations([82.8628, 135.0000, "antarctica"])
-          }
-          else {
+        }
+        else {
           setPinLocations(response.data.pin_locations)
-          }
+        }
       })
       .catch((e) => {
         console.error(e);
@@ -441,12 +443,12 @@ export default function FilterAndSearch() {
             <Grid container direction="row">
               <Title>Set Parameters and Search the Dataset</Title>
               <Grid item xs={12} md={12} lg={12} container maxwidth={'lg'}>
-                <Grid item xs={12} md={6} lg = {6}>
+                <Grid item xs={12} md={6} lg={6}>
                   <Card className={classes.card}>
                     <Typography variant="h6" gutterBottom>
                       Data Summary
                     </Typography>
-                    <Typography variant="subtitle1" color='secondary' gutterBottom>
+                    <Typography variant="subtitle1" gutterBottom>
                       Filters: {searchParam}
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
