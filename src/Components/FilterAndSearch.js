@@ -289,7 +289,7 @@ export default function FilterAndSearch() {
    */
   function getCountries() {
 
-    var res = axios.get("http://salary-data-api.herokuapp.com/salary_data/countries");
+    var res = axios.get("https://salary-data-api.herokuapp.com/salary_data/countries");
 
     return res;
   }
@@ -314,7 +314,7 @@ export default function FilterAndSearch() {
 
   function getStates() {
 
-    var res = axios.get("http://salary-data-api.herokuapp.com/salary_data/states");
+    var res = axios.get("https://salary-data-api.herokuapp.com/salary_data/states");
 
     return res;
   }
@@ -352,7 +352,7 @@ export default function FilterAndSearch() {
     * @returns an array of race with no duplicates
     */
   function getRaces() {
-    var res = axios.get("http://salary-data-api.herokuapp.com/salary_data/races");
+    var res = axios.get("https://salary-data-api.herokuapp.com/salary_data/races");
     return res
   }
 
@@ -388,7 +388,7 @@ export default function FilterAndSearch() {
    * @returns an array of work experience with no duplicates
    */
   function getWorkExp() {
-    var res = axios.get("http://salary-data-api.herokuapp.com/salary_data/work_exp");
+    var res = axios.get("https://salary-data-api.herokuapp.com/salary_data/work_exp");
     return res;
   }
 
@@ -410,7 +410,7 @@ export default function FilterAndSearch() {
    * @returns an array of education with no duplicates
    */
   function getEducation() {
-    var res = axios.get("http://salary-data-api.herokuapp.com/salary_data/education");
+    var res = axios.get("https://salary-data-api.herokuapp.com/salary_data/education");
     return res;
   }
 
