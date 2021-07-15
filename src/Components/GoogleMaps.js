@@ -36,19 +36,19 @@ export default function MarkerMap({pinLocations}) {
     }
   }, [map, maps, pinLocations])
   
-    
+    // renderMarkers creates an array of markers and corresponding infowindows using map and maps objects
    const renderMarkers = (map, maps) => {
     for (const marker of markers.current) {
       marker.setMap(null);
     }
     markers.current = [];
-
-    var infowindows = []
-    var counts = {}
+    var infowindows = [];
+    // Counts the number of pins that share the same name from location data
+    var counts = {};
     pinLocations.forEach(function(x) {counts[x[2]] = (counts[x[2]] || 0)+1; });
 
     pinLocations.map((pinLocation) => {
-      // console.log(pinLocation[2])
+      // Sets pinCount to the counted number of same pins
       for (let i in counts) {
         if (i == pinLocation[2]) {
           var pinCount = counts[i];
@@ -56,6 +56,7 @@ export default function MarkerMap({pinLocations}) {
         
         
     }
+    // Creates map markers with an infowindow
     let marker = new maps.Marker({
       position: {lat: parseFloat(pinLocation[0]), lng: parseFloat(pinLocation[1])},
       map,
