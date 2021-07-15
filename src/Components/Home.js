@@ -28,7 +28,7 @@ import FilterAndSearch from "./FilterAndSearch";
 import DataSummary from "./DataSummary";
 import AddResponse from "./AddResponse";
 import salaryPic from "./salaryPic.jpg";
-import homePic from "./homePic.jpeg";
+import homePic from "./homePic.png";
 import Button from "@material-ui/core/Button";
 // This is the home page, which holds a description for what features the app has.
 
@@ -99,14 +99,14 @@ export default function Home() {
                   visualizaed in this software. Information on this site may be used as
                   reference to provide guidance for professionals across industries.</p>
 
-                <div class="container" style = {{position: "relative", width: "100%"}}>
+                <div class="container" style={{ position: "relative", width: "100%" }}>
                   <center><img src={homePic} /></center>
                   <Button
                     variant="contained"
                     style={{
                       height: 40,
                       position: "absolute",
-                      top: "50%",
+                      top: "80%",
                       left: "50%",
                       transform: 'translate(-50%, -50%)',
                     }}
