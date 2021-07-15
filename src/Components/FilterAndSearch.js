@@ -122,7 +122,7 @@ export default function FilterAndSearch() {
    * @returns Connection with the corresponding endpoint in the backend
    */
   function getAll() {
-    var res = axios.get(`http://salary-data-api.herokuapp.com/salary_data/all_2021`);
+    var res = axios.get(`https://salary-data-api.herokuapp.com/salary_data/all_2021`);
     return res
   }
 
@@ -190,8 +190,8 @@ export default function FilterAndSearch() {
    */
   function find(filters, page) {
 
-    const dataURL = new URL("http://salary-data-api.herokuapp.com/salary_data/all_2021?");
-    
+    const dataURL = new URL("https://salary-data-api.herokuapp.com/salary_data/all_2021?");
+
     for (const [key, value] of Object.entries(filters)) {
       if (value === null) {
         filters[key] = "";
@@ -207,7 +207,7 @@ export default function FilterAndSearch() {
   // strings for the corresponding rows.
   const retrieveSummaryData = (summaryFilters) => {
 
-    const dataURL = new URL("http://salary-data-api.herokuapp.com/salary_data/allRaw_2021?");
+    const dataURL = new URL("https://salary-data-api.herokuapp.com/salary_data/allRaw_2021?");
 
     for (const [key, value] of Object.entries(summaryFilters)) {
       if (value === null) {
@@ -248,7 +248,7 @@ export default function FilterAndSearch() {
    */
   function getIndustries() {
 
-    var res = axios.get("http://salary-data-api.herokuapp.com/salary_data/industries");
+    var res = axios.get("https://salary-data-api.herokuapp.com/salary_data/industries");
 
     return res;
   }
@@ -266,8 +266,8 @@ export default function FilterAndSearch() {
       });
   };
 
-    // Used to get rid of null values in the industry endpoint data
-    var fixedIndustryData = industriesData.filter(function (val) { return val !== null })
+  // Used to get rid of null values in the industry endpoint data
+  var fixedIndustryData = industriesData.filter(function (val) { return val !== null })
 
   /**
    * Options for gender that were stated in the 2021 salary survey
@@ -427,8 +427,8 @@ export default function FilterAndSearch() {
       });
   };
 
-    // Used to get rid of null values in the education endpoint data
-    var fixedEducationData = educationData.filter(function (val) { return val !== null })
+  // Used to get rid of null values in the education endpoint data
+  var fixedEducationData = educationData.filter(function (val) { return val !== null })
 
   /**
    * OnChange function to open the drawer and keep track of it being open
@@ -680,24 +680,24 @@ export default function FilterAndSearch() {
                               </Box>
                               <Box pt={3}>
                                 Work Experience:
-                                  <Autocomplete
-                                    id="work_exp-dropdown"
-                                    options={workOptions}
-                                    getOptionLabel={(option) => option}
-                                    renderInput={(params) => <TextField {...params} variant="outlined" />}
-                                    value={filters["Work_Experience"] || ""}
-                                    onChange={(event, value) => {
-                                      if (value === null) {
-                                        setFilters(filters => ({ ...filters, "Work_Experience": "" }))
-                                        setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Work_Experience": "" }))
-                                        setPage(0)
-                                      } else {
-                                        setPage(0)
-                                        setFilters(filters => ({ ...filters, "Work_Experience": value }))
-                                        setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Work_Experience": value }))
-                                      }
-                                    }}
-                                    />
+                                <Autocomplete
+                                  id="work_exp-dropdown"
+                                  options={workOptions}
+                                  getOptionLabel={(option) => option}
+                                  renderInput={(params) => <TextField {...params} variant="outlined" />}
+                                  value={filters["Work_Experience"] || ""}
+                                  onChange={(event, value) => {
+                                    if (value === null) {
+                                      setFilters(filters => ({ ...filters, "Work_Experience": "" }))
+                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Work_Experience": "" }))
+                                      setPage(0)
+                                    } else {
+                                      setPage(0)
+                                      setFilters(filters => ({ ...filters, "Work_Experience": value }))
+                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Work_Experience": value }))
+                                    }
+                                  }}
+                                />
                               </Box>
                               <Box pt={3}>
                                 Country:
@@ -829,7 +829,7 @@ export default function FilterAndSearch() {
                                   multiple
                                   id="race-dropdown"
                                   options={raceOptions}
-                                  value={filters["Race"]||[]}
+                                  value={filters["Race"] || []}
                                   getOptionLabel={(option) => option}
                                   onChange={(event, value) => {
                                     if (value === null) {
