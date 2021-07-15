@@ -103,10 +103,10 @@ export default function Home() {
                   <center><img src={homePic} /></center>
                   <Button
                     variant="contained"
-                    style={{ 
-                      height: 40, 
-                      position: "absolute", 
-                      top: "50%", 
+                    style={{
+                      height: 40,
+                      position: "absolute",
+                      top: "50%",
                       left: "50%",
                       transform: 'translate(-50%, -50%)',
                     }}
@@ -205,6 +205,24 @@ export default function Home() {
                 <img src={salaryPic} width={440} height={250} />
               </Paper>
             </Grid>
+
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={classes.paper}>
+                <Title>About us</Title>
+                <p>This website was created by a group of University of Virginia
+                  undergraduates as a summer project through the UVA Development Hub.
+                  <br></br>
+                  Find us on GitHub:
+                  <ul>
+                    <li><a href="https://github.com/EthanGahm">Ethan Gahm</a></li>
+                    <li><a href="https://github.com/vinnypeng2000">Vinny Peng</a></li>
+                    <li><a href="https://github.com/ilangjung">I Jung</a></li>
+                    <li><a href="https://github.com/JulietteLaburthe">Juliette Laburthe</a></li>
+                    <li><a href="https://github.com/Philip-Hart">Philip Hart</a></li>
+                  </ul>
+                </p>
+              </Paper>
+            </Grid>
           </Grid>
 
           <Grid container spacing={3}>
@@ -274,17 +292,7 @@ export default function Home() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      Feeling generous and want to contribute? Feel free to <a href="AddResponse">
-                        sumbit your own salary data</a> to help others like you. Your data will be
-                      included in our database, and it will be reflected in the <a href="DataSummary">
-                        Data Summery</a> page as well.
-                      Am I too old?
-                      What if I don't have a job yet?
-                      I can't find any entries in my country/state/province/city.
-                      I don't know which industry my job belongs to.
-                      What is the default currency in the graphs?
-                      How can I convert my currency to USD?
-                      Who created this magnificent application?
+
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
@@ -299,7 +307,9 @@ export default function Home() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography></Typography>
+                    <Typography>In order to standardize our data, all monetary values were
+                      converted to USD. You may need to manually convert values back into your
+                      currency of choice. </Typography>
                   </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -329,7 +339,8 @@ export default function Home() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography></Typography>
+                    <Typography>Head over to the Filter and Search page and specify your location
+                      in the "filters" pop-up.</Typography>
                   </AccordionDetails>
                 </Accordion>
               </Paper>
