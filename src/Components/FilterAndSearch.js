@@ -614,47 +614,34 @@ export default function FilterAndSearch() {
                             <FormControl className={classes.formControl}>
                               <Box pt={3}>
                                 Age Range:
-                                <div className={classes.root}>
-                                  <NativeSelect
-                                    id="demo-customized-select-native"
-                                    value={filters["Age"] || ""}
 
-                                    onChange={(event) => {
-                                      if (event.target.value === null) {
-                                        setFilters((filters) => ({
-                                          ...filters,
-                                          Age: "",
-                                        }));
-                                        setSummaryFilters((summaryFilters) => ({
-                                          ...summaryFilters,
-                                          Age: "",
-                                        }));
-                                        setPage(0);
-                                      } else {
-                                        setFilters((filters) => ({
-                                          ...filters,
-                                          Age: event.target.value,
-                                        }));
-                                        setSummaryFilters((summaryFilters) => ({
-                                          ...summaryFilters,
-                                          Age: event.target.value,
-                                        }));
-                                        setPage(0);
-                                      }
-                                    }}
-                                  >
-                                    <option value="">None</option>
-                                    <option value={"under 18"}>Under 18</option>
-                                    <option value={"18-24"}>18-24</option>
-                                    <option value={"25-34"}>25-34</option>
-                                    <option value={"35-44"}>35-44</option>
-                                    <option value={"45-54"}>45-54</option>
-                                    <option value={"55-64"}>55-64</option>
-                                    <option value={"65 or over"}>
-                                      65 or Over
-                                    </option>
-                                  </NativeSelect>
-                                </div>
+                                <Autocomplete
+                                  id="age-dropdown"
+                                  options={[
+                                    "under 18",
+                                    "18-24",
+                                    "25-34",
+                                    "35-44",
+                                    "45-54",
+                                    "55-64",
+                                    "65 or over",
+                                  ]}
+                                  value={filters["Age"] || ""}
+                                  getOptionLabel={(option, value) => option}
+                                  style={{ width: 300 }}
+                                  renderInput={(params) => <TextField {...params} variant="outlined" />}
+                                  onChange={(event, value) => {
+                                    if (value === null) {
+                                      setFilters(filters => ({ ...filters, "Age": "" }))
+                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Age": "" }))
+                                      setPage(0)
+                                    } else {
+                                      setPage(0)
+                                      setFilters(filters => ({ ...filters, "Age": value }))
+                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Age": value }))
+                                    }
+                                  }}
+                                />
                               </Box>
                               <Box pt={3}>
                                 Industry:
@@ -920,7 +907,7 @@ export default function FilterAndSearch() {
           </Box>
         </Container>
       </main>
-    </div>
+    </div >
   );
 }
 
