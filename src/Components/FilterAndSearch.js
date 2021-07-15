@@ -38,23 +38,32 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
 import { ViewArraySharp } from "@material-ui/icons";
+import Card from '@material-ui/core/Card';
+// import { CircularProgress } from "@material-ui/core";
+
 
 export default function FilterAndSearch() {
-
   // State variable used to store the current filters.
   const [filters, setFilters] = useState({});
 
-  // State variable used to store the current filters for data summary analysis. 
+  // State variable used to store the current filters for data summary analysis.
   const [summaryFilters, setSummaryFilters] = useState({});
 
-  // State variable used to store the filter rows for the table. 
-  const [filterRows, setFilterRows] = useState([])
+  // State variable used to store the filter rows for the table.
+  const [filterRows, setFilterRows] = useState([]);
 
   // State variable used to store the data rows displayed in the table.
   const [allData, setAllData] = useState({});
 
   // State variable used to store the mean salary of the rows fitting the current filters
   const [meanSalary, setMeanSalary] = useState();
+  const [topSalary, setTopSalary] = useState();
+  const [botSalary, setBotSalary] = useState();
+  const [avgAge, setAvgAge] = useState();
+  const [highInd, setHighInd] = useState();
+  const [popInd, setPopInd] = useState();
+  const [comDeg, setComDeg] = useState();
+  const [searchParam, setSearchParam] = useState();
 
   // State variable used to store the median salary of the rows fitting the current filters
   const [medianSalary, setMedianSalary] = useState();
@@ -105,9 +114,8 @@ export default function FilterAndSearch() {
 
   // Each time the filter is changed, changes the summary data corresponding to the filter selected
   useEffect(() => {
-    retrieveSummaryData(summaryFilters)
-  }, [summaryFilters])
-
+    retrieveSummaryData(summaryFilters);
+  }, [summaryFilters]);
 
   /**
    * Connects to the endpoint from the axios 'GET' call
@@ -123,11 +131,10 @@ export default function FilterAndSearch() {
    */
   const retrieveAllData = () => {
     getAll()
-      .then(response => {
+      .then((response) => {
         setAllData(response.data);
       })
-      .catch(e => {
-
+      .catch((e) => {
         console.error(e);
       });
   };
@@ -182,6 +189,7 @@ export default function FilterAndSearch() {
    * @returns an endpoint that appends the page number and filters to show specified data
    */
   function find(filters, page) {
+
     const dataURL = new URL("http://salary-data-api.herokuapp.com/salary_data/all_2021?");
     
     for (const [key, value] of Object.entries(filters)) {
@@ -191,7 +199,6 @@ export default function FilterAndSearch() {
       dataURL.searchParams.append(key, value);
     }
     dataURL.searchParams.append("page", page);
-    console.log(dataURL.href);
     return axios.get(dataURL);
   }
 
@@ -199,32 +206,50 @@ export default function FilterAndSearch() {
   // from the database. This includes mean + median salaries as well as the location
   // strings for the corresponding rows.
   const retrieveSummaryData = (summaryFilters) => {
+
     const dataURL = new URL("http://salary-data-api.herokuapp.com/salary_data/allRaw_2021?");
+
     for (const [key, value] of Object.entries(summaryFilters)) {
       if (value === null) {
-        summaryFilters[key] = ""
+        summaryFilters[key] = "";
       }
       dataURL.searchParams.append(key, value);
     }
     let res = axios.get(dataURL);
-    res.then(response => {
-      setMeanSalary(response.data.mean_salary)
-      setMedianSalary(response.data.median_salary)
-      setPinLocations(response.data.pin_locations)
+    res
+      .then((response) => {
+        console.log(JSON.stringify(response))
+        console.log(response)
+        setMeanSalary(response.data.mean_salary);
+        setMedianSalary(response.data.median_salary);
+        setTopSalary(response.data.top_salary);
+        setBotSalary(response.data.bot_salary);
+        setAvgAge(response.data.avg_age);
+        setHighInd(response.data.high_ind);
+        setPopInd(response.data.pop_ind);
+        setComDeg(response.data.com_deg);
+        setSearchParam(response.data.search_param);
 
-    })
-      .catch(e => {
+        if (Object.keys(summaryFilters).length == 0) {
+          setPinLocations([82.8628, 135.0000, "antarctica"])
+        }
+        else {
+          setPinLocations(response.data.pin_locations)
+        }
+      })
+      .catch((e) => {
         console.error(e);
       });
   };
-
 
   /**
    * Used to get the endpoint that contains industries from the database
    * @returns an array of industries with no duplicates
    */
   function getIndustries() {
+
     var res = axios.get("http://salary-data-api.herokuapp.com/salary_data/industries");
+
     return res;
   }
 
@@ -257,12 +282,15 @@ export default function FilterAndSearch() {
   // Used to get rid of null values in the country endpoint data
   var fixedCountryData = countryData.filter(function (val) { return val !== null })
 
+
   /**
    * Used to get the endpoint that contains countries from the database
    * @returns an array of countries with no duplicates
    */
   function getCountries() {
+
     var res = axios.get("http://salary-data-api.herokuapp.com/salary_data/countries");
+
     return res;
   }
 
@@ -280,18 +308,20 @@ export default function FilterAndSearch() {
   };
 
   /**
-     * Used to get the endpoint that contains states from the database
-     * @returns an array of states with no duplicates
-     */
+   * Used to get the endpoint that contains states from the database
+   * @returns an array of states with no duplicates
+   */
 
   function getStates() {
+
     var res = axios.get("http://salary-data-api.herokuapp.com/salary_data/states");
+
     return res;
   }
 
   /**
-     * Using the endpoint from axios, updates the state variable 'setStateData' to be used in the dropdown menu
-     */
+   * Using the endpoint from axios, updates the state variable 'setStateData' to be used in the dropdown menu
+   */
 
   const retrieveStates = () => {
     getStates()
@@ -302,6 +332,7 @@ export default function FilterAndSearch() {
         console.log(e);
       });
   };
+
 
 
   // Dropdown menu options for the race filter
@@ -322,8 +353,35 @@ export default function FilterAndSearch() {
     */
   function getRaces() {
     var res = axios.get("http://salary-data-api.herokuapp.com/salary_data/races");
+
+  // Used to get rid of null values in the city endpoint data
+  var filteredCityData = cityData.filter(function (val) {
+    return val !== null;
+  });
+
+  /**
+   * Used to get the endpoint that contains cities from the database
+   * @returns an array of cities with no duplicates
+   */
+  function getCities() {
+    var res = axios.get(
+      "https://salary-data-api.herokuapp.com/salary_data/cities"
+    );
+
     return res;
   }
+    
+      /* Using the endpoint from axios, updates the state variable 'setCityData' to be used in the dropdown menu
+   */
+  const retrieveCities = () => {
+    getCities()
+      .then((response) => {
+        setCityData(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   /**
      * Using the endpoint from axios, updates the state variable 'setCityData' to be used in the dropdown menu
@@ -429,26 +487,32 @@ export default function FilterAndSearch() {
    * OnChange function that when clicked resets the table to default settings, on page 0 and no filters
    */
   const handleResetFilter = () => {
-    setFilters({})
-    setPage(0)
+    setFilters({});
+    setPage(0);
+    setSummaryFilters({});
     const response = find("", 0);
     const tempRows = [];
-    response.then((res) => {
-      for (const row of Object.values(res.data.rows)) {
-        tempRows.push(Object.values(row));
-      }
-      setFilterRows(tempRows)
-    }).catch((e) => {
-      console.error(e);
-    });
-  }
+    response
+      .then((res) => {
+        for (const row of Object.values(res.data.rows)) {
+          tempRows.push(Object.values(row));
+        }
+        setFilterRows(tempRows);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+  console.log(summaryFilters);
+
 
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
         position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}>
+        className={clsx(classes.appBar, open && classes.appBarShift)}
+      >
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -458,10 +522,11 @@ export default function FilterAndSearch() {
             className={clsx(
               classes.menuButton,
               open && classes.menuButtonHidden
-            )}>
+            )}
+          >
             <MenuIcon />
           </IconButton>
-          <PageTitle text="Data Summary" />
+          <PageTitle text="Filter and Search" />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -469,7 +534,8 @@ export default function FilterAndSearch() {
         classes={{
           paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
         }}
-        open={open}>
+        open={open}
+      >
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
@@ -485,73 +551,170 @@ export default function FilterAndSearch() {
             <Grid container direction="row">
               <Title>Set Parameters and Search the Dataset</Title>
               <Grid item xs={12} md={12} lg={12} container maxwidth={'lg'}>
-                <Grid item xs={6}>
-                  {<Paper className={classes.paper}>
+                <Grid item xs={12} md={6} lg={6}>
+                  <Card className={classes.card}>
                     <Typography variant="h6" gutterBottom>
                       Data Summary
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
-                      Mean Salary: {meanSalary}
+                      Filters: {searchParam}
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
-                      Median Salary: {medianSalary}
+                      Mean Salary: ${meanSalary}
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
-                      Average Age:
+                      Median Salary: ${medianSalary}
                     </Typography>
-                  </Paper>}
+                    <Typography variant="subtitle1" gutterBottom>
+                      Highest Salary: ${topSalary}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Lowest Salary: ${botSalary}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Average Age: {avgAge}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Highest Earning Industries: {highInd}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Most Popular Industries: {popInd}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Most Common Degree: {comDeg}
+                    </Typography>
+                  </Card>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6} lg={6}>
                   <Paper className={classes.paper} elevation={0}>
-                    {<MarkerMap
-                      location={location}
-                      zoomLevel={8}
-                      pinLocations={
-                        pinLocations} />}
+                    {
+                      <MarkerMap
+                        location={location}
+                        zoomLevel={8}
+                        pinLocations={pinLocations}
+                      />
+                    }
                   </Paper>
                 </Grid>
-                <Grid item xs={12}>
-                  <Paper elevation={2}>
-                    <Box m={1} alignItems="center" className={`${classes.spreadBox} ${classes.box}`}>
-                      <Button variant="contained" style={{ height: 40 }} color="primary" onClick={handlePreviousPageChange}>
+                <Grid xs={12}>
+                  <Paper elevation={1}>
+                    <Box
+                      m={1}
+                      alignItems="center"
+                      className={`${classes.spreadBox} ${classes.box}`}
+                    >
+                      <Button
+                        variant="contained"
+                        style={{ height: 40 }}
+                        color="primary"
+                        onClick={handlePreviousPageChange}
+                      >
                         Previous
                       </Button>
-                      <Button variant="contained" style={{ height: 40 }} color="primary" onClick={handleResetFilter}>
+                      <Button
+                        variant="contained"
+                        style={{ height: 40 }}
+                        color="primary"
+                        onClick={handleResetFilter}
+                      >
                         Reset Filters
                       </Button>
-                      <Button variant="contained" style={{ height: 40 }} color="primary" onClick={handleClickOpen}>Filter</Button>
-                      <Dialog disableBackdropClick disableEscapeKeyDown open={drawer} onClose={handleClose}>
+                      <Button
+                        variant="contained"
+                        style={{ height: 40 }}
+                        color="primary"
+                        onClick={handleClickOpen}
+                      >
+                        Filter
+                      </Button>
+                      <Dialog
+                        disableBackdropClick
+                        disableEscapeKeyDown
+                        open={drawer}
+                        onClose={handleClose}
+                      >
                         <DialogTitle>Table Filter</DialogTitle>
                         <DialogContent>
                           <form className={classes.filtercontainer}>
                             <FormControl className={classes.formControl}>
                               <Box pt={3}>
+
+                                Industry:
+                                <Autocomplete
+                                  id="industry-dropdown"
+                                  options={industriesData}
+                                  value={filters["Industry"]}
+                                  getOptionLabel={(option) => option}
+                                  style={{ width: 300 }}
+                                  renderInput={(params) => (
+                                    <TextField {...params} variant="outlined" />
+                                  )}
+                                  onChange={(event, value) => {
+                                    if (value === null) {
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        Industry: "",
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        Industry: "",
+                                      }));
+                                      setPage(0);
+                                    } else {
+                                      setPage(0);
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        Industry: value,
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        Industry: value,
+                                      }));
+                                    }
+                                  }}
+                                />
+                              </Box>
+                              <Box pt={3}>
                                 Age Range:
-                                <div className={classes.root} >
+                                <div className={classes.root}>
                                   <NativeSelect
                                     id="demo-customized-select-native"
                                     value={filters["Age"] || ""}
 
                                     onChange={(event) => {
                                       if (event.target.value === null) {
-                                        setFilters(filters => ({ ...filters, "Age": "" }))
-                                        setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Age": "" }))
-                                        setPage(0)
+                                        setFilters((filters) => ({
+                                          ...filters,
+                                          Age: "",
+                                        }));
+                                        setSummaryFilters((summaryFilters) => ({
+                                          ...summaryFilters,
+                                          Age: "",
+                                        }));
+                                        setPage(0);
                                       } else {
-                                        setFilters(filters => ({ ...filters, "Age": event.target.value }))
-                                        setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Age": event.target.value }))
-                                        setPage(0)
+                                        setFilters((filters) => ({
+                                          ...filters,
+                                          Age: event.target.value,
+                                        }));
+                                        setSummaryFilters((summaryFilters) => ({
+                                          ...summaryFilters,
+                                          Age: event.target.value,
+                                        }));
+                                        setPage(0);
                                       }
                                     }}
                                   >
                                     <option value="">None</option>
-                                    <option value={'under 18'}>Under 18</option>
-                                    <option value={'18-24'}>18-24</option>
-                                    <option value={'25-34'}>25-34</option>
-                                    <option value={'35-44'}>35-44</option>
-                                    <option value={'45-54'}>45-54</option>
-                                    <option value={'55-64'}>55-64</option>
-                                    <option value={'65 or over'}>65 or Over</option>
+                                    <option value={"under 18"}>Under 18</option>
+                                    <option value={"18-24"}>18-24</option>
+                                    <option value={"25-34"}>25-34</option>
+                                    <option value={"35-44"}>35-44</option>
+                                    <option value={"45-54"}>45-54</option>
+                                    <option value={"55-64"}>55-64</option>
+                                    <option value={"65 or over"}>
+                                      65 or Over
+                                    </option>
                                   </NativeSelect>
                                 </div>
                               </Box>
@@ -607,13 +770,25 @@ export default function FilterAndSearch() {
                                   getOptionLabel={(option) => option}
                                   onChange={(event, value) => {
                                     if (value === null) {
-                                      setPage(0)
-                                      setFilters(filters => ({ ...filters, "Country": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Country": "" }))
+                                      setPage(0);
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        Country: "",
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        Country: "",
+                                      }));
                                     } else {
-                                      setPage(0)
-                                      setFilters(filters => ({ ...filters, "Country": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Country": value }))
+                                      setPage(0);
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        Country: value,
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        Country: value,
+                                      }));
                                     }
                                   }}
                                   style={{ width: 300 }}
@@ -632,17 +807,27 @@ export default function FilterAndSearch() {
                                   getOptionLabel={(option) => option}
                                   onChange={(event, value) => {
                                     if (value === null) {
-                                      setPage(0)
-                                      setFilters(filters => ({ ...filters, "State": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "State": "" }))
-
+                                      setPage(0);
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        State: "",
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        State: "",
+                                      }));
                                     } else {
-                                      setPage(0)
-                                      setFilters(filters => ({ ...filters, "State": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "State": value }))
+                                      setPage(0);
+                                      setFilters((filters) => ({
+                                        ...filters,
+                                        State: value,
+                                      }));
+                                      setSummaryFilters((summaryFilters) => ({
+                                        ...summaryFilters,
+                                        State: value,
+                                      }));
                                     }
                                   }}
-
                                   style={{ width: 300 }}
                                   renderInput={(params) => (
                                     <TextField {...params} variant="outlined" />
@@ -719,7 +904,6 @@ export default function FilterAndSearch() {
                                       setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Race": value }))
                                     }
                                   }}
-
                                   style={{ width: 300 }}
                                   renderInput={(params) => (
                                     <TextField {...params} variant="outlined" />
@@ -735,7 +919,12 @@ export default function FilterAndSearch() {
                           </Button>
                         </DialogActions>
                       </Dialog>
-                      <Button variant="contained" style={{ height: 40 }} color="primary" onClick={handleNextPageChange}>
+                      <Button
+                        variant="contained"
+                        style={{ height: 40 }}
+                        color="primary"
+                        onClick={handleNextPageChange}
+                      >
                         Next
                       </Button>
                     </Box>

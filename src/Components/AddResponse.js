@@ -15,10 +15,12 @@ import Title from "./Title";
 import Copyright from "./Copyright";
 import useStyles from "./UseStyles.js";
 import PageTitle from "./PageTitle";
-let res;
+import SurveyComponent from "../AddResponse/Survey";
+
 /**
- * This component is to add responses to our database by embedding a Google Form with questions matching the original survey's
- * @returns a rendered google form and extra components to format the web-page
+ * This component is to add responses to our database by using React forms to collect information and send it as a JSON to
+ * our backend's post endpoint
+ * @returns a rendered React form and extra components to format the web-page
  */
 export default function AddResponse() {
   // Page Styling
@@ -73,24 +75,16 @@ export default function AddResponse() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Title>Add Your Own Response! </Title>
+          <Title>Add Your Own Response! Responses submitted through this page will be added directly to our copy of the 2021 dataset and will show up on graphs and in searches.</Title>
           <Box>
-            <iframe
-              src="https://docs.google.com/forms/d/e/1FAIpQLSdsCwNyG9kLUVL8QqINFvW-jLQAMHJkyXo6ykaS2ei4MTtPqA/viewform?embedded=true"
-              width="640"
-              height="3812"
-              frameborder="0"
-              marginheight="0"
-              marginwidth="0"
-            >
-              Loading…
-            </iframe>
+            {/* Custom Component which holds the React form to use as survey */}
+            <SurveyComponent />
+          </Box>
+          {/* Copyright htmlFor the app */}
+          <Box pt={5}>
+            <Copyright />
           </Box>
         </Container>
-        {/* Copyright for the app */}
-        <Box pt={5}>
-          <Copyright />
-        </Box>
       </main>
     </div>
   );

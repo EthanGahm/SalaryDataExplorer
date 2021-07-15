@@ -76,6 +76,13 @@ export const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     flexDirection: "column",
   },
+  smallTextbox: {
+    padding: theme.spacing(2),
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "column",
+    height: 330,
+  },
   textbox: {
     padding: theme.spacing(2),
     display: "flex",
@@ -89,6 +96,20 @@ export const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     flexDirection: "column",
     height: 460
+  },
+  longTextbox: {
+    padding: theme.spacing(2),
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "column",
+    height: 920
+  },
+  card: {
+    padding: theme.spacing(2),
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "column",
+    height: 450
   },
   fixedHeight: {
     height: 240,
