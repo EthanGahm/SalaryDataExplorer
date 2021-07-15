@@ -103,13 +103,17 @@ export default function Home() {
                   industries, countries, gender, races, and education levels.
                 </p>
 
-                <div class="container">
-                  <center>
-                    <img src={homePic} />
-                  </center>
+                <div class="container" style = {{position: "relative" , width: "100%"}}>
+                  <center><img src = {homePic} /></center>
                   <Button
                     variant="contained"
-                    style={{ height: 40 }}
+                    style={{ 
+                      height: 40, 
+                      position: "absolute", 
+                      top: "50%", 
+                      left: "50%",
+                      transform: 'translate(-50%, -50%)',
+                    }}
                     color="secondary"
                     href="DataSummary"
                   >
