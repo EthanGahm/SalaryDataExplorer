@@ -613,43 +613,6 @@ export default function FilterAndSearch() {
                           <form className={classes.filtercontainer}>
                             <FormControl className={classes.formControl}>
                               <Box pt={3}>
-
-                                Industry:
-                                <Autocomplete
-                                  id="industry-dropdown"
-                                  options={industriesData}
-                                  value={filters["Industry"]}
-                                  getOptionLabel={(option) => option}
-                                  style={{ width: 300 }}
-                                  renderInput={(params) => (
-                                    <TextField {...params} variant="outlined" />
-                                  )}
-                                  onChange={(event, value) => {
-                                    if (value === null) {
-                                      setFilters((filters) => ({
-                                        ...filters,
-                                        Industry: "",
-                                      }));
-                                      setSummaryFilters((summaryFilters) => ({
-                                        ...summaryFilters,
-                                        Industry: "",
-                                      }));
-                                      setPage(0);
-                                    } else {
-                                      setPage(0);
-                                      setFilters((filters) => ({
-                                        ...filters,
-                                        Industry: value,
-                                      }));
-                                      setSummaryFilters((summaryFilters) => ({
-                                        ...summaryFilters,
-                                        Industry: value,
-                                      }));
-                                    }
-                                  }}
-                                />
-                              </Box>
-                              <Box pt={3}>
                                 Age Range:
                                 <div className={classes.root}>
                                   <NativeSelect
