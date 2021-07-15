@@ -353,35 +353,10 @@ export default function FilterAndSearch() {
     */
   function getRaces() {
     var res = axios.get("http://salary-data-api.herokuapp.com/salary_data/races");
-
-  // Used to get rid of null values in the city endpoint data
-  var filteredCityData = cityData.filter(function (val) {
-    return val !== null;
-  });
-
-  /**
-   * Used to get the endpoint that contains cities from the database
-   * @returns an array of cities with no duplicates
-   */
-  function getCities() {
-    var res = axios.get(
-      "https://salary-data-api.herokuapp.com/salary_data/cities"
-    );
-
-    return res;
+    return res
   }
-    
-      /* Using the endpoint from axios, updates the state variable 'setCityData' to be used in the dropdown menu
-   */
-  const retrieveCities = () => {
-    getCities()
-      .then((response) => {
-        setCityData(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+
+
 
   /**
      * Using the endpoint from axios, updates the state variable 'setCityData' to be used in the dropdown menu
@@ -985,3 +960,4 @@ export default function FilterAndSearch() {
     </div>
   );
 }
+
