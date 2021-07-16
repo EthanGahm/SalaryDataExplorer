@@ -477,7 +477,7 @@ export default function Home() {
                   <AccordionDetails>
                     <Typography>
                       We do not fact check the entires in the dataset. Some people 
-                      might hve entered China for country, Virginia for state, and 
+                      might have entered China for country, Virginia for state, and 
                       Berlin as city, which doesn't make sense at all. Nonetheless, 
                       these pins are shown on the Google Maps component.
                     </Typography>
