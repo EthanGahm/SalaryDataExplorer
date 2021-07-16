@@ -46,12 +46,12 @@ var age_med_2019 = [];
 var age_med_2021 = [];
 var dqydj = [
   ["under 18", 0],
-  ["18-24", 16500],
-  ["25-34", 40105],
-  ["35-44", 50277.5],
-  ["45-54", 53001],
-  ["55-64", 52350],
-  ["65 or over", 54270],
+  ["18-24", 16.5],
+  ["25-34", 40.11],
+  ["35-44", 50.28],
+  ["45-54", 53.0],
+  ["55-64", 52.35],
+  ["65 or over", 54.27],
 ];
 
 export default function DataComparisons() {
@@ -70,6 +70,17 @@ export default function DataComparisons() {
   // colors for the graphs
   const colors = ["#0088FE", "#00C49F", "#FFBB28"];
 
+  /**
+   * This method is built from this link: https://stackoverflow.com/questions/9461621/format-a-number-as-2-5k-if-a-thousand-or-more-otherwise-900
+   * @param {*} num number to convert to thousands of dollars
+   * @returns newly formatted number
+   */
+  function convertNumFormat(num) {
+    if (Math.abs(num) > 999) {
+      num = (Math.abs(num) / 1000).toFixed(1);
+    }
+    return num;
+  }
   //this useEffect makes API calls to our backend/database and retrieve data needed to build the graphs/analyze
   useEffect(() => {
     (async function getData() {
@@ -79,14 +90,14 @@ export default function DataComparisons() {
       );
 
       topThree2019 = t19.data;
-      // console.log("2019: " + topThree2019);
+      console.log("2019: " + topThree2019);
       var t21 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/top_salaries"
       );
 
       topThree2021 = t21.data;
       setIsLoadedTopIndustries(true);
-      // console.log("2021: " + topThree2021);
+      console.log("2021: " + topThree2021);
       /// MEDIAN OVERALL SALARIES 2019/2021
       var m19 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/2019_median_salary"
@@ -110,10 +121,18 @@ export default function DataComparisons() {
       );
       // console.log(ma21.data);
       age_med_2019 = ma19.data;
+      for (var i in age_med_2019) {
+        age_med_2019[i][1] = convertNumFormat(age_med_2019[i][1]);
+        // console.log(age_med_2019[i][1]);
+      }
+
       age_med_2019.sort((a, b) => (a[0] > b[0] ? 1 : -1));
       age_med_2019.unshift(age_med_2019.pop());
 
       age_med_2021 = ma21.data;
+      for (var i in age_med_2021) {
+        age_med_2021[i][1] = convertNumFormat(age_med_2021[i][1]);
+      }
       age_med_2021.sort((a, b) => (a[0] > b[0] ? 1 : -1));
       age_med_2021.unshift(age_med_2021.pop());
 
@@ -177,14 +196,15 @@ export default function DataComparisons() {
                   <h3>Comparing the 2021 Dataset to Other Datasets</h3>
                 </center>
                 <p>
-                  The 2021 AskAManager.org salary survey is only one tiny snapshot
-                  of a relatively small group of people. Here, we compare data from
-                  the 2021 survey to data from a similar survey conducted in 2019.
-                  In adition, because a majority of survey responses were from US
-                  readers, we examine how the salaries of typical respondants
-                  compare to those of the average American. Below are some of the most
-                  interesting trends and analyses we were able to find when
-                  looking at all of these datasets.
+                  The 2021 AskAManager.org salary survey is only one tiny
+                  snapshot of a relatively small group of people. Here, we
+                  compare data from the 2021 survey to data from a similar
+                  survey conducted in 2019. In addition, because a majority of
+                  survey responses were from US readers, we examine how the
+                  salaries of typical respondants compare to those of the
+                  average American. Below are some of the most interesting
+                  trends and analyses we were able to find when looking at all
+                  of these datasets.
                 </p>
               </Paper>
               <center>
@@ -212,10 +232,14 @@ export default function DataComparisons() {
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="0" />
                       <YAxis
+                        tickFormatter={(value) =>
+                          Math.round(value).toLocaleString()
+                        }
                         label={{
-                          value: "Salary ($k)",
+                          value: "Salary ($)",
                           angle: -90,
-                          position: "insideLeft",
+
+                          dx: -30,
                         }}
                         domain={[0, 160]}
                       />
@@ -223,12 +247,20 @@ export default function DataComparisons() {
                       <Bar dataKey="1" name="Salary" fill={colors[1]}>
                         <LabelList
                           dataKey="1"
-                          angle={90}
-                          position="center"
-                          fontSize={12}
+                          angle={0}
+                          position="middle"
+                          fontSize={16}
+                          formatter={(value) =>
+                            "$" + Math.round(value).toLocaleString()
+                          }
                         />
                       </Bar>
-                      <Tooltip cursor={false} />
+                      <Tooltip
+                        cursor={false}
+                        formatter={(value) =>
+                          "$" + Math.round(value).toLocaleString()
+                        }
+                      />
                     </BarChart>
                   </center>
                 )}
@@ -254,18 +286,36 @@ export default function DataComparisons() {
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="0" />
                       <YAxis
+                        dx={5}
+                        tickFormatter={(value) =>
+                          Math.round(value).toLocaleString()
+                        }
                         label={{
-                          value: "Salary ($k)",
+                          value: "Salary ($)",
                           angle: -90,
-                          position: "insideLeft",
+                          dx: -30,
+                          // position: "insideLeft",
                         }}
-                        domain={[0, 160]}
+                        domain={[0, 140]}
                       />
 
                       <Bar dataKey="1" name="Salary" fill={colors[2]}>
-                        <LabelList angle={90} position="center" fontSize={12} />
+                        <LabelList
+                          dataKey="1"
+                          angle={0}
+                          position="middle"
+                          fontSize={16}
+                          formatter={(value) =>
+                            "$" + Math.round(value).toLocaleString()
+                          }
+                        />
                       </Bar>
-                      <Tooltip cursor={false} />
+                      <Tooltip
+                        cursor={false}
+                        formatter={(value) =>
+                          "$" + Math.round(value).toLocaleString()
+                        }
+                      />
                     </BarChart>
                   </center>
                 )}
@@ -281,14 +331,14 @@ export default function DataComparisons() {
                   </h3>
                 </center>
                 <p>
-                  To reduce the skewing effects of outlier data points, we examined
-                  the median (rather than mean) annual salaries of top earning
-                  industries across both datasets. Notably, both the 2019 and 2021 datasets had
-                  the same top 3 highest earning industries: Computing or Tech,
-                  Aerospace, and Energy. This may be due to the fact that both
-                  of these surveys come from the AskAManager blog which likely
-                  means that many readers entered their salary information for
-                  both years.
+                  To reduce the skewing effects of outlier data points, we
+                  examined the median (rather than mean) annual salaries of top
+                  earning industries across both datasets. Notably, both the
+                  2019 and 2021 datasets had the same top 3 highest earning
+                  industries: Computing or Tech, Aerospace, and Energy. This may
+                  be due to the fact that both of these surveys come from the
+                  AskAManager blog which likely means that many readers entered
+                  their salary information for both years.
                 </p>
               </Paper>
             </Grid>
@@ -302,28 +352,27 @@ export default function DataComparisons() {
                   </h3>
                 </center>
                 <p>
-                  In order to get a better idea of how respondants of the
-                  survey compared to a more general population, we used
-                  information gathered from a company called Don't Quit Your Day
-                  Job (DQYDJ). We decided to use data from the United States
-                  because it was the country that had the most entries from the
+                  In order to get a better idea of how respondants of the survey
+                  compared to a more general population, we used information
+                  gathered from a company called "Don't Quit Your Day Job"
+                  (DQYDJ). We decided to use data from the United States because
+                  it was the country that had the most entries from the
                   AskAManager survey responses. Based on their findings in 2019,
                   the median annual income in the United States was $43,206.
                   When comparing this value to both the 2019 and 2021
-                  AskAManager survey results, there is a gap of about
-                  $30,000 , with both datasets having a median personal salary
-                  of about $70,000. A few factors might contribute to this discrepency.
-                  The first is that the data gathered from the AskAManager
-                  blog were voluntary, so there is response bias that appears,
-                  with higher-earning respondants choosing to share their
-                  salaries versus research over an more general population.
-                  As shown on the data summary page, respondants are overwhelmingly white,
-                  highly educated,
-                  and tend to work in high-earning industries, like computing and tech.
-                  Another factor is the amount of responses and data from each
-                  dataset. For example, both surveys yielded a total of about
-                  50,000 responses whereas the DQYDJ research was based on more than 175
-                  million datapoints.
+                  AskAManager survey results, there is a gap of about $30,000 ,
+                  with both datasets having a median personal salary of about
+                  $70,000. A few factors might contribute to this discrepency.
+                  The first is that the data gathered from the AskAManager blog
+                  were voluntary, so there is response bias that appears, with
+                  higher-earning respondants choosing to share their salaries
+                  versus research over an more general population. As shown on
+                  the data summary page, respondants are overwhelmingly white,
+                  highly-educated, and tend to work in high-earning industries,
+                  like computing and tech. Another factor is the amount of
+                  responses and data from each dataset. For example, both
+                  surveys yielded a total of about 50,000 responses whereas the
+                  DQYDJ research was based on more than 175 million datapoints.
                 </p>
               </Paper>
               <center>
@@ -348,10 +397,13 @@ export default function DataComparisons() {
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="0" />
                       <YAxis
+                        tickFormatter={(value) =>
+                          Math.round(value).toLocaleString()
+                        }
                         label={{
-                          value: "Salary ($k)",
+                          value: "Salary ($)",
                           angle: -90,
-                          position: "insideLeft",
+                          dx: -35,
                         }}
                         domain={[0, 80000]}
                       />
@@ -368,8 +420,11 @@ export default function DataComparisons() {
                           dataKey="1"
                           angle={0}
                           position="top"
-                          fontSize={14}
+                          fontSize={16}
                           fill={"#000000"}
+                          formatter={(value) =>
+                            "$" + Math.round(value).toLocaleString()
+                          }
                         />
                         {medians.map((entry, index) => (
                           <Cell
@@ -380,7 +435,12 @@ export default function DataComparisons() {
                           />
                         ))}
                       </Bar>
-                      <Tooltip cursor={false} />
+                      <Tooltip
+                        cursor={false}
+                        formatter={(value) =>
+                          "$" + Math.round(value).toLocaleString()
+                        }
+                      />
                       <LabelList
                         dataKey="1"
                         angle={90}
@@ -422,16 +482,17 @@ export default function DataComparisons() {
                           position="insideBottom"
                         />
                       </XAxis>
-                      <Tooltip />
+                      <Tooltip formatter={(num) => "$" + num + "k"} />
                       <YAxis
                         name="Median Salary"
                         label={{
-                          value: "Salary $k",
+                          value: "Salary ($k)",
                           angle: -90,
                           position: "insideLeft",
                         }}
-                        domain={[0, 120]}
+                        domain={[0, 110]}
                       />
+
                       <Line
                         type="monotone"
                         dataKey="1"
@@ -470,15 +531,15 @@ export default function DataComparisons() {
                           position="insideBottom"
                         />
                       </XAxis>
-                      <Tooltip />
+                      <Tooltip formatter={(num) => "$" + num + "k"} />
                       <YAxis
                         name="Median Salary"
                         label={{
-                          value: "Salary $k",
+                          value: "Salary ($k)",
                           angle: -90,
                           position: "insideLeft",
                         }}
-                        domain={[0, 120]}
+                        domain={[0, 110]}
                       />
                       <Line
                         type="monotone"
@@ -518,15 +579,15 @@ export default function DataComparisons() {
                           position="insideBottom"
                         />
                       </XAxis>
-                      <Tooltip />
+                      <Tooltip formatter={(num) => "$" + num + "k"} />
                       <YAxis
                         name="Median Salary"
                         label={{
-                          value: "Salary $k",
+                          value: "Salary ($k)",
                           angle: -90,
                           position: "insideLeft",
                         }}
-                        domain={[0, 120]}
+                        domain={[0, 110]}
                       />
                       <Line
                         type="monotone"
