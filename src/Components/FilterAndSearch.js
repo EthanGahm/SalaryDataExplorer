@@ -42,6 +42,15 @@ import Card from '@material-ui/core/Card';
 // import DataGrid from '@material-ui/data-grid';
 // import { CircularProgress } from "@material-ui/core";
 
+// Checks if no filters are set. Returns boolean.
+function filtersEmpty(filters) {
+  for (const value of Object.values(filters)) {
+    if (value != "") {
+      return false;
+    }
+  }
+  return true;
+}
 
 export default function FilterAndSearch() {
 
@@ -109,6 +118,9 @@ export default function FilterAndSearch() {
 
   // State variable used to track whether the site options are displayed or not
   const [open, setOpen] = React.useState(true);
+
+  // State variable used to tell whether the map and summary data box is currently loading
+  const [loading, setLoading] = React.useState(false)
 
   // Styling used for the Filter/Search page
   const classes = useStyles();
@@ -219,8 +231,26 @@ export default function FilterAndSearch() {
   // strings for the corresponding rows.
   const retrieveSummaryData = (summaryFilters) => {
 
+    if (filtersEmpty(summaryFilters)) {
+      setSearchParam("No Filters Set");
+
+      setMeanSalary("");
+      setMedianSalary("");
+      setTopSalary("");
+      setBotSalary("");
+      setAvgAge("");
+      setHighInd("");
+      setPopInd("");
+      setComDeg("");
+      setPinLocations([])
+      return
+    }
+
+    setLoading(true)
+
     const dataURL = new URL("https://salary-data-api.herokuapp.com/salary_data/allRaw_2021?");
 
+    console.log("Summary Filters: " + JSON.stringify(summaryFilters))
     for (const [key, value] of Object.entries(summaryFilters)) {
       if (value === null) {
         summaryFilters[key] = "";
@@ -248,9 +278,11 @@ export default function FilterAndSearch() {
         else {
           setPinLocations(response.data.pin_locations)
         }
+        setLoading(false)
       })
       .catch((e) => {
         console.error(e);
+        setLoading(false)
       });
   };
 
@@ -460,7 +492,9 @@ export default function FilterAndSearch() {
    * OnChange function to open the Filter menu and keep track of it being open
    */
   const handleClickOpen = () => {
-    setDrawer(true);
+    if (!loading) {
+      setDrawer(true);
+    }
   };
 
   /**
@@ -477,6 +511,14 @@ export default function FilterAndSearch() {
     setFilters({});
     setPage(0);
     setSummaryFilters({});
+    setAge("")
+    setIndustry("")
+    setWork("")
+    setCountry("")
+    setState("")
+    setEducation("")
+    setGender("")
+    setRace("")
     const response = find("", 0);
     const tempRows = [];
     response
@@ -491,7 +533,6 @@ export default function FilterAndSearch() {
       });
   };
   // console.log(summaryFilters);
-
 
   return (
     <div className={classes.root}>
@@ -539,7 +580,7 @@ export default function FilterAndSearch() {
               <Title>Set Parameters and Search the Dataset</Title>
               <Grid item xs={12} md={12} lg={12} container maxwidth={'lg'}>
 
-                
+
                 <Grid item xs={12} md={6} lg={6}>
                   <Card className={classes.card}>
                     <Typography variant="h6" gutterBottom>
@@ -579,14 +620,13 @@ export default function FilterAndSearch() {
                   <Paper className={classes.paper} elevation={0}>
                     {
                       <MarkerMap
-                        location={location}
-                        zoomLevel={8}
                         pinLocations={pinLocations}
+                        loading={loading}
                       />
                     }
                   </Paper>
                 </Grid>
-                
+
                 <Grid xs={12}>
                   <Paper elevation={1}>
                     <Box
@@ -931,7 +971,7 @@ export default function FilterAndSearch() {
                                   onChange={(event, value) => {
                                     if (value === null) {
                                       setPage(0)
-                                      setFilters(filters => ({...filters, "Race": ""}))
+                                      setFilters(filters => ({ ...filters, "Race": "" }))
                                       setRace('')
                                     }
                                     else {
@@ -952,8 +992,8 @@ export default function FilterAndSearch() {
                         <DialogActions>
                           <Button onClick={() => {
                             handleClose()
-                            setSummaryFilters(summaryFilters => ({ 
-                              ...summaryFilters, 
+                            setSummaryFilters(summaryFilters => ({
+                              ...summaryFilters,
                               Age: age,
                               Industry: industry,
                               "Work_Experience": work,
