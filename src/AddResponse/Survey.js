@@ -184,6 +184,7 @@ export default function SurveyComponent() {
       }
       surveyResponses.race = raceString;
     }
+    surveyResponses.country = surveyResponses.country.trim();
     // creating address string from the city,state,and country surveyResponses
     var addr = "";
     if (surveyResponses.city != (undefined || null)) {
