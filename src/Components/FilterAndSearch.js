@@ -39,6 +39,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
 import { ViewArraySharp } from "@material-ui/icons";
 import Card from '@material-ui/core/Card';
+// import DataGrid from '@material-ui/data-grid';
 // import { CircularProgress } from "@material-ui/core";
 
 
@@ -218,8 +219,8 @@ export default function FilterAndSearch() {
     let res = axios.get(dataURL);
     res
       .then((response) => {
-        console.log(JSON.stringify(response))
-        console.log(response)
+        // console.log(JSON.stringify(response))
+        // console.log(response)
         setMeanSalary(response.data.mean_salary);
         setMedianSalary(response.data.median_salary);
         setTopSalary(response.data.top_salary);
@@ -478,7 +479,7 @@ export default function FilterAndSearch() {
         console.error(e);
       });
   };
-  console.log(summaryFilters);
+  // console.log(summaryFilters);
 
 
   return (
@@ -526,6 +527,8 @@ export default function FilterAndSearch() {
             <Grid container direction="row">
               <Title>Set Parameters and Search the Dataset</Title>
               <Grid item xs={12} md={12} lg={12} container maxwidth={'lg'}>
+
+                
                 <Grid item xs={12} md={6} lg={6}>
                   <Card className={classes.card}>
                     <Typography variant="h6" gutterBottom>
@@ -560,6 +563,7 @@ export default function FilterAndSearch() {
                     </Typography>
                   </Card>
                 </Grid>
+
                 <Grid item xs={12} md={6} lg={6}>
                   <Paper className={classes.paper} elevation={0}>
                     {
@@ -571,6 +575,7 @@ export default function FilterAndSearch() {
                     }
                   </Paper>
                 </Grid>
+                
                 <Grid xs={12}>
                   <Paper elevation={1}>
                     <Box
@@ -853,7 +858,7 @@ export default function FilterAndSearch() {
                         </DialogContent>
                         <DialogActions>
                           <Button onClick={handleClose} color="primary">
-                            Ok
+                            Search Jobs
                           </Button>
                         </DialogActions>
                       </Dialog>
@@ -868,6 +873,7 @@ export default function FilterAndSearch() {
                     </Box>
                   </Paper>
                 </Grid>
+
                 <Grid>
                   <TableContainer component={Paper} style={{ maxHeight: 500 }}>
                     <Table
