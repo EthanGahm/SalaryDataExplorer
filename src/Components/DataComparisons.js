@@ -90,14 +90,14 @@ export default function DataComparisons() {
       );
 
       topThree2019 = t19.data;
-      console.log("2019: " + topThree2019);
+      // console.log("2019: " + topThree2019);
       var t21 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/top_salaries"
       );
 
       topThree2021 = t21.data;
       setIsLoadedTopIndustries(true);
-      console.log("2021: " + topThree2021);
+      // console.log("2021: " + topThree2021);
       /// MEDIAN OVERALL SALARIES 2019/2021
       var m19 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/2019_median_salary"
@@ -136,8 +136,8 @@ export default function DataComparisons() {
       age_med_2021.sort((a, b) => (a[0] > b[0] ? 1 : -1));
       age_med_2021.unshift(age_med_2021.pop());
 
-      console.log(age_med_2019);
-      console.log(age_med_2021);
+      // console.log(age_med_2019);
+      // console.log(age_med_2021);
       var response3 = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/degrees"
       );
