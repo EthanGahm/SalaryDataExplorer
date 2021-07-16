@@ -44,6 +44,17 @@ import Card from '@material-ui/core/Card';
 
 
 export default function FilterAndSearch() {
+
+  // var age, industry, work, country, state, education, gender, race;
+  const [age, setAge] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [work, setWork] = useState('');
+  const [country, setCountry] = useState('');
+  const [state, setState] = useState('');
+  const [education, setEducation] = useState('');
+  const [gender, setGender] = useState('');
+  const [race, setRace] = useState('');
+
   // State variable used to store the current filters.
   const [filters, setFilters] = useState({});
 
@@ -635,15 +646,27 @@ export default function FilterAndSearch() {
                                   getOptionLabel={(option, value) => option}
                                   style={{ width: 300 }}
                                   renderInput={(params) => <TextField {...params} variant="outlined" />}
+                                  // onChange={(event, value) => {
+                                  //   if (value === null) {
+                                  //     setFilters(filters => ({ ...filters, "Age": "" }))
+                                  //     setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Age": "" }))
+                                  //     setPage(0)
+                                  //   } else {
+                                  //     setPage(0)
+                                  //     setFilters(filters => ({ ...filters, "Age": value }))
+                                  //     setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Age": value }))
+                                  //   }
+                                  // }}
                                   onChange={(event, value) => {
                                     if (value === null) {
-                                      setFilters(filters => ({ ...filters, "Age": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Age": "" }))
                                       setPage(0)
-                                    } else {
+                                      setFilters(filters => ({ ...filters, Age: "" }))
+                                      setAge("")
+                                    }
+                                    else {
                                       setPage(0)
-                                      setFilters(filters => ({ ...filters, "Age": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Age": value }))
+                                      setFilters(filters => ({ ...filters, Age: value }))
+                                      setAge(value)
                                     }
                                   }}
                                 />
@@ -657,15 +680,27 @@ export default function FilterAndSearch() {
                                   getOptionLabel={(option, value) => option}
                                   style={{ width: 300 }}
                                   renderInput={(params) => <TextField {...params} variant="outlined" />}
+                                  // onChange={(event, value) => {
+                                  //   if (value === null) {
+                                  //     setFilters(filters => ({ ...filters, "Industry": "" }))
+                                  //     setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Industry": "" }))
+                                  //     setPage(0)
+                                  //   } else {
+                                  //     setPage(0)
+                                  //     setFilters(filters => ({ ...filters, "Industry": value }))
+                                  //     setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Industry": value }))
+                                  //   }
+                                  // }}
                                   onChange={(event, value) => {
                                     if (value === null) {
-                                      setFilters(filters => ({ ...filters, "Industry": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Industry": "" }))
                                       setPage(0)
-                                    } else {
+                                      setFilters(filters => ({ ...filters, Industry: "" }))
+                                      setIndustry("")
+                                    }
+                                    else {
                                       setPage(0)
-                                      setFilters(filters => ({ ...filters, "Industry": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Industry": value }))
+                                      setFilters(filters => ({ ...filters, Industry: value }))
+                                      setIndustry(value)
                                     }
                                   }}
                                 />
@@ -678,15 +713,27 @@ export default function FilterAndSearch() {
                                   getOptionLabel={(option) => option}
                                   renderInput={(params) => <TextField {...params} variant="outlined" />}
                                   value={filters["Work_Experience"] || ""}
+                                  // onChange={(event, value) => {
+                                  //   if (value === null) {
+                                  //     setFilters(filters => ({ ...filters, "Work_Experience": "" }))
+                                  //     setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Work_Experience": "" }))
+                                  //     setPage(0)
+                                  //   } else {
+                                  //     setPage(0)
+                                  //     setFilters(filters => ({ ...filters, "Work_Experience": value }))
+                                  //     setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Work_Experience": value }))
+                                  //   }
+                                  // }}
                                   onChange={(event, value) => {
                                     if (value === null) {
-                                      setFilters(filters => ({ ...filters, "Work_Experience": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Work_Experience": "" }))
                                       setPage(0)
-                                    } else {
+                                      setFilters(filters => ({ ...filters, "Work_Experience": "" }))
+                                      setWork("")
+                                    }
+                                    else {
                                       setPage(0)
                                       setFilters(filters => ({ ...filters, "Work_Experience": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Work_Experience": value }))
+                                      setWork(value)
                                     }
                                   }}
                                 />
@@ -698,33 +745,45 @@ export default function FilterAndSearch() {
                                   options={fixedCountryData}
                                   value={filters["Country"] || ""}
                                   getOptionLabel={(option) => option}
-                                  onChange={(event, value) => {
-                                    if (value === null) {
-                                      setPage(0);
-                                      setFilters((filters) => ({
-                                        ...filters,
-                                        Country: "",
-                                      }));
-                                      setSummaryFilters((summaryFilters) => ({
-                                        ...summaryFilters,
-                                        Country: "",
-                                      }));
-                                    } else {
-                                      setPage(0);
-                                      setFilters((filters) => ({
-                                        ...filters,
-                                        Country: value,
-                                      }));
-                                      setSummaryFilters((summaryFilters) => ({
-                                        ...summaryFilters,
-                                        Country: value,
-                                      }));
-                                    }
-                                  }}
                                   style={{ width: 300 }}
                                   renderInput={(params) => (
                                     <TextField {...params} variant="outlined" />
                                   )}
+                                  // onChange={(event, value) => {
+                                  //   if (value === null) {
+                                  //     setPage(0);
+                                  //     setFilters((filters) => ({
+                                  //       ...filters,
+                                  //       Country: "",
+                                  //     }));
+                                  //     setSummaryFilters((summaryFilters) => ({
+                                  //       ...summaryFilters,
+                                  //       Country: "",
+                                  //     }));
+                                  //   } else {
+                                  //     setPage(0);
+                                  //     setFilters((filters) => ({
+                                  //       ...filters,
+                                  //       Country: value,
+                                  //     }));
+                                  //     setSummaryFilters((summaryFilters) => ({
+                                  //       ...summaryFilters,
+                                  //       Country: value,
+                                  //     }));
+                                  //   }
+                                  // }}
+                                  onChange={(event, value) => {
+                                    if (value === null) {
+                                      setPage(0)
+                                      setFilters(filters => ({ ...filters, Country: "" }))
+                                      setCountry('')
+                                    }
+                                    else {
+                                      setPage(0)
+                                      setFilters(filters => ({ ...filters, Country: value }))
+                                      setCountry(value)
+                                    }
+                                  }}
                                 />
                               </Box>
 
@@ -735,27 +794,39 @@ export default function FilterAndSearch() {
                                   options={stateData}
                                   value={filters["State"] || ""}
                                   getOptionLabel={(option) => option}
+                                  // onChange={(event, value) => {
+                                  //   if (value === null) {
+                                  //     setPage(0);
+                                  //     setFilters((filters) => ({
+                                  //       ...filters,
+                                  //       State: "",
+                                  //     }));
+                                  //     setSummaryFilters((summaryFilters) => ({
+                                  //       ...summaryFilters,
+                                  //       State: "",
+                                  //     }));
+                                  //   } else {
+                                  //     setPage(0);
+                                  //     setFilters((filters) => ({
+                                  //       ...filters,
+                                  //       State: value,
+                                  //     }));
+                                  //     setSummaryFilters((summaryFilters) => ({
+                                  //       ...summaryFilters,
+                                  //       State: value,
+                                  //     }));
+                                  //   }
+                                  // }}
                                   onChange={(event, value) => {
                                     if (value === null) {
-                                      setPage(0);
-                                      setFilters((filters) => ({
-                                        ...filters,
-                                        State: "",
-                                      }));
-                                      setSummaryFilters((summaryFilters) => ({
-                                        ...summaryFilters,
-                                        State: "",
-                                      }));
-                                    } else {
-                                      setPage(0);
-                                      setFilters((filters) => ({
-                                        ...filters,
-                                        State: value,
-                                      }));
-                                      setSummaryFilters((summaryFilters) => ({
-                                        ...summaryFilters,
-                                        State: value,
-                                      }));
+                                      setPage(0)
+                                      setFilters(filters => ({ ...filters, State: "" }))
+                                      setState('')
+                                    }
+                                    else {
+                                      setPage(0)
+                                      setFilters(filters => ({ ...filters, State: value }))
+                                      setState(value)
                                     }
                                   }}
                                   style={{ width: 300 }}
@@ -771,19 +842,30 @@ export default function FilterAndSearch() {
                                   options={fixedEducationData}
                                   value={filters["Highest_Level_of_Education"] || ""}
                                   getOptionLabel={(option) => option}
+                                  // onChange={(event, value) => {
+                                  //   if (value === null) {
+                                  //     setPage(0)
+                                  //     setFilters(filters => ({ ...filters, "Highest_Level_of_Education": "" }))
+                                  //     setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Highest_Level_of_Education": "" }))
+
+                                  //   } else {
+                                  //     setPage(0)
+                                  //     setFilters(filters => ({ ...filters, "Highest_Level_of_Education": value }))
+                                  //     setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Highest_Level_of_Education": value }))
+                                  //   }
+                                  // }}
                                   onChange={(event, value) => {
                                     if (value === null) {
                                       setPage(0)
                                       setFilters(filters => ({ ...filters, "Highest_Level_of_Education": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Highest_Level_of_Education": "" }))
-
-                                    } else {
+                                      setEducation('')
+                                    }
+                                    else {
                                       setPage(0)
                                       setFilters(filters => ({ ...filters, "Highest_Level_of_Education": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Highest_Level_of_Education": value }))
+                                      setEducation(value)
                                     }
                                   }}
-
                                   style={{ width: 300 }}
                                   renderInput={(params) => (
                                     <TextField {...params} variant="outlined" />
@@ -798,15 +880,27 @@ export default function FilterAndSearch() {
                                   value={filters["Gender"] || ""}
                                   getOptionLabel={(option) => option}
                                   style={{ width: 300 }}
+                                  // onChange={(event, value) => {
+                                  //   if (value === null) {
+                                  //     setPage(0)
+                                  //     setFilters(filters => ({ ...filters, "Gender": "" }))
+                                  //     setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Gender": "" }))
+                                  //   } else {
+                                  //     setPage(0)
+                                  //     setFilters(filters => ({ ...filters, "Gender": value }))
+                                  //     setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Gender": value }))
+                                  //   }
+                                  // }}
                                   onChange={(event, value) => {
                                     if (value === null) {
                                       setPage(0)
                                       setFilters(filters => ({ ...filters, "Gender": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Gender": "" }))
-                                    } else {
+                                      setGender('')
+                                    }
+                                    else {
                                       setPage(0)
                                       setFilters(filters => ({ ...filters, "Gender": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Gender": value }))
+                                      setGender(value)
                                     }
                                   }}
                                   renderInput={(params) => (
@@ -823,15 +917,27 @@ export default function FilterAndSearch() {
                                   options={raceOptions}
                                   value={filters["Race"] || []}
                                   getOptionLabel={(option) => option}
+                                  // onChange={(event, value) => {
+                                  //   if (value === null) {
+                                  //     setPage(0)
+                                  //     setFilters(filters => ({ ...filters, "Race": "" }))
+                                  //     setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Race": "" }))
+                                  //   } else {
+                                  //     setPage(0)
+                                  //     setFilters(filters => ({ ...filters, "Race": value }))
+                                  //     setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Race": value }))
+                                  //   }
+                                  // }}
                                   onChange={(event, value) => {
                                     if (value === null) {
                                       setPage(0)
-                                      setFilters(filters => ({ ...filters, "Race": "" }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Race": "" }))
-                                    } else {
+                                      setFilters(filters => ({...filters, "Race": ""}))
+                                      setRace('')
+                                    }
+                                    else {
                                       setPage(0)
                                       setFilters(filters => ({ ...filters, "Race": value }))
-                                      setSummaryFilters(summaryFilters => ({ ...summaryFilters, "Race": value }))
+                                      setRace(value)
                                     }
                                   }}
                                   style={{ width: 300 }}
@@ -844,7 +950,20 @@ export default function FilterAndSearch() {
                           </form>
                         </DialogContent>
                         <DialogActions>
-                          <Button onClick={handleClose} color="primary">
+                          <Button onClick={() => {
+                            handleClose()
+                            setSummaryFilters(summaryFilters => ({ 
+                              ...summaryFilters, 
+                              Age: age,
+                              Industry: industry,
+                              "Work_Experience": work,
+                              Country: country,
+                              State: state,
+                              "Highest_Level_of_Education": education,
+                              Gender: gender,
+                              Race: race
+                            }))
+                          }} color="primary">
                             Search Jobs
                           </Button>
                         </DialogActions>
