@@ -98,7 +98,7 @@ export default function DataSummary() {
       salaryOverTimeData.sort((a, b) => (a._id > b._id ? 1 : -1));
       salaryOverTimeData.unshift(salaryOverTimeData.pop());
       setIsLoadedSalOverTime(true);
-      
+
       var ageDistribution = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/disAge"
       );
@@ -113,7 +113,7 @@ export default function DataSummary() {
         ageDistributionData[i].fill = colors1[i];
       }
       setIsLoadedDistAges(true);
-      
+
       var degreeDistribution = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/disDegrees"
       );
@@ -148,7 +148,7 @@ export default function DataSummary() {
         degreeDistributionData[i].fill = colors1[i];
       }
       setIsLoadedDistDeg(true);
-      
+
       var degreeSalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/degrees"
       );
@@ -181,7 +181,7 @@ export default function DataSummary() {
         degreeSalaryData[i].fill = colors1[i];
       }
       setIsLoadedSalByDeg(true);
-      
+
       var genderSalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/gender"
       );
@@ -196,7 +196,7 @@ export default function DataSummary() {
         ind.val = ind.val + " %";
       });
       setIsLoadedSalByGen(true);
-      
+
       var industrySalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/salaries"
       );
@@ -205,7 +205,7 @@ export default function DataSummary() {
         parseFloat(a.salary) < parseFloat(b.salary) ? 1 : -1
       );
       setIsLoadedSalInds(true);
-      
+
       var raceSalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/race"
       );
@@ -220,7 +220,7 @@ export default function DataSummary() {
         ind.val = ind.val + " %";
       });
       setIsLoadedSalByRace(true);
-      
+
       var workExpSalary = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/work"
       );
@@ -261,7 +261,7 @@ export default function DataSummary() {
       }
       workExpSalaryData.sort((a, b) => (a.compare > b.compare ? 1 : -1));
       setIsLoadedSalOverExp(true);
-      
+
       var distPeople = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/numALL"
       );
@@ -271,7 +271,7 @@ export default function DataSummary() {
           (distPeopleData[i].other / distPeopleData[i].all) * 100;
       }
       setIsLoadedDistPeople(true);
-      
+
       var topCountries = await axios.get(
         "https://salary-data-api.herokuapp.com/salary_data/topCountries"
       );
@@ -411,30 +411,30 @@ export default function DataSummary() {
                   <h3>Annual Salary Peaks in Late Forties and Early Fifties</h3>
                 </center>
                 <p>
-                  Our analysis of the 2021 dataset shows a positive correlation between
-                  annual salary and age; as age increases, so too does annual salary
-                  until middle age. Salaries seem to peak between 45 and 54, before
-                  dipping again in later life.
-                  Interestingly, people who are between 18 and 24 earn
-                  significantly less than people who are below 18.
-                  As expected, the biggest increase in annual salary is from the 18-24 to the
-                  25-34 age group, perhaps due to the completion of a college
-                  degree or graduate degree. It is also worth noting that most
-                  of the respondents of this survey are young professionals aged
-                  25 to 44. Only 10 people are below 18 and 88 people are over
-                  65, so their average annual salary are by no means
-                  representative of the greater population in their respective
-                  age groups. The lack of respondents in the under 18 age group
-                  could explain why its average annual salary is greater than
-                  that of the 18-24 age group. The 2021 survey is by no means
-                  perfect, and the uneven distribution of of age groups among
-                  the respondents contributes directly to this flaw.
-                  Speculations could also be made that some of the respondents
-                  in the 18-24 age range were undergraduates in college, so they
-                  might be working part-time jobs in addition to being
-                  full-time students. Overall, the trend of annual salary
-                  generally increases with age and work experience despite a
-                  drop among college-aged people and older people.
+                  Our analysis of the 2021 dataset shows a positive correlation
+                  between annual salary and age; as age increases, so too does
+                  annual salary until middle age. Salaries seem to peak between
+                  45 and 54, before dipping again in later life. Interestingly,
+                  people who are between 18 and 24 earn significantly less than
+                  people who are below 18. As expected, the biggest increase in
+                  annual salary is from the 18-24 to the 25-34 age group,
+                  perhaps due to the completion of a college degree or graduate
+                  degree. It is also worth noting that most of the respondents
+                  of this survey are young professionals aged 25 to 44. Only 10
+                  people are below 18 and 88 people are over 65, so their
+                  average annual salary are by no means representative of the
+                  greater population in their respective age groups. The lack of
+                  respondents in the under 18 age group could explain why its
+                  average annual salary is greater than that of the 18-24 age
+                  group. The 2021 survey is by no means perfect, and the uneven
+                  distribution of of age groups among the respondents
+                  contributes directly to this flaw. Speculations could also be
+                  made that some of the respondents in the 18-24 age range were
+                  undergraduates in college, so they might be working part-time
+                  jobs in addition to being full-time students. Overall, the
+                  trend of annual salary generally increases with age and work
+                  experience despite a drop among college-aged people and older
+                  people.
                 </p>
               </Paper>
             </Grid>
@@ -523,27 +523,28 @@ export default function DataSummary() {
                   <h3>Is a Master's or PhD Really Worth It?</h3>
                 </center>
                 <p>
-                  Ignoring the 1,887 respondents who did not specify their highest
-                  level of education, it appears generally true that individuals who hold more
-                  advanced academic degrees tend to earn more. Surprisingly people with some
-                  college actually earn less than people with only high school
-                  degrees. Finishing a bachelor's degree is crucial as it
-                  provides an almost 10k salary increase from a high school
-                  level education. People with a master's degree slightly edge
-                  out bachelor's degree holders, but the jump in numbers is not
-                  very significant. PhD holders earn 8k more per year on
-                  average than master's degree holders, so if you are truly
-                  interested in studying, innovating, and researching new
-                  frontiers of your area of choice, the paycheck could be worth
-                  the time investment. Most universities offer stipends for most
-                  of their PhD graduate students, and some master's students
-                  occasionally recieve aid as well. Surprisingly, people who
-                  have completed a professional degree(MD, JD,etc.) earn
-                  significanly more than any other catagory, even edging out PhD
-                  holders by 34k per year! Maybe you should consider becoming
-                  a doctor or lawyer after all. Obviouly, degrees don't tell
-                  the whole story and one should carefully consider his/her personal
-                  goals before deciding which educational path to pursue.
+                  Ignoring the 1,887 respondents who did not specify their
+                  highest level of education, it appears generally true that
+                  individuals who hold more advanced academic degrees tend to
+                  earn more. Surprisingly people with some college actually earn
+                  less than people with only high school degrees. Finishing a
+                  bachelor's degree is crucial as it provides an almost 10k
+                  salary increase from a high school level education. People
+                  with a master's degree slightly edge out bachelor's degree
+                  holders, but the jump in numbers is not very significant. PhD
+                  holders earn 8k more per year on average than master's degree
+                  holders, so if you are truly interested in studying,
+                  innovating, and researching new frontiers of your area of
+                  choice, the paycheck could be worth the time investment. Most
+                  universities offer stipends for most of their PhD graduate
+                  students, and some master's students occasionally recieve aid
+                  as well. Surprisingly, people who have completed a
+                  professional degree(MD, JD,etc.) earn significanly more than
+                  any other catagory, even edging out PhD holders by 34k per
+                  year! Maybe you should consider becoming a doctor or lawyer
+                  after all. Obviouly, degrees don't tell the whole story and
+                  one should carefully consider his/her personal goals before
+                  deciding which educational path to pursue.
                 </p>
               </Paper>
             </Grid>
@@ -606,22 +607,23 @@ export default function DataSummary() {
                   <h3>Gender Income Gap is a Grand Canyon</h3>
                 </center>
                 <p>
-                  Our analysis of the 2021 dataset shows a significant pay gap between men
-                  and other genders. With an average annual
-                  salary of 130k, men who responded to the 2021 survey earn an average of
-                  $40k more than women. Although earning dramatically lower salaries
-                  than men, women earn roughly $10k/yr more than those who identify as
-                  non-binary. Women on average earn around 90k per year,
-                  which is substantially lower than men's average income, but
-                  the difference between men's pay and non-binary people's pay
-                  is even more daunting. Besides men, women, and non-binary
-                  people, those who chose "Other or prefer not to answer" have
-                  an average annual salary around 103k, which is pretty high
-                  compared to women's pay, but it is still significantly less
-                  than the men's average of 130k. Ask A Manager's data is not a
-                  perfect representation of gender income discrepency due to the
-                  nature of the survey. It is worth noting that the survey recieved
-                  far more responses from women than from men. In reality, the gender pay gap could be
+                  Our analysis of the 2021 dataset shows a significant pay gap
+                  between men and other genders. With an average annual salary
+                  of 130k, men who responded to the 2021 survey earn an average
+                  of $40k more than women. Although earning dramatically lower
+                  salaries than men, women earn roughly $10k/yr more than those
+                  who identify as non-binary. Women on average earn around 90k
+                  per year, which is substantially lower than men's average
+                  income, but the difference between men's pay and non-binary
+                  people's pay is even more daunting. Besides men, women, and
+                  non-binary people, those who chose "Other or prefer not to
+                  answer" have an average annual salary around 103k, which is
+                  pretty high compared to women's pay, but it is still
+                  significantly less than the men's average of 130k. Ask A
+                  Manager's data is not a perfect representation of gender
+                  income discrepency due to the nature of the survey. It is
+                  worth noting that the survey recieved far more responses from
+                  women than from men. In reality, the gender pay gap could be
                   much smaller or larger.
                 </p>
               </Paper>
@@ -634,8 +636,8 @@ export default function DataSummary() {
                 </center>
                 <p>
                   The income discrepency among different races appears smaller
-                  than the gender pay gap. Asian or Asian Americans top
-                  the charts with an average annual salary of 114k followed by
+                  than the gender pay gap. Asian or Asian Americans top the
+                  charts with an average annual salary of 114k followed by
                   Middle Eastern or North Africans (110k). Native Americans or
                   Alaska Natives are at the middle of the pack, earning an
                   average annual salary of 98k. At 97k, Black or African
@@ -663,7 +665,7 @@ export default function DataSummary() {
                   </center>
                 ) : (
                   <center>
-                    <BarChart width={530} height={350} data={raceSalaryData}>
+                    <BarChart width={650} height={350} data={raceSalaryData}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis
                         dataKey="_id"
@@ -756,23 +758,23 @@ export default function DataSummary() {
                   <h3>Work Experience Matters</h3>
                 </center>
                 <p>
-                  The average annual salary increases until 21-30 years
-                  of work experience, and begins to decrease afterwards.
-                  Starting at 70k, one could reach 115k per year after working 21-30
-                  years. The trend basically goes hand in hand
-                  with the first graph illustrating the growth of annual salary
-                  over time. As a person grows older and gains more experience
-                  working, it makes sense that his/her salary increases along
-                  the way. Say a person first starts working at 20, and after
-                  21-30 years that person is 41-50, which is among the highest
-                  earning age groups as well. There is a drop in income after 30
-                  years of work experience, and perhaps this could be due to old
-                  age or structual reasons for not being able to adjust and
-                  learn new technology needed for the job. Another explanation
-                  could be that older (and more experienced) respondents tend to
-                  work in lower-earning industries. For example, the Computing
-                  and Tech industry is dominated by young people while offering
-                  some of the highest average salaries.
+                  The average annual salary increases until 21-30 years of work
+                  experience, and begins to decrease afterwards. Starting at
+                  70k, one could reach 115k per year after working 21-30 years.
+                  The trend basically goes hand in hand with the first graph
+                  illustrating the growth of annual salary over time. As a
+                  person grows older and gains more experience working, it makes
+                  sense that his/her salary increases along the way. Say a
+                  person first starts working at 20, and after 21-30 years that
+                  person is 41-50, which is among the highest earning age groups
+                  as well. There is a drop in income after 30 years of work
+                  experience, and perhaps this could be due to old age or
+                  structual reasons for not being able to adjust and learn new
+                  technology needed for the job. Another explanation could be
+                  that older (and more experienced) respondents tend to work in
+                  lower-earning industries. For example, the Computing and Tech
+                  industry is dominated by young people while offering some of
+                  the highest average salaries.
                 </p>
               </Paper>
             </Grid>
@@ -789,7 +791,7 @@ export default function DataSummary() {
                 ) : (
                   <center>
                     <BarChart
-                      width={1500}
+                      width={2100}
                       height={370}
                       data={industrySalaryData}
                       margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
@@ -837,24 +839,23 @@ export default function DataSummary() {
                   Data from 2021 survey results illustrate huge gaps and
                   dramatic differences among the various industries. With an
                   average annual salary of 146k, energy is the most lucrative
-                  industry in the 2021 survey results.
-                  Energy, computing or tech, and law or law enforcement are the
-                  three highest earning industries in 2021, all averaging above
-                  120k per year. Business or consulting, entertainment,
-                  accounting, banking, and finance, aerospace, and sales trail
-                  behind, still earning more than 100k per year on average.
-                  Other seemingly quite lucrative professions such as health
-                  care, insurence, marketing & advertising & PR, media and
-                  digital, and government and public administration fell short
-                  and drop below the 100k line. Education, food, art and design,
-                  and retail fall on the lower end of the spectrum as they
-                  only earn around 70k per year. Perhaps surprisingly,
-                  utilities and telecommunications, argriculture and forestry,
-                  and auto repair are above average, all with average salaires higher
-                  than 87k per year.
-                  Publishing, social work, and library are the three lowest
-                  earning industries in the 2021 survey. Library averages only
-                  56k per year. Note that these values in the bar chart are
+                  industry in the 2021 survey results. Energy, computing or
+                  tech, and law or law enforcement are the three highest earning
+                  industries in 2021, all averaging above 120k per year.
+                  Business or consulting, entertainment, accounting, banking,
+                  and finance, aerospace, and sales trail behind, still earning
+                  more than 100k per year on average. Other seemingly quite
+                  lucrative professions such as health care, insurence,
+                  marketing & advertising & PR, media and digital, and
+                  government and public administration fell short and drop below
+                  the 100k line. Education, food, art and design, and retail
+                  fall on the lower end of the spectrum as they only earn around
+                  70k per year. Perhaps surprisingly, utilities and
+                  telecommunications, argriculture and forestry, and auto repair
+                  are above average, all with average salaires higher than 87k
+                  per year. Publishing, social work, and library are the three
+                  lowest earning industries in the 2021 survey. Library averages
+                  only 56k per year. Note that these values in the bar chart are
                   all averages among respondents, so there definitly are many
                   outliers in each industry, pulling up or dragging down the
                   mean. Values in this graph should only be a general reference
@@ -952,37 +953,37 @@ export default function DataSummary() {
                   are the least popular industries, despite some of them being
                   extremely lucrative. Since there are way more women than men
                   respondants in this survey, every industry has more women than
-                  men. As seen in the salary difference by gender graph,
-                  more than 77% of the respondants are women. For each industry,
-                  they should comprise of roughly 77% correspondingly. However,
-                  some industries have a much higher percentenage of men and
-                  much lower percentage of women. For computing or tech,
-                  although it is by far the most popluar job area, the gap
-                  between men and women is least wide. Despite being one of the
-                  most luractive industries, women only account for 54% of the
-                  computing or tech population. Despite being very popular and
-                  lucrative, computing or tech is still a very male-dominated
-                  industry. Energy, auto repair, entertainment, and food are
-                  some of the other very popular industries among men, and the
-                  percentages of women drop below 70% in these areas. On the
-                  other hand, some industries are overwhelmingly favored by
-                  women. Almost 92% of those who work in the social work
-                  industry are women, and women comprise of 90% of the
-                  popluation in recruitment or HR. Shockingly, 92% of those who
-                  work in aerospace are women, but this could be scewed by a very small
-                  sample size since only 12 people work in this industry in the
-                  survey. Other industries such as health care, education,
-                  library, and nonprofits also have a higher presence of women
-                  than men. The food industry has the highest percentage of
-                  non-binary people (13%), followed by argriculture or forestry
-                  and library, both over 7%. Additionally, food is also the most
-                  popular industry (3.77%) for those who entered "other or
-                  prefer not to answer" as their gender. Other popular
-                  industries for those who identify as other or did not answer
-                  are agriculture or forestry, entertainment, and retail. Data
-                  analysis on all graphs on this page are not meant to be
-                  accruate and comprehensive due to the imperfect nature of the
-                  survey and low sample size for some of the industries.
+                  men. As seen in the salary difference by gender graph, more
+                  than 77% of the respondants are women. For each industry, they
+                  should comprise of roughly 77% correspondingly. However, some
+                  industries have a much higher percentenage of men and much
+                  lower percentage of women. For computing or tech, although it
+                  is by far the most popluar job area, the gap between men and
+                  women is least wide. Despite being one of the most luractive
+                  industries, women only account for 54% of the computing or
+                  tech population. Despite being very popular and lucrative,
+                  computing or tech is still a very male-dominated industry.
+                  Energy, auto repair, entertainment, and food are some of the
+                  other very popular industries among men, and the percentages
+                  of women drop below 70% in these areas. On the other hand,
+                  some industries are overwhelmingly favored by women. Almost
+                  92% of those who work in the social work industry are women,
+                  and women comprise of 90% of the popluation in recruitment or
+                  HR. Shockingly, 92% of those who work in aerospace are women,
+                  but this could be scewed by a very small sample size since
+                  only 12 people work in this industry in the survey. Other
+                  industries such as health care, education, library, and
+                  nonprofits also have a higher presence of women than men. The
+                  food industry has the highest percentage of non-binary people
+                  (13%), followed by argriculture or forestry and library, both
+                  over 7%. Additionally, food is also the most popular industry
+                  (3.77%) for those who entered "other or prefer not to answer"
+                  as their gender. Other popular industries for those who
+                  identify as other or did not answer are agriculture or
+                  forestry, entertainment, and retail. Data analysis on all
+                  graphs on this page are not meant to be accruate and
+                  comprehensive due to the imperfect nature of the survey and
+                  low sample size for some of the industries.
                 </p>
               </Paper>
             </Grid>
@@ -1030,20 +1031,20 @@ export default function DataSummary() {
                   <h3>A Very USA-Centered Survey</h3>
                 </center>
                 <p>
-                  As shown by all the previous graphs, the majority of respondants
-                  in this dataset are young, white, female professionals. These
-                  areas are nothing compared to the lopsidedness of the
-                  countries entered in the 2021 survey. Illustrated by the
-                  funnel chart, over 85% of respondants are from the
-                  United States. Other top countries are Canada, Australia,
-                  Germany, England, Ireland, New Zealand, The Netherlands,
-                  France, and Scotland, making the data set very much
-                  western-centered. Smaller entries from other countries simply
-                  could not contribute much, so it would not make much sense to
-                  conduct data analysis on average annual salary by country.
-                  Although there are many flaws and imperfections, this survey
-                  could provide a basic guide and reference for professionals in
-                  the job market.
+                  As shown by all the previous graphs, the majority of
+                  respondants in this dataset are young, white, female
+                  professionals. These areas are nothing compared to the
+                  lopsidedness of the countries entered in the 2021 survey.
+                  Illustrated by the funnel chart, over 85% of respondants are
+                  from the United States. Other top countries are Canada,
+                  Australia, Germany, England, Ireland, New Zealand, The
+                  Netherlands, France, and Scotland, making the data set very
+                  much western-centered. Smaller entries from other countries
+                  simply could not contribute much, so it would not make much
+                  sense to conduct data analysis on average annual salary by
+                  country. Although there are many flaws and imperfections, this
+                  survey could provide a basic guide and reference for
+                  professionals in the job market.
                 </p>
               </Paper>
             </Grid>
