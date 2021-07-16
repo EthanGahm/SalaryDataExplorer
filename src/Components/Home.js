@@ -298,7 +298,14 @@ export default function Home() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography></Typography>
+                    <Typography>
+                      A prospective young professional? Or freshly beween 
+                      jobs?
+                      You are still more than welcome to visit our side 
+                      and explore data trends. If you are looking for a 
+                      job and/or unsure which industry or area you want 
+                      to pursue, check out some of our salary information. 
+                    </Typography>
                   </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -313,11 +320,12 @@ export default function Home() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      Want to learn more about how salary trends shifted from
-                      2019 to 2021 after COVID 19 hit? Eager to find out how
-                      this dataset compares to the national averages? Check out
-                      our <a href="/DataComparisons">Comparing Datasets</a> page
-                      for more information!
+                      The Data Summary page has a graph that illustrates the 
+                      average annual salary across all 33 industries in the 
+                      job market. You can also visit the Filter and Search page, 
+                      enter specific filters, and the Data Summary box will tell 
+                      you the top 3 highest earning industries according to the 
+                      information you entered.
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
@@ -328,21 +336,16 @@ export default function Home() {
                     id="panel3a-header"
                   >
                     <Typography className={classes.heading}>
-                      I can't find any entries in my country/state/province.
+                      I can't find any entries in my country/state.
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      Got a feeling that you are underpaid? Want to know the
-                      average salary in your age group, industry, or area? Look
-                      no further than our{" "}
-                      <a
-                        href="
-                    FilterAndSearch"
-                      >
-                        Filter and Search
-                      </a>{" "}
-                      page to find the information you need!
+                      Due to the incredible lopsidedness of the dataset, 
+                      some countries/states have very few entries. We 
+                      apologize for the lack of data. However, you can become the 
+                      first in your country/state by entering your own 
+                      salary information in the Add Response page!
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
@@ -357,7 +360,14 @@ export default function Home() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography></Typography>
+                    <Typography>
+                      Make your best educated guess if you are not sure which 
+                      industry your job belongs to. You could also browse some 
+                      of our entires in the filter and search page to find similar 
+                      jobs. Want to learn more about jobs and industries? 
+                      Visit <a href="https://www.careeronestop.org">here</a> for 
+                      more information.
+                    </Typography>
                   </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -374,7 +384,9 @@ export default function Home() {
                     <Typography>
                       In order to standardize our data, all monetary values were
                       converted to USD. You may need to manually convert values
-                      back into your currency of choice.{" "}
+                      back into your currency of choice. In the Filter and Search 
+                      page, there is a row specifying the original currencies of 
+                      each data entry for reference.
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
@@ -389,7 +401,12 @@ export default function Home() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography></Typography>
+                    <Typography>
+                      Having trouble making sense of all the salary data? Google 
+                      is your friend! Find an online currency converter now or 
+                      use <a href='https://www.xe.com/'>this</a> tool 
+                      to help.
+                    </Typography>
                   </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -400,13 +417,89 @@ export default function Home() {
                   >
                     <Typography className={classes.heading}>
                       Where do I find salary data for people in my
-                      country/state/province?
+                      country/state?
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
                       Head over to the Filter and Search page and specify your
                       location in the "filters" pop-up.
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography className={classes.heading}>
+                      What if there are too many entires in the data grid table?
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>
+                      Too many rows are dispalying? Can't seem to find what you are looking for? 
+                      Try narrowing down the entires by entering more specific values 
+                      in the drop down menues in the Filter and Search page.
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography className={classes.heading}>
+                      Why does filtering take too much time to load?
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>
+                      The data you searched contains a huge number of entires. You can 
+                      significantly reduce the search time by being more specific in the 
+                      filters. The more you enter, the less time it will take to return 
+                      matching results.
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography className={classes.heading}>
+                      Why are some pin points outside of my selected Country/State?
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>
+                      We do not fact check the entires in the dataset. Some people 
+                      might hve entered China for country, Virginia for state, and 
+                      Berlin as city, which doesn't make sense at all. Nonetheless, 
+                      these pins are shown on the Google Maps component.
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography className={classes.heading}>
+                      If the salary information I entered safe?
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>
+                      Everything entered in the Add Response page is confidential as 
+                      we add your entry to the safe and secure database in the cloud. 
+                      There will not be any personal information asked. If you feel 
+                      uneasy while answering the questions, you can stop the survey 
+                      immediately.
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
