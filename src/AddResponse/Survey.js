@@ -220,7 +220,7 @@ export default function SurveyComponent() {
     }
     console.log(surveyResponses);
     await axios
-      .post("http://localhost:5000/salary_data/addResponse", surveyResponses)
+      .post("https://salary-data-api.herokuapp.com/salary_data/addResponse", surveyResponses)
       .then(setTimeout(location.reload.bind(location), 1000));
   }
   const handleOnChange = () => {
