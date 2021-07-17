@@ -19,11 +19,9 @@ export default class DAO2021 {
     }
 
     try {
-
       salaryData = await conn
         .db(process.env.SALARYDATA_NS)
         .collection("Data_2021");
-
     } catch (e) {
       console.error(`Unable to establish a collection handle in DAO2021: ${e}`);
     }
@@ -65,16 +63,20 @@ export default class DAO2021 {
         filtered.push({ State: { $eq: filters["State"] } });
       }
       if ("Race" in filters) {
-        var raceList = filters["Race"].split(",")
-        for (const race of raceList){
-          filtered.push({ Race: {$regex: race }})
+        var raceList = filters["Race"].split(",");
+        for (const race of raceList) {
+          filtered.push({ Race: { $regex: race } });
         }
       }
       if ("Work_Experience" in filters) {
-        filtered.push({ "Work_Experience": { $eq: filters["Work_Experience"] } })
+        filtered.push({ Work_Experience: { $eq: filters["Work_Experience"] } });
       }
       if ("Highest_Level_of_Education" in filters) {
-        filtered.push({ "Highest_Level_of_Education": { $eq: filters["Highest_Level_of_Education"] } })
+        filtered.push({
+          Highest_Level_of_Education: {
+            $eq: filters["Highest_Level_of_Education"],
+          },
+        });
       }
       query = { $and: filtered };
     }
@@ -102,10 +104,10 @@ export default class DAO2021 {
     }
   }
   /**
- *  This method gathers all of the raw data from our database and displays it. It is meant to be read in on our frontend as a JSON object
- *  to be used in acquiring data for analysis.
- *  @returns all of the data from our database
- */
+   *  This method gathers all of the raw data from our database and displays it. It is meant to be read in on our frontend as a JSON object
+   *  to be used in acquiring data for analysis.
+   *  @returns all of the data from our database
+   */
   static async getAllSummaryData({ filters } = {}) {
     let query;
     var filtered = [];
@@ -136,18 +138,22 @@ export default class DAO2021 {
         filtered.push({ State: { $eq: filters["State"] } });
       }
       if ("Race" in filters) {
-        var raceList = filters["Race"].split(",")
-        for (const race of raceList){
-          filtered.push({ Race: {$regex: race }})
+        var raceList = filters["Race"].split(",");
+        for (const race of raceList) {
+          filtered.push({ Race: { $regex: race } });
         }
       }
       if ("Work_Experience" in filters) {
-        filtered.push({ "Work_Experience": { $eq: filters["Work_Experience"] } })
+        filtered.push({ Work_Experience: { $eq: filters["Work_Experience"] } });
       }
       if ("Highest_Level_of_Education" in filters) {
-        filtered.push({ "Highest_Level_of_Education": { $eq: filters["Highest_Level_of_Education"] } })
+        filtered.push({
+          Highest_Level_of_Education: {
+            $eq: filters["Highest_Level_of_Education"],
+          },
+        });
       }
-      query = { $and: filtered }
+      query = { $and: filtered };
     }
 
     let cursor;
@@ -157,7 +163,7 @@ export default class DAO2021 {
 
       var salary = [
         {
-          $match: query
+          $match: query,
         },
         {
           $group: {
@@ -169,12 +175,12 @@ export default class DAO2021 {
         },
         {
           $sort: {
-            salary: -1
-          }
+            salary: -1,
+          },
         },
         {
-          $limit: 3
-        }
+          $limit: 3,
+        },
       ];
       var agg1 = salaryData.aggregate(salary);
       var salaries = [];
@@ -186,285 +192,118 @@ export default class DAO2021 {
 
       var count = [
         {
-          $match: query
+          $match: query,
         },
         {
           $group: {
             _id: "$Industry",
             val: {
-              $sum: 1
-            }
-          }
-        },
-        {
-          $sort: {
-            val: -1
-          }
-        },
-        {
-          $limit: 3
-        }
-      ];
-      var agg2 = salaryData.aggregate(count);
-      var popular = [];
-      await agg2.forEach(ind => {
-        popular.push(ind);
-      })
-
-      var degree = [
-        {
-          $match: query
-        },
-        {
-          $group: {
-            _id: "$Highest_Level_of_Education",
-            val: {
-              $sum: 1
-            }
-          }
-        },
-        {
-          $sort: {
-            val: -1
-          }
-        },
-        {
-          $limit: 1
-        }
-      ];
-      var agg3 = salaryData.aggregate(degree);
-      var common = [];
-      await agg3.forEach(ind => {
-        common.push(ind);
-      })
-
-      const rowsList = await cursor.toArray();
-      const totalNumRows = await cursor.count();
-      const salaryList = []
-      const pinLocations = []
-      const ages = []
-
-      for (var i = 0; i < totalNumRows; i++) {
-        // Gathers location string from each selected row of the database for city, state, and country variables
-        var tempAges = rowsList[i].Age;
-        
-        // Gathers address string from each selected row of the database
-        var tempAddress = rowsList[i].address
-        var latlngPair = [];
-        // Gathers lat and lng value from selected row of the database
-        var lat = parseFloat(rowsList[i].Lat);
-        var lng = parseFloat(rowsList[i].Lng);
-        // Checks for undefined values within database and replaces them with an empty string
-        
-
-        // removes Nan values and whitespace from the address 
-        var newAddress = String(tempAddress)
-        var cleanAddress = newAddress.replace("Nan", "");
-        cleanAddress = cleanAddress.replace(/\s+/g, ' ').trim();
-        
-        if (cleanAddress != "Null" && lat != String(null) && lng != String(null)) {
-          latlngPair.push(lat)
-          latlngPair.push(lng)
-          latlngPair.push(cleanAddress)
-        }
-
-        
-        
-        pinLocations.push(latlngPair)
-        
-        if (tempAges == 'under 18') {
-          tempAges = 16;
-        }
-        if (tempAges == '18-24') {
-          tempAges = 21;
-        }
-        if (tempAges == '25-34') {
-          tempAges = 29.5;
-        }
-        if (tempAges == '35-44') {
-          tempAges = 39.5;
-        }
-        if (tempAges == '45-54') {
-          tempAges = 49.5;
-        }
-        if (tempAges == '55-64') {
-          tempAges = 59.5;
-        }
-        if (tempAges == '65 or over') {
-          tempAges = 72;
-        }
-        ages.push(tempAges);
-
-        // Gather salary from each selected row of the database
-        const tempSalary = parseFloat(rowsList[i].Annual_Salary)
-        salaryList.push(tempSalary)
-      }
-
-      // Calculates sum of selected rows
-      var sum = 0.0;
-      for (let i = 0; i < salaryList.length; i++) {
-        if (salaryList[i] != null) {
-          sum += salaryList[i];
-        }
-      }
-      
-      const meanSalary = (sum / salaryList.length).toFixed(2);
-      const medianSalary = median(salaryList).toFixed(2);
-      const topSalary = Math.max.apply(Math, salaryList).toFixed(2);
-      const botSalary = Math.min.apply(Math, salaryList).toFixed(2);
-      var sumAge = 0.0;
-      for (let i = 0; i < ages.length; i++) {
-        sumAge += ages[i];
-      }
-      const avgAge = (sumAge / ages.length).toFixed(2);
-
-      return { 
-        meanSalary, 
-        medianSalary, 
-        pinLocations, 
-        topSalary, 
-        botSalary, 
-        avgAge, 
-        salaries, 
-        popular,
-        common,
-      };
-
-    } catch (e) { // When no filter is selected, no match is pipeline stage is needed
-      cursor = await salaryData.find(query);
-      var salary = [
-        {
-          $group: {
-            _id: "$Industry",
-            salary: {
-              $avg: "$Annual_Salary",
+              $sum: 1,
             },
           },
         },
         {
           $sort: {
-            salary: -1
-          }
+            val: -1,
+          },
         },
         {
-          $limit: 3
-        }
-      ];
-      var agg = salaryData.aggregate(salary);
-      var salaries = [];
-      await agg.forEach((ind) => {
-        ind.salary /= 1000;
-        ind.salary = ind.salary.toFixed(2);
-        salaries.push(ind);
-      });
-
-      var count = [
-        {
-          $group: {
-            _id: "$Industry",
-            val: {
-              $sum: 1
-            }
-          }
+          $limit: 3,
         },
-        {
-          $sort: {
-            val: -1
-          }
-        },
-        {
-          $limit: 3
-        }
       ];
       var agg2 = salaryData.aggregate(count);
       var popular = [];
-      await agg2.forEach(ind => {
+      await agg2.forEach((ind) => {
         popular.push(ind);
-      })
+      });
 
       var degree = [
+        {
+          $match: query,
+        },
         {
           $group: {
             _id: "$Highest_Level_of_Education",
             val: {
-              $sum: 1
-            }
-          }
+              $sum: 1,
+            },
+          },
         },
         {
           $sort: {
-            val: -1
-          }
+            val: -1,
+          },
         },
         {
-          $limit: 1
-        }
+          $limit: 1,
+        },
       ];
       var agg3 = salaryData.aggregate(degree);
       var common = [];
-      await agg3.forEach(ind => {
+      await agg3.forEach((ind) => {
         common.push(ind);
-      })
+      });
 
       const rowsList = await cursor.toArray();
       const totalNumRows = await cursor.count();
-      const salaryList = []
-      const pinLocations = []
-      const ages = []
+      const salaryList = [];
+      const pinLocations = [];
+      const ages = [];
 
       for (var i = 0; i < totalNumRows; i++) {
         // Gathers location string from each selected row of the database for city, state, and country variables
         var tempAges = rowsList[i].Age;
 
         // Gathers address string from each selected row of the database
-        var tempAddress = rowsList[i].address
-        var latlngPair = []
+        var tempAddress = rowsList[i].address;
+        var latlngPair = [];
         // Gathers lat and lng value from selected row of the database
-        var lat = parseFloat(rowsList[i].Lat)
-        var lng = parseFloat(rowsList[i].Lng)
+        var lat = parseFloat(rowsList[i].Lat);
+        var lng = parseFloat(rowsList[i].Lng);
         // Checks for undefined values within database and replaces them with an empty string
-        if (lat == undefined) {
-          lat = "";
-        }
-        if (lng == undefined) {
-          lng = "";
-        }
-        
-        // removes Nan values and whitespace from the address 
-        let newAddress = String(tempAddress)
-        var cleanAddress = newAddress.replace("Nan", "");
-        cleanAddress = cleanAddress.replace(/\s+/g, ' ').trim();
-        
-        latlngPair.push(lat)
-        latlngPair.push(lng)
-        latlngPair.push(cleanAddress)
-        pinLocations.push(latlngPair)
 
-        if (tempAges == 'under 18') {
+        // removes Nan values and whitespace from the address
+        var newAddress = String(tempAddress);
+        var cleanAddress = newAddress.replace("Nan", "");
+        cleanAddress = cleanAddress.replace(/\s+/g, " ").trim();
+
+        if (
+          cleanAddress != "Null" &&
+          lat != String(null) &&
+          lng != String(null)
+        ) {
+          latlngPair.push(lat);
+          latlngPair.push(lng);
+          latlngPair.push(cleanAddress);
+        }
+
+        pinLocations.push(latlngPair);
+
+        if (tempAges == "under 18") {
           tempAges = 16;
         }
-        if (tempAges == '18-24') {
+        if (tempAges == "18-24") {
           tempAges = 21;
         }
-        if (tempAges == '25-34') {
+        if (tempAges == "25-34") {
           tempAges = 29.5;
         }
-        if (tempAges == '35-44') {
+        if (tempAges == "35-44") {
           tempAges = 39.5;
         }
-        if (tempAges == '45-54') {
+        if (tempAges == "45-54") {
           tempAges = 49.5;
         }
-        if (tempAges == '55-64') {
+        if (tempAges == "55-64") {
           tempAges = 59.5;
         }
-        if (tempAges == '65 or over') {
+        if (tempAges == "65 or over") {
           tempAges = 72;
         }
         ages.push(tempAges);
 
         // Gather salary from each selected row of the database
-        const tempSalary = parseFloat(rowsList[i].Annual_Salary)
+        const tempSalary = parseFloat(rowsList[i].Annual_Salary);
         salaryList.push(tempSalary);
       }
 
@@ -485,14 +324,182 @@ export default class DAO2021 {
         sumAge += ages[i];
       }
       const avgAge = (sumAge / ages.length).toFixed(2);
-      return { 
-        meanSalary, 
-        medianSalary, 
-        pinLocations, 
-        topSalary, 
-        botSalary, 
-        avgAge, 
-        salaries, 
+
+      return {
+        meanSalary,
+        medianSalary,
+        pinLocations,
+        topSalary,
+        botSalary,
+        avgAge,
+        salaries,
+        popular,
+        common,
+      };
+    } catch (e) {
+      // When no filter is selected, no match is pipeline stage is needed
+      cursor = await salaryData.find(query);
+      var salary = [
+        {
+          $group: {
+            _id: "$Industry",
+            salary: {
+              $avg: "$Annual_Salary",
+            },
+          },
+        },
+        {
+          $sort: {
+            salary: -1,
+          },
+        },
+        {
+          $limit: 3,
+        },
+      ];
+      var agg = salaryData.aggregate(salary);
+      var salaries = [];
+      await agg.forEach((ind) => {
+        ind.salary /= 1000;
+        ind.salary = ind.salary.toFixed(2);
+        salaries.push(ind);
+      });
+
+      var count = [
+        {
+          $group: {
+            _id: "$Industry",
+            val: {
+              $sum: 1,
+            },
+          },
+        },
+        {
+          $sort: {
+            val: -1,
+          },
+        },
+        {
+          $limit: 3,
+        },
+      ];
+      var agg2 = salaryData.aggregate(count);
+      var popular = [];
+      await agg2.forEach((ind) => {
+        popular.push(ind);
+      });
+
+      var degree = [
+        {
+          $group: {
+            _id: "$Highest_Level_of_Education",
+            val: {
+              $sum: 1,
+            },
+          },
+        },
+        {
+          $sort: {
+            val: -1,
+          },
+        },
+        {
+          $limit: 1,
+        },
+      ];
+      var agg3 = salaryData.aggregate(degree);
+      var common = [];
+      await agg3.forEach((ind) => {
+        common.push(ind);
+      });
+
+      const rowsList = await cursor.toArray();
+      const totalNumRows = await cursor.count();
+      const salaryList = [];
+      const pinLocations = [];
+      const ages = [];
+
+      for (var i = 0; i < totalNumRows; i++) {
+        // Gathers location string from each selected row of the database for city, state, and country variables
+        var tempAges = rowsList[i].Age;
+
+        // Gathers address string from each selected row of the database
+        var tempAddress = rowsList[i].address;
+        var latlngPair = [];
+        // Gathers lat and lng value from selected row of the database
+        var lat = parseFloat(rowsList[i].Lat);
+        var lng = parseFloat(rowsList[i].Lng);
+        // Checks for undefined values within database and replaces them with an empty string
+        if (lat == undefined) {
+          lat = "";
+        }
+        if (lng == undefined) {
+          lng = "";
+        }
+
+        // removes Nan values and whitespace from the address
+        let newAddress = String(tempAddress);
+        var cleanAddress = newAddress.replace("Nan", "");
+        cleanAddress = cleanAddress.replace(/\s+/g, " ").trim();
+
+        latlngPair.push(lat);
+        latlngPair.push(lng);
+        latlngPair.push(cleanAddress);
+        pinLocations.push(latlngPair);
+
+        if (tempAges == "under 18") {
+          tempAges = 16;
+        }
+        if (tempAges == "18-24") {
+          tempAges = 21;
+        }
+        if (tempAges == "25-34") {
+          tempAges = 29.5;
+        }
+        if (tempAges == "35-44") {
+          tempAges = 39.5;
+        }
+        if (tempAges == "45-54") {
+          tempAges = 49.5;
+        }
+        if (tempAges == "55-64") {
+          tempAges = 59.5;
+        }
+        if (tempAges == "65 or over") {
+          tempAges = 72;
+        }
+        ages.push(tempAges);
+
+        // Gather salary from each selected row of the database
+        const tempSalary = parseFloat(rowsList[i].Annual_Salary);
+        salaryList.push(tempSalary);
+      }
+
+      // Calculates sum of selected rows
+      var sum = 0.0;
+      for (let i = 0; i < salaryList.length; i++) {
+        if (salaryList[i] != null) {
+          sum += salaryList[i];
+        }
+      }
+
+      const meanSalary = (sum / salaryList.length).toFixed(2);
+      const medianSalary = median(salaryList).toFixed(2);
+      const topSalary = Math.max.apply(Math, salaryList).toFixed(2);
+      const botSalary = Math.min.apply(Math, salaryList).toFixed(2);
+      var sumAge = 0.0;
+      for (let i = 0; i < ages.length; i++) {
+        sumAge += ages[i];
+      }
+      const avgAge = (sumAge / ages.length).toFixed(2);
+      return {
+        meanSalary,
+        medianSalary,
+        pinLocations,
+        topSalary,
+        botSalary,
+        avgAge,
+        salaries,
         popular,
         common,
       };
@@ -544,9 +551,9 @@ export default class DAO2021 {
   }
 
   /**
-  * This method grabs the distinct entries for work experience in the 2021 dataset
-  * @returns the list of work experience from the dataset
-  */
+   * This method grabs the distinct entries for work experience in the 2021 dataset
+   * @returns the list of work experience from the dataset
+   */
   static async getWorkExp() {
     let work_exp = [];
     try {
@@ -559,10 +566,10 @@ export default class DAO2021 {
   }
 
   /**
-  * This method grabs the distinct entries for education in the 2021 dataset
-  * @returns the list of educationfrom the dataset
-  */
-   static async getEducation() {
+   * This method grabs the distinct entries for education in the 2021 dataset
+   * @returns the list of educationfrom the dataset
+   */
+  static async getEducation() {
     let education = [];
     try {
       education = await salaryData.distinct("Highest_Level_of_Education");
@@ -574,9 +581,9 @@ export default class DAO2021 {
   }
 
   /**
- * This method grabs the distinct entries for cities in the 2021 dataset
- * @returns the list of cities from the dataset
- */
+   * This method grabs the distinct entries for cities in the 2021 dataset
+   * @returns the list of cities from the dataset
+   */
   static async getCities() {
     let cities = [];
     try {
@@ -847,7 +854,6 @@ export default class DAO2021 {
           ind._id === "Another option not listed here or prefer not to answer"
         ) {
           ind._id = "Other or prefer not to answer";
-
         }
 
         ind.salary /= 1000;
@@ -910,10 +916,10 @@ export default class DAO2021 {
       console.error(`Unable to get work experience, ${e}`);
     }
   }
-    
+
   static async getTopCountries() {
     try {
-      var country =  [
+      var country = [
         {
           $group: {
             _id: "$Country",
@@ -1162,6 +1168,7 @@ export default class DAO2021 {
     try {
       //creating the response Document
       const responseDoc = {
+        Timestamp: "",
         Age: age,
         Industry: industry,
         Job_Title: job_title,

@@ -24,7 +24,6 @@ export default function SurveyComponent() {
   // setting default values to survey question on 2021 survey from AskAManager we don't wish to include in our survey
   surveyResponses["currency"] = "USD";
   surveyResponses["Other"] = "";
-  surveyResponses["Timestamp"] = "";
 
   /**
    *  "other_compensation",
@@ -221,10 +220,7 @@ export default function SurveyComponent() {
     }
     console.log(surveyResponses);
     await axios
-      .post(
-        "https://salary-data-api.herokuapp.com/salary_data/addResponse",
-        surveyResponses
-      )
+      .post("https://salary-data-api.herokuapp.com/salary_data/addResponse", surveyResponses)
       .then(setTimeout(location.reload.bind(location), 1000));
   }
   const handleOnChange = () => {
