@@ -24,7 +24,7 @@ export default function SurveyComponent() {
   // setting default values to survey question on 2021 survey from AskAManager we don't wish to include in our survey
   surveyResponses["currency"] = "USD";
   surveyResponses["Other"] = "";
-  survyeResponses["Timestamp"] = "";
+  surveyResponses["Timestamp"] = "";
 
   /**
    *  "other_compensation",
