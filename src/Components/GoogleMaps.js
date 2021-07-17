@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import GoogleMapReact from "google-map-react";
-import isEmpty from "lodash.isempty";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const mapContainerStyle = {
-  width: "43vw",
-  height: "70vh",
+  width: "32vw",
+  height: "60vh",
 };
 
 const getInfoWindowString = (place, count) => `
@@ -17,7 +17,7 @@ const getInfoWindowString = (place, count) => `
       </div>
     </div>`;
 
-export default function MarkerMap({ pinLocations }) {
+export default function MarkerMap({ pinLocations, loading }) {
   // Used to store a list of references to all markers currently on the map.
   // When the filters change, this list is emptied (markers are deleted) and then rebuilt with a new set of markers.
   const markers = useRef([]);
@@ -79,6 +79,9 @@ export default function MarkerMap({ pinLocations }) {
       });
     });
   };
+  if (loading) {
+    console.log(loading);
+  }
   return (
     <>
       <div className="google-map" style={mapContainerStyle}>
@@ -95,7 +98,9 @@ export default function MarkerMap({ pinLocations }) {
             setMap(map);
             setMaps(maps);
           }}
-        ></GoogleMapReact>
+        >
+          {loading ? <CircularProgress size={80} /> : <></>}
+        </GoogleMapReact>
       </div>
     </>
   );
