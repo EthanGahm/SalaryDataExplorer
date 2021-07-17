@@ -299,12 +299,12 @@ export default function Home() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      A prospective young professional? Or freshly beween 
+                      A prospective young professional? Or freshly beween
                       jobs?
-                      You are still more than welcome to visit our side 
-                      and explore data trends. If you are looking for a 
-                      job and/or unsure which industry or area you want 
-                      to pursue, check out some of our salary information. 
+                      You are still more than welcome to visit our side
+                      and explore data trends. If you are looking for a
+                      job and/or unsure which industry or area you want
+                      to pursue, check out some of our salary information.
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
@@ -320,11 +320,11 @@ export default function Home() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      The Data Summary page has a graph that illustrates the 
-                      average annual salary across all 33 industries in the 
-                      job market. You can also visit the Filter and Search page, 
-                      enter specific filters, and the Data Summary box will tell 
-                      you the top 3 highest earning industries according to the 
+                      The Data Summary page has a graph that illustrates the
+                      average annual salary across all 33 industries in the
+                      job market. You can also visit the Filter and Search page,
+                      enter specific filters, and the Data Summary box will tell
+                      you the top 3 highest earning industries according to the
                       information you entered.
                     </Typography>
                   </AccordionDetails>
@@ -341,10 +341,10 @@ export default function Home() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      Due to the incredible lopsidedness of the dataset, 
-                      some countries/states have very few entries. We 
-                      apologize for the lack of data. However, you can become the 
-                      first in your country/state by entering your own 
+                      Due to the incredible lopsidedness of the dataset,
+                      some countries/states have very few entries. We
+                      apologize for the lack of data. However, you can become the
+                      first in your country/state by entering your own
                       salary information in the Add Response page!
                     </Typography>
                   </AccordionDetails>
@@ -361,11 +361,11 @@ export default function Home() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      Make your best educated guess if you are not sure which 
-                      industry your job belongs to. You could also browse some 
-                      of our entires in the filter and search page to find similar 
-                      jobs. Want to learn more about jobs and industries? 
-                      Visit <a href="https://www.careeronestop.org">here</a> for 
+                      Make your best educated guess if you are not sure which
+                      industry your job belongs to. You could also browse some
+                      of our entires in the filter and search page to find similar
+                      jobs. Want to learn more about jobs and industries?
+                      Visit <a href="https://www.careeronestop.org">here</a> for
                       more information.
                     </Typography>
                   </AccordionDetails>
@@ -384,8 +384,8 @@ export default function Home() {
                     <Typography>
                       In order to standardize our data, all monetary values were
                       converted to USD. You may need to manually convert values
-                      back into your currency of choice. In the Filter and Search 
-                      page, there is a row specifying the original currencies of 
+                      back into your currency of choice. In the Filter and Search
+                      page, there is a column specifying the original currencies of
                       each data entry for reference.
                     </Typography>
                   </AccordionDetails>
@@ -402,9 +402,9 @@ export default function Home() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      Having trouble making sense of all the salary data? Google 
-                      is your friend! Find an online currency converter now or 
-                      use <a href='https://www.xe.com/'>this</a> tool 
+                      Having trouble making sense of all the salary data? Google
+                      is your friend! Find an online currency converter now or
+                      use <a href='https://www.xe.com/'>this</a> tool
                       to help.
                     </Typography>
                   </AccordionDetails>
@@ -439,8 +439,8 @@ export default function Home() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      Too many rows are dispalying? Can't seem to find what you are looking for? 
-                      Try narrowing down the entires by entering more specific values 
+                      Too many rows are dispalying? Can't seem to find what you are looking for?
+                      Try narrowing down the entires by entering more specific values
                       in the drop down menues in the Filter and Search page.
                     </Typography>
                   </AccordionDetails>
@@ -457,9 +457,9 @@ export default function Home() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      The data you searched contains a huge number of entires. You can 
-                      significantly reduce the search time by being more specific in the 
-                      filters. The more you enter, the less time it will take to return 
+                      The data you searched contains a huge number of entires. You can
+                      significantly reduce the search time by being more specific in the
+                      filters. The more you enter, the less time it will take to return
                       matching results.
                     </Typography>
                   </AccordionDetails>
@@ -476,10 +476,12 @@ export default function Home() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      We do not fact check the entires in the dataset. Some people 
-                      might have entered China for country, Virginia for state, and 
-                      Berlin as city, which doesn't make sense at all. Nonetheless, 
-                      these pins are shown on the Google Maps component.
+                      We do not fact check the entires in the dataset. Some people
+                      might have entered China for country, Virginia for state, and
+                      Berlin as city, which doesn't make sense at all. Our map pins
+                      are placed based on the "best guess" of the Google Geocoding
+                      API which tries to make sense of the location information provided,
+                      but the results are not always perfect.
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
@@ -495,10 +497,10 @@ export default function Home() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      Everything entered in the Add Response page is confidential as 
-                      we add your entry to the safe and secure database in the cloud. 
-                      There will not be any personal information asked. If you feel 
-                      uneasy while answering the questions, you can stop the survey 
+                      Everything entered in the Add Response page is confidential as
+                      we add your entry to the safe and secure database in the cloud.
+                      There will not be any personal information asked. If you feel
+                      uneasy while answering the questions, you can stop the survey
                       immediately.
                     </Typography>
                   </AccordionDetails>
