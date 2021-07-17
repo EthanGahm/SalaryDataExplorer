@@ -2,10 +2,9 @@
 
 ## Background:
 
-This application is a data analysis tool built from the AskAManager.org Salary surveys held in 2019 and 2021. With this tool, users can use explore some of the trends we found between the two datasets, filter and search for salaries from different categories such as location, age, income, gender, and industry, and can even add their own information to our database!
+This application is a data analysis tool built from the AskAManager.org Salary surveys held in 2019 and 2021. With this tool, users can explore some of the trends we found between the two datasets, filter and search for salaries from different categories such as location, age, income, gender, and industry, and can even add their own information to our database!
 
-We are using the MERN Stack to build our project. The frontend portion of the project is located on this repo , click [here](https://github.com/EthanGahm/SalaryDataExplorerBackend)
-to take a look at our backend/API repo!
+We are using a MERN Stack to build our project. This repo holds both the frontend and backend portions of our project in separate folders.
 
 ## Tools/Languages We Are Using For This Project:
 
