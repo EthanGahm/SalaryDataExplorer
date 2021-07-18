@@ -196,15 +196,15 @@ export default function DataComparisons() {
                   <h3>Comparing the 2021 Dataset to Other Datasets</h3>
                 </center>
                 <p>
-                  The 2021 AskAManager.org salary survey is only one tiny
-                  snapshot of a relatively small group of people. Here, we
-                  compare data from the 2021 survey to data from a similar
-                  survey conducted in 2019. In addition, because a majority of
-                  survey responses were from US readers, we examine how the
-                  salaries of typical respondants compare to those of the
+                  The 2021 AskAManager.org salary survey is only one
+                  tiny snapshot of a relatively small (several tens of
+                  thousands) number of people. Here, we compare data from
+                  the 2021 survey to data from a similar survey conducted
+                  in 2019. In addition, because a majority of survey
+                  responses were from US readers, we examine how the
+                  salaries of typical respondents compare to those of the
                   average American. Below are some of the most interesting
-                  trends and analyses we were able to find when looking at all
-                  of these datasets.
+                  trends we found when looking at all of these datasets.
                 </p>
               </Paper>
               <center>
@@ -331,14 +331,15 @@ export default function DataComparisons() {
                   </h3>
                 </center>
                 <p>
-                  To reduce the skewing effects of outlier data points, we
-                  examined the median (rather than mean) annual salaries of top
-                  earning industries across both datasets. Notably, both the
-                  2019 and 2021 datasets had the same top 3 highest earning
-                  industries: Computing or Tech, Aerospace, and Energy. This may
-                  be due to the fact that both of these surveys come from the
-                  AskAManager blog which likely means that many readers entered
-                  their salary information for both years.
+                  To reduce the skewing effects of outlier data points, we examined
+                  the median (rather than mean) annual salaries of top earning
+                  industries across both datasets. Notably, both the 2019
+                  and 2021 datasets had the same top 3 highest earning
+                  industries: Computing or Tech, Aerospace, and Energy.
+                  (This may simply reflect the fact that both of these
+                  surveys originated on the AskAManager blog, so many
+                  readers probably entered their salary information in
+                  both years.
                 </p>
               </Paper>
             </Grid>
@@ -352,27 +353,32 @@ export default function DataComparisons() {
                   </h3>
                 </center>
                 <p>
-                  In order to get a better idea of how respondants of the survey
-                  compared to a more general population, we used information
-                  gathered from a company called "Don't Quit Your Day Job"
-                  (DQYDJ). We decided to use data from the United States because
-                  it was the country that had the most entries from the
-                  AskAManager survey responses. Based on their findings in 2019,
-                  the median annual income in the United States was $43,206.
-                  When comparing this value to both the 2019 and 2021
-                  AskAManager survey results, there is a gap of about $30,000 ,
-                  with both datasets having a median personal salary of about
-                  $70,000. A few factors might contribute to this discrepency.
-                  The first is that the data gathered from the AskAManager blog
-                  were voluntary, so there is response bias that appears, with
-                  higher-earning respondants choosing to share their salaries
-                  versus research over an more general population. As shown on
-                  the data summary page, respondants are overwhelmingly white,
-                  highly-educated, and tend to work in high-earning industries,
-                  like computing and tech. Another factor is the amount of
-                  responses and data from each dataset. For example, both
-                  surveys yielded a total of about 50,000 responses whereas the
-                  DQYDJ research was based on more than 175 million datapoints.
+                  In order to get a better idea of how respondents of
+                  the AskAManagersurvey compared with the general
+                  population, we used information gathered by a company
+                  called "Don't Quit Your Day Job" (DQYDJ). We decided
+                  to use data from the United States because it was the
+                  country that had the most entries from the AskAManager
+                  survey responses. According to DQYDJ, the median annual
+                  income in the United States in 2019 was $43,206—about
+                  $30,000 lower than the median for AskAManager survey
+                  respondents.
+                </p>
+                <p>
+                  A few factors might contribute to this discrepancy.
+                  Data gathered from the AskAManager blog were voluntary,
+                  so response bias is unavoidable. Readers of the blog,
+                  and in particular those readers who opted to share their
+                  salaries, are not necessarily reflective of U.S.
+                  wage-earners in general.  They are also not the same from
+                  the point of view of demographics. As shown on the data
+                  summary page, respondents were overwhelmingly white,
+                  highly-educated, and tend to work in high-earning
+                  industries, like computing and tech. Another factor is the
+                  number of responses and data from each dataset. For
+                  example, both AskAManager surveys yielded a total of about
+                  50,000 responses whereas the DQYDJ research was based on
+                  more than 175 million data points.
                 </p>
               </Paper>
               <center>
@@ -463,6 +469,7 @@ export default function DataComparisons() {
                   <CircularProgress />
                 ) : (
                   <center>
+                    <h3>2019</h3>
                     {/* First of three line chart to compare the median salary by age - this is for 2019 */}
                     <LineChart
                       width={350}
@@ -512,6 +519,7 @@ export default function DataComparisons() {
                   <CircularProgress />
                 ) : (
                   <center>
+                    <h3>2021</h3>
                     {/* Second of three line chart to compare the median salary by age - this is for 2021 */}
                     <LineChart
                       width={350}
@@ -560,6 +568,7 @@ export default function DataComparisons() {
                   <CircularProgress />
                 ) : (
                   <center>
+                    <h3>DQYDJ</h3>
                     {/* Last of three line chart to compare the median salary by age - this is for DQYDJ */}
                     <LineChart
                       width={350}
@@ -609,21 +618,19 @@ export default function DataComparisons() {
                 </center>
                 {/* Summarizing the results and trends occuring from the 3 dataset comparison */}
                 <p>
-                  When looking at the three different median salary
-                  distributions by age in the datasets, there are some trends
-                  and variations that appear. Something that is interesting is
-                  that the 2019 AskAManager results and the DQYDJ values seems
-                  to trend similarily, with a mostly increasing median salary as
-                  age increases. However, upon observing the 2021 AskAManager
-                  results, there are more dips in the data, with a heavy
-                  decrease from 25-34 years old with a median salary of $97,000
-                  to $38,944.6 for people aged between 45-54. Something else to
-                  note is that the highest earning age group in this dataset
-                  (2021) were 25-34 year olds, whereas with the other two
-                  datasets older age groups had the highest median salaries.
-                  Something that may have created this variation in pay for 2021
-                  is the COVID pandemic, as many people lost employment which
-                  could impact the median salary for a certain age group.
+                  Above, we have plotted the correlation between age and
+                  median salary from all three datasets. Interestingly,
+                  the 2019 AskAManager results and the DQYDJ values seem
+                  to trend similarly, with a mostly increasing median salary
+                  as age increases. However, the 2021 AskAManager results
+                  show a huge dip in median income between the ages of 45
+                  and 54. Something else to note is that the highest earning
+                  age group in this dataset (2021) were 25-34 year olds,
+                  whereas with the other two datasets older age groups had
+                  the highest median salaries. These discrepancies are hard
+                  to explain, especially given that the mean salary graph
+                  for the 2021 dataset appears fairly flat around middle
+                  age (as shown on the Data Summary page).
                 </p>
               </Paper>
             </Grid>

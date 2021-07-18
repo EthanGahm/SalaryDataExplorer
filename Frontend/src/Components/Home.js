@@ -94,12 +94,13 @@ export default function Home() {
                 {/* context about the app */}
                 <Title>About this Tool</Title>
                 <p>
-                  This application is a data analysis tool built from the
-                  AskAManager.org 2021 and 2019 salary survey results. Through
-                  graphs and text analysis, users can explore interesting trends
-                  and compare their own salary to the data visualizaed in this
-                  software. Information on this site may be used as reference to
-                  provide guidance for professionals across industries.
+                  This application is a data analysis tool built from
+                  the AskAManager.org 2021 and 2019 salary survey results.
+                  Through graphs and text analysis, users can explore
+                  interesting trends and compare their own salaries to
+                  the data visualized in this software. Information on
+                  this site may be used as reference to provide guidance
+                  for professionals across industries.
                 </p>
 
                 <div
@@ -126,33 +127,31 @@ export default function Home() {
                 </div>
 
                 <p>
-                  Users can also filter and search for our 2021 dataset based on
-                  parameters such as location, age, gender, industry, and race.
-                  Additionally, users are encouraged to submit their own
-                  reponses to the survey, and their salary information will be
-                  included in our 2021 database. Your additions to the dataset
-                  will also be reflected in the Data Summary and Filter and
-                  Search pages on this app.
+                  Users can also filter and search our 2021 dataset based
+                  on parameters including location, age, gender, industry,
+                  and race. We encourage you to submit your own responses
+                  to the survey. Your salary information will be added to
+                  the database and reflected in the Data Summary and
+                  Filter and Search pages on this app.
                 </p>
               </Paper>
               {/* </div> */}
             </Grid>
 
             <Grid item xs={12} md={10} lg={6}>
-              <Paper className={classes.longTextbox}>
+              <Paper className={classes.paper}>
                 <Title>Key Features</Title>
                 <ul>
                   <li style={{ fontSize: 16, color: "orange" }}>
                     Explore Data Trends
                   </li>
                   <p>
-                    Want to know which age group, gender, race, or industry
-                    earns the most? Looking for a job but unsure of its typical
-                    salary levels? You won't believe these are the actual
-                    highest paid industries! What are some of the most popular
-                    industries for young professionals in 2021? Interested?
-                    Check out our <a href="/DataSummary">Data Summary</a> page
-                    for more information.
+                    Want to know which age group, gender, race, or industry earns
+                    the most? Looking for a job but unsure of its typical salary
+                    levels? Wondering about  the most popular industries for
+                    young professionals in 2021? Check out our {" "}
+                    <a href="/DataSummary">Data Summary</a> page for more
+                    information.
                   </p>
                   <li style={{ fontSize: 16, color: "orange" }}>
                     Compare Across Datasets
@@ -161,92 +160,92 @@ export default function Home() {
                     Want to learn more about how salary trends shifted from 2019
                     to 2021 after COVID-19 hit? Eager to find out how this
                     dataset compares to national averages? Curious about the top
-                    earning industries in 2019 as opposed to 2021? Check out our{" "}
+                    earning industries in 2019 as opposed to 2021? Check out our {" "}
                     <a href="/DataComparisons">Comparing Datasets</a> page for
                     more information!
                   </p>
                   <li style={{ fontSize: 16, color: "orange" }}>
-                    Filter and Search for Specific Jobs
+                    Search Using on Custom Filters
                   </li>
                   <p>
-                    Got a feeling that you are underpaid? Want to know the
-                    average salary in your age group, industry, or area? Look no
-                    further than our{" "}
-                    <a
-                      href="
-                    FilterAndSearch"
-                    >
+                    Wondering if you are underpaid? Want to know the average
+                    salary for survey respondents in your age group, industry,
+                    or area? Look no further than our <a href="FilterAndSearch">
                       Filter and Search
-                    </a>{" "}
-                    page to find the information you need!
+                    </a> page to find the information you need!
                   </p>
                   <li style={{ fontSize: 16, color: "orange" }}>
                     Submit Your Own Salary Data
                   </li>
                   <p>
-                    Feeling generous and want to contribute? Feel free to{" "}
-                    <a href="AddResponse">submit your own salary data</a> to
+                    Feeling generous and want to contribute? {" "}
+                    <a href="AddResponse">Submit your own salary data</a> to
                     help others like you. Your data will be included in our
-                    database, and it will be reflected in the{" "}
-                    <a href="DataSummary">Data Summary</a> and{" "}
+                    database, and it will be reflected in the {" "}
+                    <a href="DataSummary">Data Summary</a> and {" "}
                     <a href="FilterAndSearch">Filter and Search</a> pages as
                     well.
                   </p>
                 </ul>
-                <p>
-                  The Data Summary page shows salary trends based on the 2021
-                  survey data, and users can visualize average salary by age,
-                  gender, race, work experience, highest level of education,
-                  industry, and more. The Data Comparison page allows users to
-                  visualize differences between the 2019 survey data, 2021
-                  survey data, and United States national average data from
-                  Don't Quit Your Day Job (DQYDJ). The Filter and Search page
-                  enables users to filter jobs through various demographic
-                  categories such as age, gender, industry, country, and race.
-                  Users are more then welcome to enter their own salaries in the
-                  Add Response page to contribute to our 2021 dataset.
-                </p>
+
               </Paper>
             </Grid>
 
             <Grid item xs={12} md={6} lg={6}>
-              <Paper className={classes.longTextbox}>
-                <Title>Demographics</Title>
+              <Paper className={classes.paper}>
+                <Title>More About the Data</Title>
                 <p>
-                  On the Data Summary page, users can find the average salary
-                  data by age, highest level of education, gender, race, work
-                  experience, and industry. Age is divided into seven groups:
-                  under 18, 18-24, 25-34, 45-54, 55-64, and 65 or over. Degrees
-                  have seven categories as well: high school, some college,
-                  college degree, master's degree, PhD, professional degree (MD,
-                  JD, etc.), and other. The 2021 survey has four choices for
-                  gender: man, woman, non-binary, and other or prefer not to
-                  answer. There are also seven choices for race: Asian or Asian
-                  American, Black or African American, Hispanic/Latino or
-                  Spanish origin, Middle Eastern or North African, Native
-                  American or Alaskan Native, White, and other or prefer not to
-                  answer. The survey allows multiple selections for race. Work
-                  experience is divided into 8 categories: 0-1 years, 2-4 years,
-                  5-7 years, 8-10 years, 11-20 years, 21-30 years, 31-40 years,
-                  and 40 or more years. There are 33 distinct industries and
-                  numerous country/state/city entries from around the world.
+                  On the Data Summary page, you can find average salaries by age,
+                  highest level of education, gender, race, work experience, and
+                  industry.
                 </p>
+                <ul>
+                  <li>
+                    Age is divided into seven groups: under 18, 18-24, 25-34,
+                    45-54, 55-64, and 65 or over.
+                  </li>
+                  <li>
+                    Degrees have seven categories as well: high school, some
+                    college, college degree, master's degree, PhD, professional
+                    degree (MD, JD, etc.), and others.
+                  </li>
+                  <li>
+                    The 2021 survey has four choices for gender: man, woman,
+                    non-binary, and other or prefer not to answer.
+                  </li>
+                  <li>
+                    The survey allows seven choices for race: Asian or Asian
+                    American, Black or African American, Hispanic/Latino or
+                    Spanish origin, Middle Eastern or North African, Native
+                    American or Alaskan Native, White, and other or prefer not
+                    to answer.
+                  </li>
+                  <li>
+                    Work experience is divided into 8 categories: 0-1 years,
+                    2-4 years, 5-7 years, 8-10 years, 11-20 years, 21-30 years,
+                    31-40 years, and 40 or more years.
+                  </li>
+                  <li>
+                    There are 33 distinct industries and numerous
+                    country/state/city entries from around the world.
+                  </li>
+                </ul>
                 <p>
-                  On the Filter and Search page, users have the power to filter
-                  by age, industry, gender, location, and race to find entries
-                  belonging in the specified categories. (Filtering by location
-                  only supports country and states since most cities have very
-                  few individual data points). Rows that meet the entered
-                  requirements will display at the bottom of the page for
-                  reference. After searching for jobs, users can find basic
-                  statistics about the returned entries such as mean salary,
-                  median salary, average age, etc. Additionally, users can
-                  locate where the entries are on the embedded Google Maps
-                  component. Users can reset filters and toggle through the
-                  pages using the previous and next buttons if there are too
-                  many rows of entries to display at once.
+                  On the Filter and Search page, you can view all the entries for a
+                  given age, industry, gender, location, or race. (Filtering by
+                  location only supports country and state, since most cities have
+                  very few individual data points). Rows that meet the entered
+                  requirements will display at the bottom of the page for reference.
+                  After completing a search, you can also find basic statistics
+                  about the results,  such as mean salary, median salary, average
+                  age, etc. The embedded Google Maps component shows respondents’
+                  geographic locations. You can reset filters and toggle through
+                  the pages using the “previous” and “next” buttons if there are
+                  too many rows of entries to display at once.
                 </p>
-                <img src={salaryPic} width={440} height={250} />
+                <center>
+                  <img src={salaryPic} width={440} height={250} />
+                </center>
               </Paper>
             </Grid>
 
@@ -258,7 +257,7 @@ export default function Home() {
                   undergraduates as a summer project through the UVA Development
                   Hub.
                   <br></br>
-                  Find us on GitHub:
+                  <h3>Find us on GitHub:</h3>
                   <ul>
                     <li>
                       <a href="https://github.com/EthanGahm">Ethan Gahm</a>
